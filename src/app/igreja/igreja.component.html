@@ -1,0 +1,99 @@
+<mat-card>
+  <form (ngSubmit)="onSubmit()" #igrejaForm="ngForm">
+    <mat-form-field class="form-field" style="width: 50%;">
+      <input matInput placeholder="Nome" [(ngModel)]="igreja.nome" name="nome" required>
+    </mat-form-field>
+    <br>
+    <div class="address-container">
+      <mat-form-field class="form-field logradouro-field">
+        <input matInput placeholder="Logradouro" [(ngModel)]="igreja.logradouro" name="logradouro">
+      </mat-form-field>
+      <mat-form-field class="form-field numero-field">
+        <input matInput placeholder="Número" [(ngModel)]="igreja.numero" name="numero">
+      </mat-form-field>
+    </div>
+    <br>
+    <div class="details-container">
+      <mat-form-field class="form-field complemento-field">
+        <input matInput placeholder="Complemento" [(ngModel)]="igreja.complemento" name="complemento">
+      </mat-form-field>
+      <mat-form-field class="form-field bairro-field">
+        <input matInput placeholder="Bairro" [(ngModel)]="igreja.bairro" name="bairro">
+      </mat-form-field>
+      <mat-form-field class="form-field cep-field">
+        <input matInput placeholder="CEP" [(ngModel)]="igreja.cep" name="cep">
+      </mat-form-field>
+      <mat-form-field class="form-field cidade-field">
+        <input matInput placeholder="Cidade" [(ngModel)]="igreja.cidade" name="cidade">
+      </mat-form-field>
+      <mat-form-field class="form-field uf-field">
+        <input matInput placeholder="UF" [(ngModel)]="igreja.uf" name="uf" maxlength="2">
+      </mat-form-field>
+    </div>
+    <br>
+    <div class="checkbox-wrapper">
+      <mat-form-field class="form-field">
+        <mat-label>Setor</mat-label>
+        <mat-select [(ngModel)]="igreja.codigo_setor" name="codigo_setor" required>
+          <mat-option *ngFor="let setor of setores" [value]="setor.codigo">{{ setor.nome }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="checkbox-wrapper">
+      <mat-checkbox class="form-field" [(ngModel)]="igreja.ativo" name="ativo">Ativo</mat-checkbox>
+    </div>
+    <div class="button-wrapper">
+      <button mat-raised-button color="primary" type="submit">Salvar</button>
+    </div>
+  </form>
+</mat-card>
+
+<!--Tabela-->
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <!-- Definições de colunas da tabela -->
+  <ng-container matColumnDef="codigo">
+    <mat-header-cell *matHeaderCellDef> Código </mat-header-cell>
+    <mat-cell *matCellDef="let igreja"> {{igreja.codigo}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="nome">
+    <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+    <mat-cell *matCellDef="let igreja"> {{igreja.nome}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="logradouro">
+    <mat-header-cell *matHeaderCellDef> Logradouro </mat-header-cell>
+    <mat-cell *matCellDef="let igreja"> {{igreja.logradouro}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="numero">
+    <mat-header-cell *matHeaderCellDef> Número </mat-header-cell>
+    <mat-cell *matCellDef="let igreja"> {{igreja.numero}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="bairro">
+    <mat-header-cell *matHeaderCellDef> Bairro </mat-header-cell>
+    <mat-cell *matCellDef="let igreja"> {{igreja.bairro}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="cep">
+    <mat-header-cell *matHeaderCellDef> CEP </mat-header-cell>
+    <mat-cell *matCellDef="let igreja"> {{igreja.cep}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="cidade">
+    <mat-header-cell *matHeaderCellDef> Cidade </mat-header-cell>
+    <mat-cell *matCellDef="let igreja"> {{igreja.cidade}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="uf">
+    <mat-header-cell *matHeaderCellDef> UF </mat-header-cell>
+    <mat-cell *matCellDef="let igreja"> {{igreja.uf}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="codigo_setor">
+    <mat-header-cell *matHeaderCellDef> Setor </mat-header-cell>
+    <mat-cell *matCellDef="let igreja"> {{igreja.codigo_setor}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="ativo">
+    <mat-header-cell *matHeaderCellDef> Ativo </mat-header-cell>
+    <mat-cell *matCellDef="let igreja"> {{igreja.ativo ? 'Sim' : 'Não'}} </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

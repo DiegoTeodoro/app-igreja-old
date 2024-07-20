@@ -1,0 +1,47 @@
+<style>
+    .header-cell {
+      padding: 8px 16px;
+    }
+  </style>
+<!-- Seu código HTML 
+<p>
+    <mat-toolbar color="primary">
+      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Cadastro de Setor</span>
+      <span class="example-spacer"></span>
+    </mat-toolbar>
+  </p>-->
+  <mat-card>
+    <form (ngSubmit)="onSubmit()">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <input matInput placeholder="Nome" [(ngModel)]="setor.nome" name="nome" required>
+      </mat-form-field>
+      <br>
+      <button mat-raised-button color="primary" type="submit">Salvar</button>
+    </form>
+  </mat-card>
+  <br><br>
+  <table mat-table [dataSource]="setores" class="mat-elevation-z8">
+    <!-- Nome Column -->
+    <ng-container matColumnDef="nome">
+      <th mat-header-cell *matHeaderCellDef class="header-cell"> Nome </th>
+      <td mat-cell *matCellDef="let s"> {{s.nome}} </td>
+    </ng-container>
+  
+    <!-- Ações Column -->
+    <ng-container matColumnDef="acoes">
+      <th mat-header-cell *matHeaderCellDef class="header-cell"> Ações </th>
+      <td mat-cell *matCellDef="let s">
+        <button mat-button (click)="editSetor(s)">Editar</button>
+        <button mat-button (click)="deleteSetor(s.codigo)">Deletar</button>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  
+ 
+
