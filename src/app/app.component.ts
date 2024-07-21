@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
@@ -7,27 +8,13 @@ import { Router, NavigationEnd } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Tela Principal';  // Título padrão
+  isLoggedIn: Observable<boolean>;
 
-  constructor(private router: Router) {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.updateTitle(event.url);  // Atualiza o título quando a rota muda
-      }
-    });
+  constructor(private authService: AuthService) {
+    this.isLoggedIn = this.authService.isLoggedIn;
   }
 
-  updateTitle(url: string) {
-    if(url.includes('users')){
-      this.title = 'Cadastro de Usuario';
-    }else if (url.includes('igreja')) {
-      this.title = 'Cadastro de Igreja';
-    } else if (url.includes('setor')) {
-      this.title = 'Cadastro de Setor';
-    }else if (url.includes('produto')) {
-        this.title = 'Cadastro de produto'
-    } else {
-      this.title = 'Tela Principal';  // Define o título padrão
-    }
+  logout() {
+    this.authService.logout();
   }
 }

@@ -1,35 +1,13 @@
-<mat-toolbar color="primary">
-  <button mat-icon-button (click)="sidenav.toggle()">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span>{{ title }}</span> <!-- Exibe o título baseado na rota -->
-</mat-toolbar>
-<mat-sidenav-container class="example-container">
-  <mat-sidenav #sidenav mode="side" class="mat-sidenav" opened="false" style="background-color: #3f51b5;">
-    <mat-nav-list style="color: white;">
-      <a mat-list-item routerLink="/" (click)="sidenav.close()" style="color:white;">Tela Principal</a>
-      <hr>
-      <mat-accordion>
-        <mat-expansion-panel class="custom-expansion-panel">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Cadastro
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-nav-list>
-            <a mat-list-item routerLink="/igreja" (click)="sidenav.close()" style="color:white;">Igreja</a>
-            <hr>
-            <a mat-list-item routerLink="/setor" (click)="sidenav.close()" style="color:white;">Setor</a>
-            <hr>
-            <a mat-list-item routerLink="/produto" (click)="sidenav.close()" style="color:white;">Produto</a>
-            <hr>
-            <a mat-list-item routerLink="/users" (click)="sidenav.close()" style="color:white;">Usuario</a>
-          </mat-nav-list>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<ng-container *ngIf="isLoggedIn | async">
+  <mat-toolbar>
+    <button mat-button [routerLink]="'/home'">Home</button>
+    <button mat-button [routerLink]="'/other'">Other</button>
+    <button mat-button (click)="logout()">Logout</button>
+  </mat-toolbar>
+  <router-outlet></router-outlet> <!-- Onde os componentes roteados são carregados -->
+</ng-container>
+
+<ng-template #loginTemplate>
+  <app-login></app-login> <!-- Componente de login é mostrado aqui -->
+</ng-template>
+

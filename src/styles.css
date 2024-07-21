@@ -113,3 +113,32 @@ body { margin: 0;
   margin: 0 auto; /* Centraliza o mat-card */
   padding: 10px; /* Adicione padding se necessário */
 }
+
+/*container do login*/
+h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* A altura mínima é a altura total da viewport */
+  margin-top: -80px; /* Puxa a tela de login para cima */
+}
+
+mat-card {
+  width: 100%;
+  max-width: 400px; /* Define uma largura máxima para o cartão */
+  margin: 20px; /* Espaçamento em torno do cartão */
+  padding: 20px; /* Espaçamento interno do cartão */
+}
+
+mat-form-field {
+  width: 100%; /* Os campos de entrada ocupam toda a largura do cartão */
+}
+
+.login-container button {
+  margin-top: 20px; /* Espaço acima do botão */
+  width: 100%;
+}

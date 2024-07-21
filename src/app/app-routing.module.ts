@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SetorComponent } from './setor/setor.component';
-import { IgrejaComponent } from './igreja/igreja.component';
 import { HomeComponent } from './home/home.component';
-import {UserComponent} from './user/user.component';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './models/auth.guard';
 
 const routes: Routes = [
-  { path: 'setor', component: SetorComponent },
-  { path: 'igreja', component: IgrejaComponent },
-  { path: '', component: HomeComponent },
-  { path: 'users', component: UserComponent }
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

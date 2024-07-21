@@ -1,0 +1,17 @@
+<div class="login-container">
+    
+    <mat-card>
+        <h2>Login</h2>
+      <form (ngSubmit)="onLogin()">
+        <mat-form-field>
+          <input matInput placeholder="Usuario" [(ngModel)]="loginData.username" name="username" required>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="password" placeholder="Senha" [(ngModel)]="loginData.password" name="password" required>
+        </mat-form-field>
+        <button mat-button mat-raised-button color="primary" type="submit">Entra</button>
+      </form>
+    </mat-card>
+  </div>
+  
+

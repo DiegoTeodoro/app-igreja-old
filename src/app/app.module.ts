@@ -21,18 +21,25 @@ import { SetorComponent } from './setor/setor.component';
 import { IgrejaComponent } from './igreja/igreja.component';
 import { HomeComponent } from './home/home.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { IgrejaService } from './igreja.service';
-import { SetorService } from './setor.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { UserComponent } from './user/user.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AuthService } from './auth.service';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './models/auth.guard';
+
+
+import { RouterModule } from '@angular/router';
+
+
 @NgModule({
   declarations: [
     AppComponent,
     SetorComponent,
     IgrejaComponent,
     HomeComponent,
-    UserComponent
+    UserComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -53,9 +60,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     AppRoutingModule,
     MatPaginatorModule,
     MatExpansionModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    RouterModule,
+   
   ],
-  providers: [IgrejaService, SetorService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
