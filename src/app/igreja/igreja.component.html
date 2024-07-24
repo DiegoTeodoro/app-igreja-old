@@ -1,3 +1,4 @@
+
 <mat-card>
   <form (ngSubmit)="onSubmit()" #igrejaForm="ngForm">
     <mat-form-field class="form-field" style="width: 50%;">
@@ -31,16 +32,16 @@
       </mat-form-field>
     </div>
     <br>
-    <div class="checkbox-wrapper">
-      <mat-form-field class="form-field">
-        <mat-label>Setor</mat-label>
-        <mat-select [(ngModel)]="igreja.codigo_setor" name="codigo_setor" required>
-          <mat-option *ngFor="let setor of setores" [value]="setor.codigo">{{ setor.nome }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="checkbox-wrapper">
-      <mat-checkbox class="form-field" [(ngModel)]="igreja.ativo" name="ativo">Ativo</mat-checkbox>
+    <div class="form-container">
+      <div class="inline-fields">
+        <mat-form-field class="form-field">
+          <mat-label>Setor</mat-label>
+          <mat-select [(ngModel)]="igreja.codigo_setor" name="codigo_setor" required>
+            <mat-option *ngFor="let setor of setores" [value]="setor.codigo">{{ setor.nome }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-checkbox class="form-field" [(ngModel)]="igreja.ativo" name="ativo">Ativo</mat-checkbox>
+      </div>
     </div>
     <div class="button-wrapper">
       <button mat-raised-button color="primary" type="submit">Salvar</button>

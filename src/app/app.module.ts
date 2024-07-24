@@ -24,12 +24,13 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { UserComponent } from './user/user.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { AuthService } from './auth.service';
-import { LoginComponent } from './login/login.component';
-import { AuthGuard } from './models/auth.guard';
-
 
 import { RouterModule } from '@angular/router';
+import { CategoriaComponent } from './categoria/categoria.component';
+import { ProdutoComponent } from './produto/produto.component';
+
+
+
 
 
 @NgModule({
@@ -39,7 +40,10 @@ import { RouterModule } from '@angular/router';
     IgrejaComponent,
     HomeComponent,
     UserComponent,
-    LoginComponent
+    CategoriaComponent,
+    ProdutoComponent,
+  
+ 
   ],
   imports: [
     BrowserModule,

@@ -1,13 +1,27 @@
-<ng-container *ngIf="isLoggedIn | async">
-  <mat-toolbar>
-    <button mat-button [routerLink]="'/home'">Home</button>
-    <button mat-button [routerLink]="'/other'">Other</button>
-    <button mat-button (click)="logout()">Logout</button>
-  </mat-toolbar>
-  <router-outlet></router-outlet> <!-- Onde os componentes roteados são carregados -->
-</ng-container>
 
-<ng-template #loginTemplate>
-  <app-login></app-login> <!-- Componente de login é mostrado aqui -->
-</ng-template>
-
+<mat-toolbar color="primary" class="app-toolbar">
+  <button mat-icon-button (click)="sidenav.toggle()" aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>{{ pageTitle }}</span>
+</mat-toolbar>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav mode="side" [(opened)]="isSidenavOpen" class="custom-sidenav" style=" background: #3f51b5;">
+    <!-- Conteúdo do menu lateral -->
+    <mat-nav-list >
+      <a style="color: white; " mat-list-item routerLink="/home" (click)="updateTitle('Home')">Home</a>
+      <a style="color: white;" mat-list-item routerLink="/setor" (click)="updateTitle('Setor')">Setor</a>
+      <a style="color: white;" mat-list-item routerLink="/igreja" (click)="updateTitle('Igreja')">Igreja</a>
+      <a style="color: white;" mat-list-item routerLink="/usuario" (click)="updateTitle('Usuário')">Usuário</a>
+      <a style="color: white;" mat-list-item routerLink="/produto" (click)="updateTitle('Produto')">Produto</a>
+      <a style="color: white;" mat-list-item routerLink="/categoria" (click)="updateTitle('Categoria')">Categoria</a>
+   
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <!-- Conteúdo principal da aplicação -->
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

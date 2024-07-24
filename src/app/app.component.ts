@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
+import { Component, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-root',
@@ -8,13 +7,21 @@ import { AuthService } from './auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  isLoggedIn: Observable<boolean>;
+  pageTitle: string = 'Tela Principal';
 
-  constructor(private authService: AuthService) {
-    this.isLoggedIn = this.authService.isLoggedIn;
+  @ViewChild('sidenav') sidenav!: MatSidenav;
+  isSidenavOpen: boolean = false;
+
+  close() {
+    this.isSidenavOpen = false;
   }
 
-  logout() {
-    this.authService.logout();
+  toggleSidenav() {
+    this.isSidenavOpen = !this.isSidenavOpen;
+  }
+
+  updateTitle(newTitle: string) {
+    this.pageTitle = newTitle;
+    this.close(); // Fecha o sidenav após clicar no link
   }
 }

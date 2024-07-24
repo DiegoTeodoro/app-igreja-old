@@ -1,144 +1,127 @@
-/* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
-
-html, body { height: 100%; }
-body { margin: 0; 
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-.example-full-width {
-    width: 50%;
-}
-
-/* Estilo para aplicar a mesma cor da toolbar no sidenav */
-.mat-sidenav {
-  background: #3f51b5; /* Cor primária */
-  color: white; /* Cor do texto */
-}
-.mat-list-item {
-  color: white; /* Cor do texto dos itens */
-}
-.mat-list-item:hover {
-  background: rgba(255, 255, 255, 0.1); /* Cor de fundo ao passar o mouse */
-}
-
 .example-container {
   height: 100%;
-}
-
-.example-spacer {
-  flex: 1 1 auto;
-}
-.mat-toolbar {
-  background: #3f51b5; /* Cor primária da toolbar */
-  color: white; /* Cor do texto da toolbar */
-}
-
-.mat-table {
-  width: 100%;
-  margin-top: 20px;
-}
-
-.mat-header-cell, .mat-cell {
-  padding: 8px;
-}
-
-.form-field {
-  margin-bottom: 16px;
-}
-
-.large-input {
-  width: 100%; 
-}
-
-.checkbox-wrapper {
-  display: inline-block;
-  margin-right: 20px;
-}
-
-.button-wrapper {
-  display: inline-block;
-}
-
-.address-container,
-.details-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+}
+
+mat-sidenav {
+  width: 250px;
+  background: #3f51b5; /* Mantém o fundo do sidenav */
+  color: white;
+}
+
+mat-toolbar {
+  z-index: 2;
+}
+
+.main-content {
+  flex: 1;
+  padding: 16px;
+  transition: margin-left 0.3s;
+}
+
+.mat-sidenav-content {
+  margin-left: 0;
+  transition: margin-left 0.3s;
+}
+
+.mat-sidenav-opened .mat-sidenav-content {
+  margin-left: 250px;
+}
+
+/* Estilo específico para garantir que os links sejam brancos */
+mat-nav-list a.mat-list-item {
+  color: white; /* Define a cor dos links como branca */
+}
+
+mat-nav-list a.mat-list-item:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Define um efeito de hover para os links */
+}
+
+.address-container {
+  display: flex;
+  gap: 16px; /* Ajuste este valor conforme necessário para espaçamento */
 }
 
 .logradouro-field {
-  flex: 0 0 70%;
+  flex: 4; /* 80% da linha */
 }
 
 .numero-field {
-  flex: 0 0 18%;
+  flex: 1; /* 20% da linha */
 }
 
 .details-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  gap: 16px; /* Espaçamento entre os campos, ajuste conforme necessário */
 }
 
 .complemento-field,
 .bairro-field,
 .cep-field,
 .cidade-field {
-  flex: 1;
-  margin-right: 10px;
+  flex: 1; /* Dividem os 90% restantes */
 }
 
 .uf-field {
-  flex: 0 0 10%;
+  flex: 0 0 10%; /* Ocupa 10% da linha */
 }
 
-/* Custom styles for mat-expansion-panel */
-.custom-expansion-panel {
-  background-color: #3f51b5;
-  color: white;
-}
-
-.custom-expansion-panel .mat-expansion-panel-header {
-  background-color: #3f51b5;
-  color: white;
-}
-
-.custom-expansion-panel .mat-expansion-panel-content {
-  background-color: #3f51b5;
-  color: white;
-}
-.custom-mat-card {
-  width: 600px; /* Defina a largura desejada para o mat-card */
-  margin: 0 auto; /* Centraliza o mat-card */
-  padding: 10px; /* Adicione padding se necessário */
-}
-
-/*container do login*/
-h2 {
-  margin-bottom: 20px;
-  text-align: center;
-}
-.login-container {
+.form-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; /* A altura mínima é a altura total da viewport */
-  margin-top: -80px; /* Puxa a tela de login para cima */
+  flex-direction: column; /* Organiza os elementos verticalmente */
+  gap: 16px; /* Espaço entre os grupos */
 }
 
-mat-card {
-  width: 100%;
-  max-width: 400px; /* Define uma largura máxima para o cartão */
-  margin: 20px; /* Espaçamento em torno do cartão */
-  padding: 20px; /* Espaçamento interno do cartão */
+.checkbox-wrapper {
+  display: flex;
+  align-items: center; /* Alinha os elementos na vertical */
+  gap: 16px; /* Espaço entre o mat-select e o mat-checkbox */
 }
 
-mat-form-field {
-  width: 100%; /* Os campos de entrada ocupam toda a largura do cartão */
+.button-wrapper {
+  margin-top: 16px; /* Espaçamento superior para o botão */
+}
+.inline-fields {
+  display: flex;
+  align-items: center; /* Alinha os itens verticalmente no centro */
+  gap: 16px; /* Espaço entre os elementos */
 }
 
-.login-container button {
-  margin-top: 20px; /* Espaço acima do botão */
-  width: 100%;
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza os itens horizontalmente */
+}
+
+.nav-link {
+  color: white;
+  width: 100%; /* Garante que o link ocupe toda a largura disponível */
+  text-align: center; /* Centraliza o texto dentro do link */
+  display: flex;
+  justify-content: center; /* Centraliza o conteúdo do link */
+}
+
+.example-container {
+  height: 100vh; /* Ocupa toda a altura da viewport */
+}
+
+.custom-sidenav {
+  background: #3f51b5;
+  height: 100%;
+}
+
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza os itens horizontalmente */
+}
+
+.nav-link {
+  color: white;
+  width: 100%; /* Garante que o link ocupe toda a largura disponível */
+  text-align: center; /* Centraliza o texto dentro do link */
+}
+.page-title {
+  margin-left: 50px; /* Ajuste este valor conforme necessário */
 }

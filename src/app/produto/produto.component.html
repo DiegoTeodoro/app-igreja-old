@@ -1,0 +1,27 @@
+<mat-card>
+    <mat-card-title>Cadastro de Produto</mat-card-title>
+    <mat-card-content>
+      <form (ngSubmit)="onSubmit()">
+        <mat-form-field>
+          <mat-label>Nome</mat-label>
+          <input matInput placeholder="Nome do produto" [(ngModel)]="produto.nome" name="nome" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Descrição</mat-label>
+          <textarea matInput placeholder="Descrição do produto" [(ngModel)]="produto.descricao" name="descricao"></textarea>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Código de Barras</mat-label>
+          <input matInput placeholder="Código de barras" [(ngModel)]="produto.codigo_barra" name="codigo_barra" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Categoria</mat-label>
+          <mat-select [(ngModel)]="produto.categoria_id" name="categoria_id" required>
+            <mat-option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.nome }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Salvar</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  
