@@ -11,7 +11,17 @@ import { MatSnackBar } from '@angular/material/snack-bar'
   styleUrls: ['./produto-cadastro.component.css']
 })
 export class ProdutoCadastroComponent implements OnInit {
-  produto: Produto = { id: 0, nome: '', codigo_barra: '', categoria_id: 0, volume: '', observacao: '' };
+  produto: Produto = { 
+    id: 0, 
+    codigo: '', 
+    nome: '', 
+    marca: '', 
+    fornecedor: '', 
+    codigo_barra: '', 
+    categoria_id: 0, 
+    volume: '', 
+    observacao: '' 
+  };
   categorias: Categoria[] = [];
   editMode = false;  // Flag para determinar se está no modo de edição
 
@@ -87,7 +97,17 @@ export class ProdutoCadastroComponent implements OnInit {
   }
 
   resetForm() {
-    this.produto = { id: 0, nome: '', codigo_barra: '', categoria_id: 0, volume: '', observacao: '' };
+    this.produto = { 
+      id: 0, 
+      codigo: '', 
+      nome: '', 
+      marca: '', 
+      fornecedor: '', 
+      codigo_barra: '', 
+      categoria_id: 0, 
+      volume: '', 
+      observacao: '' 
+    };
     this.editMode = false;
     this.produtoDataService.clearProduto();
   }

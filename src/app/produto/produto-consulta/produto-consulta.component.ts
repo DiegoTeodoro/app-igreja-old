@@ -14,19 +14,29 @@ import { ProdutoDataService } from 'src/app/produto-data.service';
   styleUrls: ['./produto-consulta.component.css']
 })
 export class ProdutoConsultaComponent implements OnInit {
-  displayedColumns: string[] = ['nome', 'codigoBarra', 'categoria', 'volume', 'acoes'];
-  dataSource: MatTableDataSource<Produto> = new MatTableDataSource();
+  displayedColumns: string[] = ['codigo', 'nome', 'marca', 'fornecedor', 'codigoBarra', 'categoria', 'volume', 'acoes'];
+  dataSource: MatTableDataSource<Produto>;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
+  @ViewChild(MatSort) sort: MatSort | null = null;
 
-  constructor(private produtoService: ProdutoService, private router: Router, private produtoDataService: ProdutoDataService) {}
+  constructor(private produtoService: ProdutoService) {
+    this.dataSource = new MatTableDataSource();
+  }
 
   ngOnInit() {
+    this.loadProdutos();
+  }
+
+  loadProdutos() {
     this.produtoService.getProdutos().subscribe((data: Produto[]) => {
       this.dataSource.data = data;
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      if (this.paginator) {
+        this.dataSource.paginator = this.paginator;
+      }
+      if (this.sort) {
+        this.dataSource.sort = this.sort;
+      }
     }, error => {
       console.error('Erro ao carregar produtos', error);
     });
@@ -42,8 +52,7 @@ export class ProdutoConsultaComponent implements OnInit {
   }
 
   onEdit(produto: Produto) {
-    this.produtoDataService.changeProduto(produto);
-    this.router.navigate(['/produto/cadastro']);
+    // Lógica para editar o produto
   }
 
   onDelete(id: number | undefined) {
@@ -51,17 +60,11 @@ export class ProdutoConsultaComponent implements OnInit {
       this.produtoService.deleteProduto(id).subscribe(response => {
         console.log('Produto deletado com sucesso!', response);
         this.loadProdutos();  // Atualiza a lista de produtos
+      }, error => {
+        console.error('Erro ao deletar produto', error);
       });
     } else {
       console.error('ID do produto é indefinido');
     }
-  }
-
-  loadProdutos() {
-    this.produtoService.getProdutos().subscribe((data: Produto[]) => {
-      this.dataSource.data = data;
-    }, error => {
-      console.error('Erro ao carregar produtos', error);
-    });
   }
 }

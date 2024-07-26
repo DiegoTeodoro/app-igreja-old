@@ -4,20 +4,21 @@
   </button>
   <span>{{ pageTitle }}</span>
 </mat-toolbar>
-<mat-sidenav-container class="example-container">
-  <mat-sidenav #sidenav mode="side" [(opened)]="isSidenavOpen" class="custom-sidenav">
+<mat-sidenav-container class="example-container" >
+  <mat-sidenav #sidenav mode="side" [(opened)]="isSidenavOpen" class="custom-sidenav" style="background-color: #aeb3d1 ">
     <mat-nav-list>
       <mat-list-item>
         <div mat-list-item-content>
           <a mat-line routerLink="/home" (click)="updateTitle('Home')">Home</a>
         </div>
       </mat-list-item>
-      <mat-accordion>
-        <mat-expansion-panel *ngFor="let section of menuSections">
+      <mat-accordion >
+        <mat-expansion-panel *ngFor="let section of menuSections" style="background-color: #f4f4f7 ">
           <mat-expansion-panel-header>
             <mat-panel-title>
-        
+    
               {{ section.title }}
+              
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-list>

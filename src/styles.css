@@ -8,7 +8,7 @@
 /* Estilo para o mat-sidenav */
 .mat-sidenav {
   width: 250px;
-  background: #3f51b5;
+  background: #a6aabd;
   color: white;
   height: 100%; /* Garante que o sidenav ocupe toda a altura */
 }
@@ -16,7 +16,7 @@
 /* Toolbar */
 .mat-toolbar {
   z-index: 2;
-  background-color: #3f51b5;
+  background-color: #a6aabd;
   color: white;
 }
 
@@ -37,14 +37,7 @@
 }
 
 /* Estilo para os itens do menu lateral */
-.mat-nav-list .mat-list-item {
-  color: white;
-}
-
-.mat-nav-list .mat-list-item:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
+.mat-nav-list .mat-list-item,
 .mat-nav-list a {
   color: white;
   text-decoration: none;
@@ -53,13 +46,14 @@
   justify-content: center; /* Centraliza o conteúdo do link */
 }
 
+.mat-nav-list .mat-list-item:hover,
 .mat-nav-list a:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Estilo para mat-expansion-panel */
 .mat-accordion .mat-expansion-panel-header {
-  background-color: #3f51b5 !important;
+  background-color: #aeb3d1 !important;
   color: white;
 }
 
@@ -69,14 +63,20 @@
 }
 
 /* Estilo para os formulários */
-.product-form {
+.product-form,
+.form-container {
   display: flex;
   flex-direction: column;
 }
 
-.form-row {
+.form-row,
+.address-container,
+.details-container,
+.checkbox-wrapper,
+.button-wrapper,
+.inline-fields,
+.nav-list {
   display: flex;
-  flex-wrap: wrap;
   gap: 16px; /* Espaçamento entre os elementos */
 }
 
@@ -89,20 +89,8 @@
   flex: 1 1 100%; /* Ocupar toda a largura */
 }
 
-/* Botão */
-button {
+.button {
   align-self: flex-start; /* Alinhar o botão no início */
-}
-
-/* Outros estilos específicos */
-.address-container,
-.details-container,
-.form-container,
-.checkbox-wrapper,
-.button-wrapper,
-.inline-fields {
-  display: flex;
-  gap: 16px; /* Espaçamento entre os elementos */
 }
 
 .address-container .logradouro-field {
@@ -124,16 +112,9 @@ button {
   flex: 0 0 10%; /* Ocupa 10% da linha */
 }
 
-.form-container {
-  flex-direction: column; /* Organiza os elementos verticalmente */
-}
-
-.checkbox-wrapper {
-  align-items: center; /* Alinha os elementos na vertical */
-}
-
+.checkbox-wrapper,
 .inline-fields {
-  align-items: center; /* Alinha os itens verticalmente no centro */
+  align-items: center; /* Alinha os elementos na vertical */
 }
 
 .nav-list {
@@ -143,4 +124,32 @@ button {
 
 .nav-link {
   text-align: center; /* Centraliza o texto dentro do link */
+}
+
+.mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+/* Estilos para tabelas */
+.mat-header-cell,
+.mat-cell {
+  white-space: nowrap;
+  text-align: center;
+  padding: 8px 16px;
+}
+
+.mat-header-cell {
+  padding: 0 20px; /* Ajuste conforme necessário */
+}
+
+.full-width-table {
+  width: 100%;
+}
+
+.mat-header-row,
+.mat-row {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }

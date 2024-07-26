@@ -3,9 +3,25 @@
   <mat-card-content>
     <form (ngSubmit)="onSubmit()" class="product-form">
       <div class="form-row">
+        <mat-form-field class="full-width">
+          <mat-label>Código do Produto</mat-label>
+          <input matInput placeholder="Código do Produto" [(ngModel)]="produto.codigo" name="codigo" required>
+        </mat-form-field>
+      </div>
+      <div class="form-row">
         <mat-form-field class="form-field">
           <mat-label>Nome</mat-label>
           <input matInput placeholder="Nome do produto" [(ngModel)]="produto.nome" name="nome" required>
+        </mat-form-field>
+      </div>
+      <div class="form-row">
+        <mat-form-field class="form-field">
+          <mat-label>Marca</mat-label>
+          <input matInput placeholder="Marca do produto" [(ngModel)]="produto.marca" name="marca" required>
+        </mat-form-field>
+        <mat-form-field class="form-field">
+          <mat-label>Fornecedor</mat-label>
+          <input matInput placeholder="Fornecedor" [(ngModel)]="produto.fornecedor" name="fornecedor" required>
         </mat-form-field>
       </div>
       <div class="form-row">

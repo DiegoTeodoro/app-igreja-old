@@ -11,6 +11,10 @@ export class ProdutoService {
 
   constructor(private http: HttpClient) {}
 
+  getProdutos(): Observable<Produto[]> {
+    return this.http.get<Produto[]>(this.apiUrl);
+  }
+
   createProduto(produto: Produto): Observable<Produto> {
     return this.http.post<Produto>(this.apiUrl, produto);
   }
@@ -21,9 +25,5 @@ export class ProdutoService {
 
   deleteProduto(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
-  }
-
-  getProdutos(): Observable<Produto[]> {
-    return this.http.get<Produto[]>(this.apiUrl);
   }
 }

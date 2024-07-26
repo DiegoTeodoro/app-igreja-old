@@ -1,8 +1,11 @@
 export interface Produto {
   id?: number;
+  codigo: string;
   nome: string;
+  marca: string;
+  fornecedor: string;
   codigo_barra: string;
   categoria_id: number;
-  volume: string;         // Adicionando a propriedade volume
-  observacao?: string;    // Adicionando a propriedade observacao
+  volume: string;
+  observacao: string;
 }
