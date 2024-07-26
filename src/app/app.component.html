@@ -1,4 +1,3 @@
-
 <mat-toolbar color="primary" class="app-toolbar">
   <button mat-icon-button (click)="sidenav.toggle()" aria-label="Example icon-button with menu icon">
     <mat-icon>menu</mat-icon>
@@ -6,20 +5,33 @@
   <span>{{ pageTitle }}</span>
 </mat-toolbar>
 <mat-sidenav-container class="example-container">
-  <mat-sidenav #sidenav mode="side" [(opened)]="isSidenavOpen" class="custom-sidenav" style=" background: #3f51b5;">
-    <!-- Conteúdo do menu lateral -->
-    <mat-nav-list >
-      <a style="color: white; " mat-list-item routerLink="/home" (click)="updateTitle('Home')">Home</a>
-      <a style="color: white;" mat-list-item routerLink="/setor" (click)="updateTitle('Setor')">Setor</a>
-      <a style="color: white;" mat-list-item routerLink="/igreja" (click)="updateTitle('Igreja')">Igreja</a>
-      <a style="color: white;" mat-list-item routerLink="/usuario" (click)="updateTitle('Usuário')">Usuário</a>
-      <a style="color: white;" mat-list-item routerLink="/produto" (click)="updateTitle('Produto')">Produto</a>
-      <a style="color: white;" mat-list-item routerLink="/categoria" (click)="updateTitle('Categoria')">Categoria</a>
-   
+  <mat-sidenav #sidenav mode="side" [(opened)]="isSidenavOpen" class="custom-sidenav">
+    <mat-nav-list>
+      <mat-list-item>
+        <div mat-list-item-content>
+          <a mat-line routerLink="/home" (click)="updateTitle('Home')">Home</a>
+        </div>
+      </mat-list-item>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let section of menuSections">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+        
+              {{ section.title }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-list>
+            <mat-list-item *ngFor="let link of section.links">
+              <div mat-list-item-content>
+                <a mat-line [routerLink]="link.route" (click)="updateTitle(link.title)">{{ link.title }}</a>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </mat-expansion-panel>
+      </mat-accordion>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <!-- Conteúdo principal da aplicação -->
     <div class="main-content">
       <router-outlet></router-outlet>
     </div>

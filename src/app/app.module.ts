@@ -28,10 +28,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 import { CategoriaComponent } from './categoria/categoria.component';
 import { ProdutoComponent } from './produto/produto.component';
-
-
-
-
+import { ProdutoCadastroComponent } from './produto/produto-cadastro/produto-cadastro.component';
+import { ProdutoConsultaComponent } from './produto/produto-consulta/produto-consulta.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +40,8 @@ import { ProdutoComponent } from './produto/produto.component';
     UserComponent,
     CategoriaComponent,
     ProdutoComponent,
+    ProdutoCadastroComponent,
+    ProdutoConsultaComponent,
   
  
   ],

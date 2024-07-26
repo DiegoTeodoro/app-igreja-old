@@ -7,21 +7,34 @@ import { MatSidenav } from '@angular/material/sidenav';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  pageTitle: string = 'Tela Principal';
+  pageTitle = 'Meu Aplicativo';
+  isSidenavOpen = true;
 
-  @ViewChild('sidenav') sidenav!: MatSidenav;
-  isSidenavOpen: boolean = false;
+  menuSections = [
+    {
+      title: 'Cadastros',
+      links: [
+        { title: 'Igreja', route: '/igreja' },
+        { title: 'Setor', route: '/setor' },
+        { title: 'Usuário', route: '/usuario' }
+      ]
+    },
+    {
+      title: 'Produto',
+      links: [
+        { title: 'Cadastro de Produto', route: '/produto/cadastro' },
+        { title: 'Consulta de Produto', route: '/produto/consulta' }
+      ]
+    },
+    {
+      title: 'Financeiro',
+      links: [
+        { title: 'Entrada de Nota', route: '/financeiro/entrada' }
+      ]
+    }
+  ];
 
-  close() {
-    this.isSidenavOpen = false;
-  }
-
-  toggleSidenav() {
-    this.isSidenavOpen = !this.isSidenavOpen;
-  }
-
-  updateTitle(newTitle: string) {
-    this.pageTitle = newTitle;
-    this.close(); // Fecha o sidenav após clicar no link
+  updateTitle(title: string) {
+    this.pageTitle = title;
   }
 }

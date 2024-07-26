@@ -1,19 +1,26 @@
+/* Container principal */
 .example-container {
-  height: 100%;
+  height: 100vh; /* Ocupa toda a altura da viewport */
   display: flex;
   flex-direction: column;
 }
 
-mat-sidenav {
+/* Estilo para o mat-sidenav */
+.mat-sidenav {
   width: 250px;
-  background: #3f51b5; /* Mantém o fundo do sidenav */
+  background: #3f51b5;
+  color: white;
+  height: 100%; /* Garante que o sidenav ocupe toda a altura */
+}
+
+/* Toolbar */
+.mat-toolbar {
+  z-index: 2;
+  background-color: #3f51b5;
   color: white;
 }
 
-mat-toolbar {
-  z-index: 2;
-}
-
+/* Conteúdo principal */
 .main-content {
   flex: 1;
   padding: 16px;
@@ -29,99 +36,111 @@ mat-toolbar {
   margin-left: 250px;
 }
 
-/* Estilo específico para garantir que os links sejam brancos */
-mat-nav-list a.mat-list-item {
-  color: white; /* Define a cor dos links como branca */
-}
-
-mat-nav-list a.mat-list-item:hover {
-  background-color: rgba(255, 255, 255, 0.1); /* Define um efeito de hover para os links */
-}
-
-.address-container {
-  display: flex;
-  gap: 16px; /* Ajuste este valor conforme necessário para espaçamento */
-}
-
-.logradouro-field {
-  flex: 4; /* 80% da linha */
-}
-
-.numero-field {
-  flex: 1; /* 20% da linha */
-}
-
-.details-container {
-  display: flex;
-  gap: 16px; /* Espaçamento entre os campos, ajuste conforme necessário */
-}
-
-.complemento-field,
-.bairro-field,
-.cep-field,
-.cidade-field {
-  flex: 1; /* Dividem os 90% restantes */
-}
-
-.uf-field {
-  flex: 0 0 10%; /* Ocupa 10% da linha */
-}
-
-.form-container {
-  display: flex;
-  flex-direction: column; /* Organiza os elementos verticalmente */
-  gap: 16px; /* Espaço entre os grupos */
-}
-
-.checkbox-wrapper {
-  display: flex;
-  align-items: center; /* Alinha os elementos na vertical */
-  gap: 16px; /* Espaço entre o mat-select e o mat-checkbox */
-}
-
-.button-wrapper {
-  margin-top: 16px; /* Espaçamento superior para o botão */
-}
-.inline-fields {
-  display: flex;
-  align-items: center; /* Alinha os itens verticalmente no centro */
-  gap: 16px; /* Espaço entre os elementos */
-}
-
-.nav-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centraliza os itens horizontalmente */
-}
-
-.nav-link {
+/* Estilo para os itens do menu lateral */
+.mat-nav-list .mat-list-item {
   color: white;
+}
+
+.mat-nav-list .mat-list-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.mat-nav-list a {
+  color: white;
+  text-decoration: none;
   width: 100%; /* Garante que o link ocupe toda a largura disponível */
-  text-align: center; /* Centraliza o texto dentro do link */
   display: flex;
   justify-content: center; /* Centraliza o conteúdo do link */
 }
 
-.example-container {
-  height: 100vh; /* Ocupa toda a altura da viewport */
+.mat-nav-list a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
-.custom-sidenav {
-  background: #3f51b5;
-  height: 100%;
+/* Estilo para mat-expansion-panel */
+.mat-accordion .mat-expansion-panel-header {
+  background-color: #3f51b5 !important;
+  color: white;
+}
+
+/* Estilo para os títulos */
+.page-title {
+  margin-left: 50px; /* Ajuste este valor conforme necessário */
+}
+
+/* Estilo para os formulários */
+.product-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; /* Espaçamento entre os elementos */
+}
+
+.form-field {
+  flex: 1;
+  min-width: 200px; /* Largura mínima para evitar que os campos fiquem muito pequenos */
+}
+
+.form-row .full-width {
+  flex: 1 1 100%; /* Ocupar toda a largura */
+}
+
+/* Botão */
+button {
+  align-self: flex-start; /* Alinhar o botão no início */
+}
+
+/* Outros estilos específicos */
+.address-container,
+.details-container,
+.form-container,
+.checkbox-wrapper,
+.button-wrapper,
+.inline-fields {
+  display: flex;
+  gap: 16px; /* Espaçamento entre os elementos */
+}
+
+.address-container .logradouro-field {
+  flex: 4; /* 80% da linha */
+}
+
+.address-container .numero-field {
+  flex: 1; /* 20% da linha */
+}
+
+.details-container .complemento-field,
+.details-container .bairro-field,
+.details-container .cep-field,
+.details-container .cidade-field {
+  flex: 1; /* Dividem os 90% restantes */
+}
+
+.details-container .uf-field {
+  flex: 0 0 10%; /* Ocupa 10% da linha */
+}
+
+.form-container {
+  flex-direction: column; /* Organiza os elementos verticalmente */
+}
+
+.checkbox-wrapper {
+  align-items: center; /* Alinha os elementos na vertical */
+}
+
+.inline-fields {
+  align-items: center; /* Alinha os itens verticalmente no centro */
 }
 
 .nav-list {
-  display: flex;
   flex-direction: column;
   align-items: center; /* Centraliza os itens horizontalmente */
 }
 
 .nav-link {
-  color: white;
-  width: 100%; /* Garante que o link ocupe toda a largura disponível */
   text-align: center; /* Centraliza o texto dentro do link */
-}
-.page-title {
-  margin-left: 50px; /* Ajuste este valor conforme necessário */
 }

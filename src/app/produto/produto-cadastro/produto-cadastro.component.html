@@ -1,0 +1,45 @@
+<mat-card>
+  <mat-card-title>Cadastro de Produto</mat-card-title>
+  <mat-card-content>
+    <form (ngSubmit)="onSubmit()" class="product-form">
+      <div class="form-row">
+        <mat-form-field class="form-field">
+          <mat-label>Nome</mat-label>
+          <input matInput placeholder="Nome do produto" [(ngModel)]="produto.nome" name="nome" required>
+        </mat-form-field>
+      </div>
+      <div class="form-row">
+        <mat-form-field class="form-field">
+          <mat-label>Código de Barras</mat-label>
+          <input matInput placeholder="Código de barras" [(ngModel)]="produto.codigo_barra" name="codigo_barra" required>
+        </mat-form-field>
+        <mat-form-field class="form-field">
+          <mat-label>Categoria</mat-label>
+          <mat-select [(ngModel)]="produto.categoria_id" name="categoria_id" required>
+            <mat-option value="" disabled>Selecione</mat-option>
+            <mat-option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.nome }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="form-field">
+          <mat-label>Volume</mat-label>
+          <mat-select [(ngModel)]="produto.volume" name="volume" required>
+            <mat-option value="" disabled>Selecione</mat-option>
+            <mat-option value="und">UND</mat-option>
+            <mat-option value="LT">LT</mat-option>
+            <mat-option value="cx">CX</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-row">
+        <mat-form-field class="full-width">
+          <mat-label>Observação</mat-label>
+          <textarea matInput placeholder="Observação do produto" [(ngModel)]="produto.observacao" name="observacao"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="form-row">
+        <button mat-raised-button color="primary" type="submit">Salvar</button>
+        <button mat-raised-button color="warn" (click)="onDelete(produto.id)">Deletar</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

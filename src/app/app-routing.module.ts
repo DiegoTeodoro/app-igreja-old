@@ -4,8 +4,9 @@ import { HomeComponent } from './home/home.component';
 import { SetorComponent } from './setor/setor.component';
 import { IgrejaComponent } from './igreja/igreja.component';
 import { UserComponent } from './user/user.component';
+import { ProdutoCadastroComponent } from './produto/produto-cadastro/produto-cadastro.component';
+import { ProdutoConsultaComponent } from './produto/produto-consulta/produto-consulta.component';
 import { CategoriaComponent } from './categoria/categoria.component';
-import { ProdutoComponent } from './produto/produto.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -13,8 +14,9 @@ const routes: Routes = [
   { path: 'setor', component: SetorComponent },
   { path: 'igreja', component: IgrejaComponent },
   { path: 'usuario', component: UserComponent },
-  { path: 'categoria', component: CategoriaComponent },
-  { path: 'produto', component: ProdutoComponent }
+  { path: 'produto/cadastro', component: ProdutoCadastroComponent },
+  { path: 'produto/consulta', component: ProdutoConsultaComponent },
+  { path: 'categoria', component: CategoriaComponent }
 ];
 
 @NgModule({

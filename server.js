@@ -107,22 +107,74 @@ app.post('/users', (req, res) => {
         res.status(400).send({ message: "Dados de usuário inválidos" });
     }
 });
-// Endpoint para autenticar um usuário
-app.post('/login', (req, res) => {
-    const { username, password } = req.body;
-    if (username && password) {
-        const query = 'SELECT * FROM users WHERE username = ? AND password = ?';
-        connection.query(query, [username, password], (err, results) => {
-            if (err) {
-                console.error('Erro ao consultar o banco de dados:', err);
-                res.status(500).send({ message: "Erro ao acessar o banco de dados" });
-            } else if (results.length > 0) {
-                res.send({ message: "Login realizado com sucesso" });
-            } else {
-                res.status(401).send({ message: "Login ou senha incorretos" });
-            }
-        });
+
+// Endpoint para criar categoria
+app.post('/categorias', (req, res) => {
+    const { nome } = req.body;
+    const query = 'INSERT INTO categoria (nome) VALUES (?)';
+    connection.query(query, [nome], (err, result) => {
+        if (err) throw err;
+        res.send({ id: result.insertId, nome });
+    });
+});
+
+// Endpoint para listar categorias
+app.get('/categorias', (req, res) => {
+    const query = 'SELECT * FROM categoria';
+    connection.query(query, (err, results) => {
+        if (err) throw err;
+        res.send(results);
+    });
+});
+
+// Endpoint para listar produtos
+app.get('/produtos', (req, res) => {
+    const query = 'SELECT * FROM produtos';
+    connection.query(query, (err, results) => {
+        if (err) throw err;
+        res.send(results);
+    });
+});
+
+// Endpoint para criar produto
+app.post('/produtos', (req, res) => {
+    const { nome, codigo_barra, categoria_id, volume, observacao } = req.body;
+    const query = 'INSERT INTO produtos (nome, codigo_barra, categoria_id, volume, observacao) VALUES (?, ?, ?, ?, ?)';
+    connection.query(query, [nome, codigo_barra, categoria_id, volume, observacao], (err, result) => {
+        if (err) throw err;
+        res.send({ id: result.insertId, nome, codigo_barra, categoria_id, volume, observacao });
+    });
+});
+
+// Endpoint para atualizar produto
+app.put('/produtos/:id', (req, res) => {
+    const id = req.params.id;
+    const { nome, codigo_barra, categoria_id, volume, observacao } = req.body;
+    const query = 'UPDATE produtos SET nome = ?, codigo_barra = ?, categoria_id = ?, volume = ?, observacao = ? WHERE id = ?';
+    connection.query(query, [nome, codigo_barra, categoria_id, volume, observacao, id], (err, result) => {
+        if (err) throw err;
+        res.send({ message: 'Produto atualizado com sucesso!' });
+    });
+});
+
+// Endpoint para deletar produto
+app.delete('/produtos/:id', (req, res) => {
+    const id = req.params.id;
+    const query = 'DELETE FROM produtos WHERE id = ?';
+    connection.query(query, [id], (err, result) => {
+        if (err) throw err;
+        res.send({ message: 'Produto deletado com sucesso!' });
+    });
+});
+
+const server = app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
+
+server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+        console.error(`Port ${port} is already in use.`);
     } else {
-        res.status(400).send({ message: "Dados de login inválidos" });
+        throw err;
     }
 });
