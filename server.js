@@ -166,7 +166,113 @@ app.delete('/produtos/:id', (req, res) => {
         res.send({ message: 'Produto deletado com sucesso!' });
     });
 });
+// CRUD APIs for 'estados'
+app.get('/estados', (req, res) => {
+    connection.query('SELECT * FROM estados', (err, results) => {
+        if (err) throw err;
+        res.send(results);
+    });
+});
 
+app.post('/estados', (req, res) => {
+    const estado = req.body;
+    connection.query('INSERT INTO estados SET ?', estado, (err, results) => {
+        if (err) throw err;
+        res.send(results);
+    });
+});
+
+app.put('/estados/:id', (req, res) => {
+    const id = req.params.id;
+    const estado = req.body;
+    connection.query('UPDATE estados SET ? WHERE id = ?', [estado, id], (err, results) => {
+        if (err) throw err;
+        res.send(results);
+    });
+});
+
+app.delete('/estados/:id', (req, res) => {
+    const id = req.params.id;
+    connection.query('DELETE FROM estados WHERE id = ?', [id], (err, results) => {
+        if (err) throw err;
+        res.send(results);
+    });
+});
+
+// CRUD APIs for 'cidades'
+app.get('/cidades', (req, res) => {
+    connection.query('SELECT * FROM cidades', (err, results) => {
+        if (err) throw err;
+        res.send(results);
+    });
+});
+
+app.post('/cidades', (req, res) => {
+    const cidade = req.body;
+    connection.query('INSERT INTO cidades SET ?', cidade, (err, results) => {
+        if (err) throw err;
+        res.send(results);
+    });
+});
+
+app.put('/cidades/:id', (req, res) => {
+    const id = req.params.id;
+    const cidade = req.body;
+    connection.query('UPDATE cidades SET ? WHERE id = ?', [cidade, id], (err, results) => {
+        if (err) throw err;
+        res.send(results);
+    });
+});
+
+app.delete('/cidades/:id', (req, res) => {
+    const id = req.params.id;
+    connection.query('DELETE FROM cidades WHERE id = ?', [id], (err, results) => {
+        if (err) throw err;
+        res.send(results);
+    });
+});
+
+// CRUD APIs for 'fornecedores'
+app.get('/fornecedores', (req, res) => {
+    connection.query(`
+        SELECT f.*, c.nome AS cidade_nome, e.nome AS estado_nome
+        FROM fornecedores f
+        JOIN cidades c ON f.cidade_id = c.id
+        JOIN estados e ON f.estado_id = e.id
+    `, (err, results) => {
+        if (err) throw err;
+        res.send(results);
+    });
+});
+
+app.post('/fornecedores', (req, res) => {
+    const fornecedor = req.body;
+    connection.query('INSERT INTO fornecedores SET ?', fornecedor, (err, results) => {
+        if (err) throw err;
+        res.send(results);
+    });
+});
+
+app.put('/fornecedores/:id', (req, res) => {
+    const id = req.params.id;
+    const fornecedor = req.body;
+    connection.query('UPDATE fornecedores SET ? WHERE id = ?', [fornecedor, id], (err, results) => {
+        if (err) throw err;
+        res.send(results);
+    });
+});
+
+app.delete('/fornecedores/:id', (req, res) => {
+    const id = req.params.id;
+    connection.query('DELETE FROM fornecedores WHERE id = ?', [id], (err, results) => {
+        if (err) throw err;
+        res.send(results);
+    });
+});
+
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
 const server = app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

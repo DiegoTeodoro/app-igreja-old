@@ -14,7 +14,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SetorComponent } from './setor/setor.component';
@@ -24,12 +23,21 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { UserComponent } from './user/user.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
 import { RouterModule } from '@angular/router';
 import { CategoriaComponent } from './categoria/categoria.component';
 import { ProdutoComponent } from './produto/produto.component';
 import { ProdutoCadastroComponent } from './produto/produto-cadastro/produto-cadastro.component';
 import { ProdutoConsultaComponent } from './produto/produto-consulta/produto-consulta.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { EstadoService } from './estado.service';
+import { CidadeService } from './cidade.service';
+import { FornecedorService } from './fornecedor.service';
+import { EstadoComponent } from './estados/estados.component';
+import { CidadeComponent } from './cidades/cidades.component';
+import { FornecedorComponent } from './fornecedores/fornecedores.component';
+
+
 
 @NgModule({
   declarations: [
@@ -42,8 +50,11 @@ import { ProdutoConsultaComponent } from './produto/produto-consulta/produto-con
     ProdutoComponent,
     ProdutoCadastroComponent,
     ProdutoConsultaComponent,
-  
- 
+    EstadoComponent,
+    CidadeComponent,
+    FornecedorComponent
+    
+
   ],
   imports: [
     BrowserModule,
@@ -66,9 +77,11 @@ import { ProdutoConsultaComponent } from './produto/produto-consulta/produto-con
     MatExpansionModule,
     MatSnackBarModule,
     RouterModule,
-   
+    ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [ EstadoService,
+    CidadeService,
+    FornecedorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

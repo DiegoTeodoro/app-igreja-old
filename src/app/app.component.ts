@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+
 
 @Component({
   selector: 'app-root',
@@ -16,7 +16,10 @@ export class AppComponent {
       links: [
         { title: 'Igreja', route: '/igreja' },
         { title: 'Setor', route: '/setor' },
-        { title: 'Usuário', route: '/usuario' }
+        { title: 'Usuário', route: '/usuario' },
+        { title: 'Fornecedor', route: '/fornecedor' },
+        { title: 'Cidade', route: '/cidade' },
+        { title: 'Estado', route: '/estado' }
       ]
     },
     {

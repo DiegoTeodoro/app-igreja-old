@@ -132,8 +132,7 @@
 }
 
 /* Estilos para tabelas */
-.mat-header-cell,
-.mat-cell {
+.mat-header-cell,.mat-cell {
   white-space: nowrap;
   text-align: center;
   padding: 8px 16px;
@@ -147,9 +146,35 @@
   width: 100%;
 }
 
-.mat-header-row,
-.mat-row {
+
+.mat-header-row, .mat-row {
   display: table;
   width: 100%;
   table-layout: fixed;
+}
+.full-width {
+  width: 100%;
+}
+
+.form-field {
+  width: 48%;
+  margin-right: 4%;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.product-form .form-row:last-child .form-field {
+  margin-right: 0;
+}
+
+button {
+  margin-right: 8px;
 }

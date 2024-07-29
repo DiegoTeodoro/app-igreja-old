@@ -1,12 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Produto } from 'src/app/models/produto';
-import { ProdutoService } from 'src/app/produto.service';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
-import { ProdutoDataService } from 'src/app/produto-data.service';
-
+import { ProdutoService } from 'src/app/produto.service';
+import { Produto } from 'src/app/models/produto';
 
 @Component({
   selector: 'app-produto-consulta',
@@ -37,7 +34,7 @@ export class ProdutoConsultaComponent implements OnInit {
       if (this.sort) {
         this.dataSource.sort = this.sort;
       }
-    }, error => {
+    }, (error: any) => {
       console.error('Erro ao carregar produtos', error);
     });
   }
@@ -57,10 +54,10 @@ export class ProdutoConsultaComponent implements OnInit {
 
   onDelete(id: number | undefined) {
     if (id !== undefined) {
-      this.produtoService.deleteProduto(id).subscribe(response => {
+      this.produtoService.deleteProduto(id).subscribe((response: any) => {
         console.log('Produto deletado com sucesso!', response);
         this.loadProdutos();  // Atualiza a lista de produtos
-      }, error => {
+      }, (error: any) => {
         console.error('Erro ao deletar produto', error);
       });
     } else {
