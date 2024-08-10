@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +9,7 @@ import { Component, ViewChild } from '@angular/core';
 export class AppComponent {
   pageTitle = 'Meu Aplicativo';
   isSidenavOpen = true;
+  currentDate: string;
 
   menuSections = [
     {
@@ -37,7 +38,15 @@ export class AppComponent {
     }
   ];
 
+  constructor(private router: Router) {
+    const today = new Date();
+    this.currentDate = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}`;
+  }
+
   updateTitle(title: string) {
     this.pageTitle = title;
+  }
+  logout() {
+    this.router.navigate(['/login']);
   }
 }

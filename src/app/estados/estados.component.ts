@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { EstadoService } from '../estado.service';
+
 @Component({
   selector: 'app-estado',
   templateUrl: './estados.component.html',
   styleUrls: ['./estados.component.css']
 })
 export class EstadoComponent implements OnInit {
-onDelete(arg0: any) {
-throw new Error('Method not implemented.');
-}
   estados: any[] = [];
   estado: any = {};
-displayedColumns: any;
+  displayedColumns: string[] = ['nome', 'sigla', 'actions'];
 
   constructor(private estadoService: EstadoService) {}
 

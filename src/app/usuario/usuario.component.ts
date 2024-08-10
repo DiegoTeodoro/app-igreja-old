@@ -4,8 +4,8 @@ import { User } from '../models/user';
 import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  templateUrl: './usuario.component.html',
+  styleUrls: ['./usuario.component.css']
 })
 export class UserComponent implements OnInit {
   users: User[] = [];

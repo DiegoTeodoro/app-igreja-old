@@ -16,8 +16,9 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="form-row">
+      <div class="form-row buttons-row">
         <button mat-raised-button color="primary" type="submit">Salvar</button>
+        <button mat-raised-button color="accent" (click)="editCidade(cidade.id)">Editar</button>
         <button mat-raised-button color="warn" (click)="onDelete(cidade.id)">Deletar</button>
       </div>
     </form>

@@ -17,11 +17,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SetorComponent } from './setor/setor.component';
-import { IgrejaComponent } from './igreja/igreja.component';
 import { HomeComponent } from './home/home.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { UserComponent } from './user/user.component';
+import { UserComponent } from './usuario/usuario.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 import { CategoriaComponent } from './categoria/categoria.component';
@@ -35,7 +34,11 @@ import { CidadeService } from './cidade.service';
 import { FornecedorService } from './fornecedor.service';
 import { EstadoComponent } from './estados/estados.component';
 import { CidadeComponent } from './cidades/cidades.component';
-import { FornecedorComponent } from './fornecedores/fornecedores.component';
+import { LoginComponent } from './login/login.component';
+import { IgrejaComponent } from './igreja/igreja.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FornecedorComponent } from './fornecedor/fornecedor.component';
 
 
 
@@ -43,7 +46,6 @@ import { FornecedorComponent } from './fornecedores/fornecedores.component';
   declarations: [
     AppComponent,
     SetorComponent,
-    IgrejaComponent,
     HomeComponent,
     UserComponent,
     CategoriaComponent,
@@ -52,7 +54,11 @@ import { FornecedorComponent } from './fornecedores/fornecedores.component';
     ProdutoConsultaComponent,
     EstadoComponent,
     CidadeComponent,
+    LoginComponent,
+    IgrejaComponent,
+    ConfirmDialogComponent,
     FornecedorComponent
+    
     
 
   ],
@@ -78,10 +84,13 @@ import { FornecedorComponent } from './fornecedores/fornecedores.component';
     MatSnackBarModule,
     RouterModule,
     ReactiveFormsModule,
+    MatDialogModule
   ],
   providers: [ EstadoService,
     CidadeService,
     FornecedorService],
   bootstrap: [AppComponent]
+
+
 })
 export class AppModule { }

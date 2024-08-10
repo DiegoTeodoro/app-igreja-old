@@ -6,6 +6,9 @@
         <mat-form-field class="full-width">
           <mat-label>Código do Produto</mat-label>
           <input matInput placeholder="Código do Produto" [(ngModel)]="produto.codigo" name="codigo" required>
+          <button mat-icon-button matSuffix (click)="buscarProduto()">
+            <mat-icon>search</mat-icon>
+          </button>
         </mat-form-field>
       </div>
       <div class="form-row">

@@ -8,10 +8,10 @@ import { EstadoService } from '../estado.service';
   styleUrls: ['./cidades.component.css']
 })
 export class CidadeComponent implements OnInit {
-displayedColumns: any;
 onDelete(arg0: any) {
 throw new Error('Method not implemented.');
 }
+  displayedColumns: string[] = ['nome', 'estado', 'actions'];
   cidades: any[] = [];
   estados: any[] = [];
   cidade: any = {};
@@ -24,15 +24,27 @@ throw new Error('Method not implemented.');
   }
 
   loadCidades() {
-    this.cidadeService.getCidades().subscribe(data => {
-      this.cidades = data;
-    });
+    this.cidadeService.getCidades().subscribe(
+      data => {
+        console.log('Cidades carregadas:', data);
+        this.cidades = data;
+      },
+      error => {
+        console.error('Erro ao carregar cidades:', error);
+      }
+    );
   }
 
   loadEstados() {
-    this.estadoService.getEstados().subscribe(data => {
-      this.estados = data;
-    });
+    this.estadoService.getEstados().subscribe(
+      data => {
+        console.log('Estados carregados:', data);
+        this.estados = data;
+      },
+      error => {
+        console.error('Erro ao carregar estados:', error);
+      }
+    );
   }
 
   saveCidade() {
@@ -62,10 +74,5 @@ throw new Error('Method not implemented.');
   getEstadoNome(estadoId: number): string {
     const estado = this.estados.find(e => e.id === estadoId);
     return estado ? estado.nome : '';
-  }
-
-  getCidadeNome(cidadeId: number): string {
-    const cidade = this.cidades.find(c => c.id === cidadeId);
-    return cidade ? cidade.nome : '';
   }
 }

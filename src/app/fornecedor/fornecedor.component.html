@@ -1,0 +1,99 @@
+<mat-card>
+  <mat-card-title>Cadastro de Fornecedor</mat-card-title>
+  <mat-card-content>
+    <form (ngSubmit)="saveFornecedor()" #fornecedorForm="ngForm">
+      <!-- Razão Social e Nome Fantasia na mesma linha -->
+      <div class="form-row">
+        <mat-form-field class="form-field">
+          <mat-label>Razão Social</mat-label>
+          <input matInput placeholder="Razão Social" [(ngModel)]="fornecedor.razao_social" name="razao_social" required>
+        </mat-form-field>
+        <mat-form-field class="form-field">
+          <mat-label>Nome Fantasia</mat-label>
+          <input matInput placeholder="Nome Fantasia" [(ngModel)]="fornecedor.nome_fantasia" name="nome_fantasia" required>
+        </mat-form-field>
+      </div>
+      <!-- CNPJ e Inscrição Estadual na mesma linha -->
+      <div class="form-row">
+        <mat-form-field class="form-field">
+          <mat-label>CNPJ</mat-label>
+          <input matInput placeholder="CNPJ" [(ngModel)]="fornecedor.cnpj" name="cnpj" required>
+        </mat-form-field>
+        <mat-form-field class="form-field">
+          <mat-label>Inscrição Estadual</mat-label>
+          <input matInput placeholder="Inscrição Estadual" [(ngModel)]="fornecedor.inscricao_estadual" name="inscricao_estadual">
+        </mat-form-field>
+      </div>
+      <!-- Telefone Celular na mesma linha -->
+      <div class="form-row">
+        <mat-form-field class="form-field">
+          <mat-label>Telefone Celular</mat-label>
+          <input matInput placeholder="Telefone Celular" [(ngModel)]="fornecedor.telefone_celular" name="telefone_celular">
+        </mat-form-field>
+      </div>
+      <!-- Estado e Cidade na mesma linha -->
+      <div class="form-row">
+        <mat-form-field class="form-field">
+          <mat-label>Estado</mat-label>
+          <mat-select [(ngModel)]="fornecedor.uf_codigo" name="uf_codigo" required>
+            <mat-option *ngFor="let estado of estados" [value]="estado.id">{{ estado.nome }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="form-field">
+          <mat-label>Cidade</mat-label>
+          <mat-select [(ngModel)]="fornecedor.cidade_codigo" name="cidade_codigo" required>
+            <mat-option *ngFor="let cidade of cidades" [value]="cidade.id">{{ cidade.nome }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-row buttons-row">
+        <button mat-raised-button color="primary" type="submit">Salvar</button>
+        <button mat-raised-button color="accent" (click)="editFornecedor(fornecedor)">Editar</button>
+        <button mat-raised-button color="warn" (click)="deleteFornecedor(fornecedor.id)">Deletar</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-title>Lista de Fornecedores</mat-card-title>
+  <mat-card-content>
+    <table mat-table [dataSource]="dataSource">
+      <!-- Razão Social -->
+      <ng-container matColumnDef="razao_social">
+        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Razão Social </th>
+        <td mat-cell *matCellDef="let fornecedor"> {{fornecedor.razao_social}} </td>
+      </ng-container>
+      <!-- CNPJ -->
+      <ng-container matColumnDef="cnpj">
+        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> CNPJ </th>
+        <td mat-cell *matCellDef="let fornecedor"> {{fornecedor.cnpj}} </td>
+      </ng-container>
+
+
+      <!-- Estado -->
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Estado </th>
+        <td mat-cell *matCellDef="let fornecedor"> {{getEstadoNome(fornecedor.uf_codigo)}} </td>
+      </ng-container>
+
+      <!-- Cidade -->
+      <ng-container matColumnDef="cidade">
+        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Cidade </th>
+        <td mat-cell *matCellDef="let fornecedor"> {{getCidadeNome(fornecedor.cidade_codigo)}} </td>
+      </ng-container>
+
+      <!-- Ações -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Ações </th>
+        <td mat-cell *matCellDef="let fornecedor">
+          <button mat-raised-button color="primary" (click)="editFornecedor(fornecedor)">Editar</button>
+          <button mat-raised-button color="warn" (click)="deleteFornecedor(fornecedor.id)">Deletar</button>
+        </td>
+      </ng-container>
+      
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>

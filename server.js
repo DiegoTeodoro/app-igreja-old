@@ -17,14 +17,21 @@ const connection = mysql.createConnection({
 });
 
 connection.connect((err) => {
-    if (err) throw err;
+    if (err) {
+        console.error('Error connecting to MySQL database:', err);
+        return;
+    }
     console.log('Connected to MySQL database.');
 });
 
 // CRUD APIs for 'setor'
 app.get('/setores', (req, res) => {
     connection.query('SELECT * FROM setor', (err, results) => {
-        if (err) throw err;
+        if (err) {
+            console.error('Error fetching setores:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
         res.send(results);
     });
 });
@@ -32,7 +39,11 @@ app.get('/setores', (req, res) => {
 app.post('/setores', (req, res) => {
     const setor = req.body;
     connection.query('INSERT INTO setor SET ?', setor, (err, results) => {
-        if (err) throw err;
+        if (err) {
+            console.error('Error inserting setor:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
         res.send(results);
     });
 });
@@ -41,7 +52,11 @@ app.put('/setores/:id', (req, res) => {
     const id = req.params.id;
     const setor = req.body;
     connection.query('UPDATE setor SET ? WHERE codigo = ?', [setor, id], (err, results) => {
-        if (err) throw err;
+        if (err) {
+            console.error('Error updating setor:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
         res.send(results);
     });
 });
@@ -49,123 +64,137 @@ app.put('/setores/:id', (req, res) => {
 app.delete('/setores/:id', (req, res) => {
     const id = req.params.id;
     connection.query('DELETE FROM setor WHERE codigo = ?', [id], (err, results) => {
-        if (err) throw err;
+        if (err) {
+            console.error('Error deleting setor:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
         res.send(results);
     });
 });
+
+// Repita o mesmo tratamento de erro para as demais APIs
 
 // CRUD APIs for 'igreja'
-app.get('/igrejas', (req, res) => {
+app.get('/igrejas/:id', (req, res) => {
+    const id = req.params.id;
+    connection.query('SELECT * FROM igreja WHERE codigo = ?', [id], (err, results) => {
+      if (err) {
+        console.error('Error fetching igreja:', err);
+        res.status(500).send('Internal Server Error');
+        return;
+      }
+      res.send(results[0]);
+    });
+  });
+  
+  app.get('/igrejas', (req, res) => {
     connection.query('SELECT * FROM igreja', (err, results) => {
-        if (err) throw err;
-        res.send(results);
+      if (err) {
+        console.error('Error fetching igrejas:', err);
+        res.status(500).send('Internal Server Error');
+        return;
+      }
+      res.send(results);
     });
-});
-
-app.post('/igrejas', (req, res) => {
+  });
+  
+  app.post('/igrejas', (req, res) => {
     const igreja = req.body;
+    delete igreja.codigo; // Remover a coluna 'codigo' antes de inserir
     connection.query('INSERT INTO igreja SET ?', igreja, (err, results) => {
-        if (err) throw err;
-        res.send(results);
+      if (err) {
+        console.error('Error inserting igreja:', err);
+        res.status(500).send('Internal Server Error');
+        return;
+      }
+      res.send(results);
     });
-});
-
-app.put('/igrejas/:id', (req, res) => {
+  });
+  
+  app.put('/igrejas/:id', (req, res) => {
     const id = req.params.id;
     const igreja = req.body;
+    delete igreja.codigo; // Garantir que a coluna 'codigo' não está sendo removida
     connection.query('UPDATE igreja SET ? WHERE codigo = ?', [igreja, id], (err, results) => {
-        if (err) throw err;
-        res.send(results);
+      if (err) {
+        console.error('Error updating igreja:', err);
+        res.status(500).send('Internal Server Error');
+        return;
+      }
+      res.send(results);
     });
-});
-
-app.delete('/igrejas/:id', (req, res) => {
+  });
+  
+  
+  app.delete('/igrejas/:id', (req, res) => {
     const id = req.params.id;
     connection.query('DELETE FROM igreja WHERE codigo = ?', [id], (err, results) => {
-        if (err) throw err;
-        res.send(results);
+      if (err) {
+        console.error('Error deleting igreja:', err);
+        res.status(500).send('Internal Server Error');
+        return;
+      }
+      res.send(results);
+    });
+  });
+
+// CRUD APIs for 'produtos'
+app.get('/produtos/codigo/:codigo', (req, res) => {
+    const codigo = req.params.codigo;
+    connection.query('SELECT * FROM produtos WHERE codigo = ?', [codigo], (err, results) => {
+        if (err) {
+            console.error('Error fetching produto by codigo:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        if (results.length > 0) {
+            res.send(results[0]);
+        } else {
+            res.status(404).send('Produto não encontrado');
+        }
     });
 });
 
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-});
-// Endpoint para criar um novo usuário
-app.post('/users', (req, res) => {
-    const user = req.body;  // Assumindo que o corpo da requisição contém 'username' e 'password'
-    if (user && user.username && user.password) {
-        const query = 'INSERT INTO users (username, password) VALUES (?, ?)';
-        connection.query(query, [user.username, user.password], (err, results) => {
-            if (err) {
-                console.error('Erro ao inserir usuário:', err);
-                res.status(500).send({ message: "Erro ao inserir usuário no banco de dados" });
-            } else {
-                res.status(201).send({ message: "Usuário criado com sucesso", userId: results.insertId });
-            }
-        });
-    } else {
-        res.status(400).send({ message: "Dados de usuário inválidos" });
-    }
-});
 
-// Endpoint para criar categoria
-app.post('/categorias', (req, res) => {
-    const { nome } = req.body;
-    const query = 'INSERT INTO categoria (nome) VALUES (?)';
-    connection.query(query, [nome], (err, result) => {
-        if (err) throw err;
-        res.send({ id: result.insertId, nome });
-    });
-});
-
-// Endpoint para listar categorias
-app.get('/categorias', (req, res) => {
-    const query = 'SELECT * FROM categoria';
-    connection.query(query, (err, results) => {
-        if (err) throw err;
-        res.send(results);
-    });
-});
-
-// Endpoint para listar produtos
-app.get('/produtos', (req, res) => {
-    const query = 'SELECT * FROM produtos';
-    connection.query(query, (err, results) => {
-        if (err) throw err;
-        res.send(results);
-    });
-});
-
-// Endpoint para criar produto
 app.post('/produtos', (req, res) => {
-    const { nome, codigo_barra, categoria_id, volume, observacao } = req.body;
-    const query = 'INSERT INTO produtos (nome, codigo_barra, categoria_id, volume, observacao) VALUES (?, ?, ?, ?, ?)';
-    connection.query(query, [nome, codigo_barra, categoria_id, volume, observacao], (err, result) => {
-        if (err) throw err;
-        res.send({ id: result.insertId, nome, codigo_barra, categoria_id, volume, observacao });
+    const produto = req.body;
+    connection.query('INSERT INTO produtos SET ?', produto, (err, results) => {
+        if (err) {
+            console.error('Error inserting produto:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.send(results);
     });
 });
 
-// Endpoint para atualizar produto
 app.put('/produtos/:id', (req, res) => {
     const id = req.params.id;
-    const { nome, codigo_barra, categoria_id, volume, observacao } = req.body;
-    const query = 'UPDATE produtos SET nome = ?, codigo_barra = ?, categoria_id = ?, volume = ?, observacao = ? WHERE id = ?';
-    connection.query(query, [nome, codigo_barra, categoria_id, volume, observacao, id], (err, result) => {
-        if (err) throw err;
-        res.send({ message: 'Produto atualizado com sucesso!' });
+    const produto = req.body;
+    connection.query('UPDATE produtos SET ? WHERE id = ?', [produto, id], (err, results) => {
+        if (err) {
+            console.error('Error updating produto:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.send(results);
     });
 });
 
-// Endpoint para deletar produto
 app.delete('/produtos/:id', (req, res) => {
     const id = req.params.id;
-    const query = 'DELETE FROM produtos WHERE id = ?';
-    connection.query(query, [id], (err, result) => {
-        if (err) throw err;
-        res.send({ message: 'Produto deletado com sucesso!' });
+    connection.query('DELETE FROM produtos WHERE id = ?', [id], (err, results) => {
+        if (err) {
+            console.error('Error deleting produto:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.send(results);
     });
 });
+
+
 // CRUD APIs for 'estados'
 app.get('/estados', (req, res) => {
     connection.query('SELECT * FROM estados', (err, results) => {
@@ -202,11 +231,15 @@ app.delete('/estados/:id', (req, res) => {
 // CRUD APIs for 'cidades'
 app.get('/cidades', (req, res) => {
     connection.query('SELECT * FROM cidades', (err, results) => {
-        if (err) throw err;
+        if (err) {
+            console.error('Erro ao buscar cidades:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        console.log('Cidades obtidas do banco de dados:', results);
         res.send(results);
     });
 });
-
 app.post('/cidades', (req, res) => {
     const cidade = req.body;
     connection.query('INSERT INTO cidades SET ?', cidade, (err, results) => {
@@ -232,23 +265,26 @@ app.delete('/cidades/:id', (req, res) => {
     });
 });
 
-// CRUD APIs for 'fornecedores'
+// CRUD APIs for 'fornecedor'
 app.get('/fornecedores', (req, res) => {
-    connection.query(`
-        SELECT f.*, c.nome AS cidade_nome, e.nome AS estado_nome
-        FROM fornecedores f
-        JOIN cidades c ON f.cidade_id = c.id
-        JOIN estados e ON f.estado_id = e.id
-    `, (err, results) => {
-        if (err) throw err;
+    connection.query('SELECT * FROM fornecedor', (err, results) => {
+        if (err) {
+            console.error('Error fetching fornecedores:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
         res.send(results);
     });
 });
 
 app.post('/fornecedores', (req, res) => {
     const fornecedor = req.body;
-    connection.query('INSERT INTO fornecedores SET ?', fornecedor, (err, results) => {
-        if (err) throw err;
+    connection.query('INSERT INTO fornecedor SET ?', fornecedor, (err, results) => {
+        if (err) {
+            console.error('Error inserting fornecedor:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
         res.send(results);
     });
 });
@@ -256,16 +292,73 @@ app.post('/fornecedores', (req, res) => {
 app.put('/fornecedores/:id', (req, res) => {
     const id = req.params.id;
     const fornecedor = req.body;
-    connection.query('UPDATE fornecedores SET ? WHERE id = ?', [fornecedor, id], (err, results) => {
-        if (err) throw err;
+    connection.query('UPDATE fornecedor SET ? WHERE id = ?', [fornecedor, id], (err, results) => {
+        if (err) {
+            console.error('Error updating fornecedor:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
         res.send(results);
     });
 });
 
 app.delete('/fornecedores/:id', (req, res) => {
     const id = req.params.id;
-    connection.query('DELETE FROM fornecedores WHERE id = ?', [id], (err, results) => {
-        if (err) throw err;
+    connection.query('DELETE FROM fornecedor WHERE id = ?', [id], (err, results) => {
+        if (err) {
+            console.error('Error deleting fornecedor:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.send(results);
+    });
+});
+
+// CRUD APIs for 'users'
+app.get('/users', (req, res) => {
+    connection.query('SELECT * FROM users', (err, results) => {
+        if (err) {
+            console.error('Error fetching users:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.send(results);
+    });
+});
+
+app.post('/users', (req, res) => {
+    const user = req.body;
+    connection.query('INSERT INTO users SET ?', user, (err, results) => {
+        if (err) {
+            console.error('Error inserting user:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.send(results);
+    });
+});
+
+app.put('/users/:id', (req, res) => {
+    const id = req.params.id;
+    const user = req.body;
+    connection.query('UPDATE users SET ? WHERE id = ?', [user, id], (err, results) => {
+        if (err) {
+            console.error('Error updating user:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.send(results);
+    });
+});
+
+app.delete('/users/:id', (req, res) => {
+    const id = req.params.id;
+    connection.query('DELETE FROM users WHERE id = ?', [id], (err, results) => {
+        if (err) {
+            console.error('Error deleting user:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
         res.send(results);
     });
 });
@@ -273,6 +366,8 @@ app.delete('/fornecedores/:id', (req, res) => {
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
+// As demais APIs seguem o mesmo padrão de tratamento de erro
+
 const server = app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

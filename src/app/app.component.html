@@ -1,24 +1,29 @@
-<mat-toolbar color="primary" class="app-toolbar">
+<mat-toolbar color="primary" class="app-toolbar" style="background-color: #438EB9;">
   <button mat-icon-button (click)="sidenav.toggle()" aria-label="Example icon-button with menu icon">
     <mat-icon>menu</mat-icon>
   </button>
   <span>{{ pageTitle }}</span>
+  <span class="spacer"></span>
+  <span>{{ currentDate }}</span>
+  <button mat-button (click)="logout()" style="background-color: red;">Sair</button>
 </mat-toolbar>
-<mat-sidenav-container class="example-container" >
-  <mat-sidenav #sidenav mode="side" [(opened)]="isSidenavOpen" class="custom-sidenav" style="background-color: #aeb3d1 ">
+
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav mode="side" [(opened)]="isSidenavOpen" class="custom-sidenav" style="background-color: #808080; width: 200px;">
     <mat-nav-list>
       <mat-list-item>
         <div mat-list-item-content>
-          <a mat-line routerLink="/home" (click)="updateTitle('Home')">Home</a>
+          <a mat-line routerLink="/home" (click)="updateTitle('Home')">
+            <img src="assets/home.svg" alt="Home Icon" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">
+            Home
+          </a>
         </div>
       </mat-list-item>
-      <mat-accordion >
-        <mat-expansion-panel *ngFor="let section of menuSections" style="background-color: #f4f4f7 ">
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let section of menuSections" style="background-color: #f4f4f7">
           <mat-expansion-panel-header>
             <mat-panel-title>
-    
               {{ section.title }}
-              
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-list>

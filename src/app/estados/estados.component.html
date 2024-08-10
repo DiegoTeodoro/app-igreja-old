@@ -14,9 +14,10 @@
           <input matInput placeholder="Sigla" [(ngModel)]="estado.sigla" name="sigla" required>
         </mat-form-field>
       </div>
-      <div class="form-row">
+      <div class="form-row buttons-row">
         <button mat-raised-button color="primary" type="submit">Salvar</button>
-        <button mat-raised-button color="warn" (click)="onDelete(estado.id)">Deletar</button>
+        <button mat-raised-button color="accent" (click)="editEstado(estado)">Editar</button>
+        <button mat-raised-button color="warn" (click)="deleteEstado(estado.id)">Deletar</button>
       </div>
     </form>
   </mat-card-content>

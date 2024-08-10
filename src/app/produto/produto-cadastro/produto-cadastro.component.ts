@@ -4,7 +4,8 @@ import { CategoriaService } from 'src/app/categoria.service';
 import { Categoria } from 'src/app/models/categoria';
 import { Produto } from 'src/app/models/produto';
 import { ProdutoDataService } from 'src/app/produto-data.service';
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-produto-cadastro',
   templateUrl: './produto-cadastro.component.html',
@@ -47,6 +48,24 @@ export class ProdutoCadastroComponent implements OnInit {
         this.resetForm();
       }
     });
+  }
+
+  buscarProduto() {
+    if (this.produto.codigo) {
+      this.produtoService.getProdutoByCodigo(this.produto.codigo).subscribe(
+        (data: Produto) => {
+          this.produto = data;
+          this.editMode = true;
+          this.snackBar.open('Produto carregado com sucesso!', 'Fechar', { duration: 3000 });
+        },
+        error => {
+          this.snackBar.open('Erro ao buscar produto.', 'Fechar', { duration: 3000 });
+          console.error('Erro ao buscar produto:', error);
+        }
+      );
+    } else {
+      this.snackBar.open('Por favor, insira o código do produto.', 'Fechar', { duration: 3000 });
+    }
   }
 
   onSubmit() {
