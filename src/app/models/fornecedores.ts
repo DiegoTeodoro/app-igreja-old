@@ -15,4 +15,5 @@ export class Fornecedor {
   cidade_codigo?: number;
   uf_codigo?: number;
   ativo: boolean = true;
+nome: any;
 }

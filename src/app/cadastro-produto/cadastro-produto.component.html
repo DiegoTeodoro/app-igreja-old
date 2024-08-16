@@ -1,0 +1,72 @@
+<h2>Cadastro de Produto</h2>
+<div *ngIf="showSuccessMessage" class="success-message">
+  Ação realizada com sucesso!
+</div>
+<form [formGroup]="produtoForm" (ngSubmit)="onSubmit()" class="produto-form">
+  
+  <!-- Nome e Volume na mesma linha -->
+  <div class="form-row">
+    <mat-form-field appearance="outline" class="nome">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="nome" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="volume">
+  <mat-label>Volume</mat-label>
+  <mat-select formControlName="volume" required>
+    <mat-option value="UND">UND</mat-option>
+    <mat-option value="LT">LT</mat-option>
+    <mat-option value="CX">CX</mat-option>
+    <mat-option value="FD">FD</mat-option>
+  </mat-select>
+</mat-form-field>
+  </div>
+
+  <!-- Código de Barras e Categoria na mesma linha -->
+  <div class="form-row">
+    <mat-form-field appearance="outline" class="codigo-barras">
+      <mat-label>Código de Barras</mat-label>
+      <input matInput formControlName="codigo_barras" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="categoria">
+        <mat-label>Categoria</mat-label>
+        <mat-select formControlName="categoria_id" required>
+          <mat-option *ngFor="let categoria of categorias" [value]="categoria.id">
+            {{ categoria.nome }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  </div>
+
+  <!-- Marca e Fornecedor na mesma linha -->
+  <div class="form-row">
+    <mat-form-field appearance="outline" class="marca">
+      <mat-label>Marca</mat-label>
+      <input matInput formControlName="marca" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="fornecedor">
+        <mat-label>Fornecedor</mat-label>
+        <mat-select formControlName="fornecedor_id" required>
+          <mat-option *ngFor="let fornecedor of fornecedores" [value]="fornecedor.id">
+            {{ fornecedor.razao_social || fornecedor.nome_fantasia }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+  </div>
+
+  <!-- Observação ocupando 70% -->
+  <div class="form-row">
+    <mat-form-field appearance="outline" class="observacao">
+      <mat-label>Observação</mat-label>
+      <textarea matInput formControlName="observacao"></textarea>
+    </mat-form-field>
+  </div>
+
+  <button mat-raised-button color="primary" type="submit" class="save-button">
+  Salvar
+</button>
+
+</form>

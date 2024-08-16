@@ -139,62 +139,6 @@ app.get('/igrejas/:id', (req, res) => {
     });
   });
 
-// CRUD APIs for 'produtos'
-app.get('/produtos/codigo/:codigo', (req, res) => {
-    const codigo = req.params.codigo;
-    connection.query('SELECT * FROM produtos WHERE codigo = ?', [codigo], (err, results) => {
-        if (err) {
-            console.error('Error fetching produto by codigo:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-        if (results.length > 0) {
-            res.send(results[0]);
-        } else {
-            res.status(404).send('Produto não encontrado');
-        }
-    });
-});
-
-
-app.post('/produtos', (req, res) => {
-    const produto = req.body;
-    connection.query('INSERT INTO produtos SET ?', produto, (err, results) => {
-        if (err) {
-            console.error('Error inserting produto:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-        res.send(results);
-    });
-});
-
-app.put('/produtos/:id', (req, res) => {
-    const id = req.params.id;
-    const produto = req.body;
-    connection.query('UPDATE produtos SET ? WHERE id = ?', [produto, id], (err, results) => {
-        if (err) {
-            console.error('Error updating produto:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-        res.send(results);
-    });
-});
-
-app.delete('/produtos/:id', (req, res) => {
-    const id = req.params.id;
-    connection.query('DELETE FROM produtos WHERE id = ?', [id], (err, results) => {
-        if (err) {
-            console.error('Error deleting produto:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-        res.send(results);
-    });
-});
-
-
 // CRUD APIs for 'estados'
 app.get('/estados', (req, res) => {
     connection.query('SELECT * FROM estados', (err, results) => {
@@ -264,7 +208,76 @@ app.delete('/cidades/:id', (req, res) => {
         res.send(results);
     });
 });
+// CRUD APIs for 'produtos'
 
+// Get all products
+app.get('/produtos', (req, res) => {
+    const query = 'SELECT * FROM produtos';
+    connection.query(query, (err, results) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.json(results);
+      }
+    });
+});
+
+// Get a single product by ID
+app.get('/produtos/:id', (req, res) => {
+    const id = req.params.id;
+    const query = 'SELECT * FROM produtos WHERE id = ?';
+    connection.query(query, [id], (err, results) => {
+      if (err) {
+        res.status(500).send(err);
+      } else if (results.length > 0) {
+        res.json(results[0]);
+      } else {
+        res.status(404).send('Produto não encontrado');
+      }
+    });
+});
+
+// Create a new product
+app.post('/produtos', (req, res) => {
+    const produto = req.body;
+    const query = 'INSERT INTO produtos SET ?';
+    connection.query(query, produto, (err, results) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.status(201).send({ id: results.insertId, ...produto });
+      }
+    });
+});
+
+// Update an existing product by ID
+app.put('/produtos/:id', (req, res) => {
+    const id = req.params.id;
+    const produto = req.body;
+    const query = 'UPDATE produtos SET ? WHERE id = ?';
+    connection.query(query, [produto, id], (err, results) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.send('Produto atualizado com sucesso');
+      }
+    });
+});
+
+// Delete a product by ID
+app.delete('/produtos/:id', (req, res) => {
+    const id = req.params.id;
+    const query = 'DELETE FROM produtos WHERE id = ?';
+    connection.query(query, [id], (err, results) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.send('Produto deletado com sucesso');
+      }
+    });
+});
+
+  
 // CRUD APIs for 'fornecedor'
 app.get('/fornecedores', (req, res) => {
     connection.query('SELECT * FROM fornecedor', (err, results) => {
@@ -362,6 +375,78 @@ app.delete('/users/:id', (req, res) => {
         res.send(results);
     });
 });
+
+// CRUD APIs for 'categoria'
+
+// Get all categories
+app.get('/categorias', (req, res) => {
+    connection.query('SELECT * FROM categoria', (err, results) => {
+        if (err) {
+            console.error('Error fetching categories:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.send(results);
+    });
+});
+
+// Get a single category by ID
+app.get('/categorias/:id', (req, res) => {
+    const id = req.params.id;
+    connection.query('SELECT * FROM categoria WHERE id = ?', [id], (err, results) => {
+        if (err) {
+            console.error('Error fetching category:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        if (results.length > 0) {
+            res.send(results[0]);
+        } else {
+            res.status(404).send('Categoria not found');
+        }
+    });
+});
+
+// Create a new category
+app.post('/categorias', (req, res) => {
+    const categoria = req.body;
+    connection.query('INSERT INTO categoria SET ?', categoria, (err, results) => {
+        if (err) {
+            console.error('Error inserting categoria:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.send(results);
+    });
+});
+
+// Update an existing category by ID
+app.put('/categorias/:id', (req, res) => {
+    const id = req.params.id;
+    const categoria = req.body;
+    connection.query('UPDATE categoria SET ? WHERE id = ?', [categoria, id], (err, results) => {
+        if (err) {
+            console.error('Error updating categoria:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.send(results);
+    });
+});
+
+// Delete a category by ID
+app.delete('/categorias/:id', (req, res) => {
+    const id = req.params.id;
+    connection.query('DELETE FROM categoria WHERE id = ?', [id], (err, results) => {
+        if (err) {
+            console.error('Error deleting categoria:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.send(results);
+    });
+});
+
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

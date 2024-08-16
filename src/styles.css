@@ -235,3 +235,56 @@ table {
   text-align: right;
   margin-top: 16px;
 }
+.produto-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nome {
+  flex: 0 0 80%;
+}
+
+.volume {
+  flex: 0 0 18%; /* deixando 2% para espaçamento */
+}
+
+.codigo-barras {
+  flex: 0 0 48%;
+}
+
+.categoria {
+  flex: 0 0 48%;
+}
+
+.marca {
+  flex: 0 0 48%;
+}
+
+.fornecedor {
+  flex: 0 0 48%;
+}
+
+.observacao {
+  flex: 0 0 70%;
+}
+.save-button {
+  width: fit-content; /* Ajusta a largura do botão ao conteúdo */
+  min-width: initial; /* Remove a largura mínima imposta pelo Angular Material */
+  padding: 6px 16px; /* Define um espaçamento interno padrão */
+  margin-top: 10px; /* Adiciona um espaço superior para separar o botão dos outros elementos */
+}
+.success-message {
+  color: green;
+  margin-bottom: 15px;
+}
+.mat-column-nome {
+  max-width: 200px; /* Ajuste a largura máxima conforme necessário */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

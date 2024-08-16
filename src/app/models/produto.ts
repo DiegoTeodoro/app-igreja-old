@@ -1,11 +1,10 @@
 export interface Produto {
-  id?: number;
-  codigo: string;
+  id?: number | null;
   nome: string;
   marca: string;
-  fornecedor: string;
-  codigo_barra: string;
-  categoria_id: number;
+  codigo_barras: string;
   volume: string;
-  observacao: string;
+  categoria_id?: number | null;
+  fornecedor_id?: number | null;
+  observacao?: string;
 }

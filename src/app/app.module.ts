@@ -24,11 +24,7 @@ import { UserComponent } from './usuario/usuario.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 import { CategoriaComponent } from './categoria/categoria.component';
-import { ProdutoComponent } from './produto/produto.component';
-import { ProdutoCadastroComponent } from './produto/produto-cadastro/produto-cadastro.component';
-import { ProdutoConsultaComponent } from './produto/produto-consulta/produto-consulta.component';
 import { ReactiveFormsModule } from '@angular/forms';
-
 import { EstadoService } from './estado.service';
 import { CidadeService } from './cidade.service';
 import { FornecedorService } from './fornecedor.service';
@@ -39,8 +35,11 @@ import { IgrejaComponent } from './igreja/igreja.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FornecedorComponent } from './fornecedor/fornecedor.component';
-
-
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ConfirmDialog, ConsultaProdutoComponent } from './consulta-produto/consulta-produto.component';
+import { DeleteDialogComponent } from './categoria/delete-dialog.component';
+import { CadastroProdutoComponent } from './cadastro-produto/cadastro-produto.component';
+import { CadastroTransportadoraComponent } from './cadastro-transportadora/cadastro-transportadora.component'
 
 @NgModule({
   declarations: [
@@ -49,18 +48,17 @@ import { FornecedorComponent } from './fornecedor/fornecedor.component';
     HomeComponent,
     UserComponent,
     CategoriaComponent,
-    ProdutoComponent,
-    ProdutoCadastroComponent,
-    ProdutoConsultaComponent,
     EstadoComponent,
     CidadeComponent,
     LoginComponent,
     IgrejaComponent,
     ConfirmDialogComponent,
-    FornecedorComponent
-    
-    
-
+    FornecedorComponent,
+    ConsultaProdutoComponent,
+    DeleteDialogComponent,
+    CadastroProdutoComponent,
+    ConfirmDialog,
+    CadastroTransportadoraComponent,
   ],
   imports: [
     BrowserModule,
@@ -84,7 +82,12 @@ import { FornecedorComponent } from './fornecedor/fornecedor.component';
     MatSnackBarModule,
     RouterModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatAutocompleteModule,
+  ],
+
+  entryComponents: [
+    DeleteDialogComponent
   ],
   providers: [ EstadoService,
     CidadeService,

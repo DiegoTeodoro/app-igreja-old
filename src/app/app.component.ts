@@ -17,6 +17,9 @@ export class AppComponent {
       links: [
         { title: 'Igreja', route: '/igreja' },
         { title: 'Setor', route: '/setor' },
+        { title: 'Cadastro de Produto', route: '/cadastro-produto' },
+        { title: 'Produto-consulta', route: '/consulta-produto' },
+        { title: 'Categoria', route: '/categoria' },
         { title: 'Usuário', route: '/usuario' },
         { title: 'Fornecedor', route: '/fornecedor' },
         { title: 'Cidade', route: '/cidade' },
@@ -24,16 +27,10 @@ export class AppComponent {
       ]
     },
     {
-      title: 'Produto',
-      links: [
-        { title: 'Cadastro de Produto', route: '/produto/cadastro' },
-        { title: 'Consulta de Produto', route: '/produto/consulta' }
-      ]
-    },
-    {
       title: 'Financeiro',
       links: [
-        { title: 'Entrada de Nota', route: '/financeiro/entrada' }
+        { title: 'Entrada de Nota', route: '/financeiro/entrada' },
+        { title: 'Transportadora', route: '/cadastro-transportadora' }
       ]
     }
   ];

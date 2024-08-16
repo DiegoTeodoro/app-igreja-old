@@ -1,12 +1,11 @@
 <mat-card>
-    <form (ngSubmit)="onSubmit()">
-      <mat-form-field>
-        <input matInput placeholder="Username" [(ngModel)]="newUser.username" name="username" required>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput type="password" placeholder="Password" [(ngModel)]="newUser.password" name="password" required>
-      </mat-form-field>
-      <button mat-button mat-raised-button color="primary" type="submit">Salvar</button>
-    </form>
-  
-  
+  <form (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <input matInput placeholder="Username" [(ngModel)]="newUser.username" name="username" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="password" placeholder="Password" [(ngModel)]="newUser.password" name="password" required>
+    </mat-form-field>
+    <button mat-button mat-raised-button color="primary" type="submit">Salvar</button>
+  </form>
+</mat-card>

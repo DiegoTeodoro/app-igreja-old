@@ -1,0 +1,104 @@
+<form [formGroup]="transportadoraForm" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="nome">
+        <mat-label>Razão Social</mat-label>
+        <input matInput formControlName="razao_social" required>
+      </mat-form-field>
+    </div>
+  
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="nome">
+        <mat-label>Nome Fantasia</mat-label>
+        <input matInput formControlName="nome_fantasia">
+      </mat-form-field>
+    </div>
+  
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="nome">
+        <mat-label>CNPJ</mat-label>
+        <input matInput formControlName="cnpj" required>
+      </mat-form-field>
+    </div>
+  
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="nome">
+        <mat-label>Inscrição Estadual</mat-label>
+        <input matInput formControlName="inscricao_estadual">
+      </mat-form-field>
+    </div>
+  
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="nome">
+        <mat-label>Telefone Fixo</mat-label>
+        <input matInput formControlName="telefone_fixo">
+      </mat-form-field>
+    </div>
+  
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="nome">
+        <mat-label>Telefone Celular</mat-label>
+        <input matInput formControlName="telefone_celular">
+      </mat-form-field>
+    </div>
+  
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="nome">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email">
+      </mat-form-field>
+    </div>
+  
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="nome">
+        <mat-label>Logradouro</mat-label>
+        <input matInput formControlName="logradouro">
+      </mat-form-field>
+    </div>
+  
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="nome">
+        <mat-label>Número</mat-label>
+        <input matInput formControlName="numero">
+      </mat-form-field>
+    </div>
+  
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="nome">
+        <mat-label>Complemento</mat-label>
+        <input matInput formControlName="complemento">
+      </mat-form-field>
+    </div>
+  
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="nome">
+        <mat-label>Bairro</mat-label>
+        <input matInput formControlName="bairro">
+      </mat-form-field>
+    </div>
+  
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="nome">
+        <mat-label>CEP</mat-label>
+        <input matInput formControlName="cep">
+      </mat-form-field>
+    </div>
+  
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="nome">
+        <mat-label>Cidade</mat-label>
+        <input matInput formControlName="cidade_codigo">
+      </mat-form-field>
+    </div>
+  
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="nome">
+        <mat-label>UF</mat-label>
+        <input matInput formControlName="uf_codigo">
+      </mat-form-field>
+    </div>
+  
+    <div class="form-row">
+      <button mat-raised-button color="primary" type="submit">Salvar</button>
+    </div>
+  </form>
+  
