@@ -327,11 +327,11 @@ app.delete('/fornecedores/:id', (req, res) => {
     });
 });
 
-// CRUD APIs for 'users'
-app.get('/users', (req, res) => {
-    connection.query('SELECT * FROM users', (err, results) => {
+// CRUD APIs for 'usuario'
+app.get('/usuarios', (req, res) => {
+    connection.query('SELECT * FROM usuario', (err, results) => {
         if (err) {
-            console.error('Error fetching users:', err);
+            console.error('Error fetching usuario:', err);
             res.status(500).send('Internal Server Error');
             return;
         }
@@ -339,11 +339,11 @@ app.get('/users', (req, res) => {
     });
 });
 
-app.post('/users', (req, res) => {
-    const user = req.body;
-    connection.query('INSERT INTO users SET ?', user, (err, results) => {
+app.post('/usuarios', (req, res) => {
+    const usuario = req.body;
+    connection.query('INSERT INTO usuario SET ?', user, (err, results) => {
         if (err) {
-            console.error('Error inserting user:', err);
+            console.error('Error inserting usuario:', err);
             res.status(500).send('Internal Server Error');
             return;
         }
@@ -351,12 +351,12 @@ app.post('/users', (req, res) => {
     });
 });
 
-app.put('/users/:id', (req, res) => {
+app.put('/usuarios/:id', (req, res) => {
     const id = req.params.id;
-    const user = req.body;
-    connection.query('UPDATE users SET ? WHERE id = ?', [user, id], (err, results) => {
+    const usuarios = req.body;
+    connection.query('UPDATE usuario SET ? WHERE id = ?', [user, id], (err, results) => {
         if (err) {
-            console.error('Error updating user:', err);
+            console.error('Error updating usuario:', err);
             res.status(500).send('Internal Server Error');
             return;
         }
@@ -364,11 +364,11 @@ app.put('/users/:id', (req, res) => {
     });
 });
 
-app.delete('/users/:id', (req, res) => {
+app.delete('/usuarios/:id', (req, res) => {
     const id = req.params.id;
-    connection.query('DELETE FROM users WHERE id = ?', [id], (err, results) => {
+    connection.query('DELETE FROM usuario WHERE id = ?', [id], (err, results) => {
         if (err) {
-            console.error('Error deleting user:', err);
+            console.error('Error deleting usuario:', err);
             res.status(500).send('Internal Server Error');
             return;
         }
@@ -446,14 +446,56 @@ app.delete('/categorias/:id', (req, res) => {
         res.send(results);
     });
 });
-
-
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+// CRUD APIs for 'transportadora'
+app.get('/transportadora', (req, res) => {
+    connection.query('SELECT * FROM transportadoras', (err, results) => {
+        if (err) {
+            console.error('Error fetching transportadoras:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.send(results);
+    });
 });
-// As demais APIs seguem o mesmo padrão de tratamento de erro
 
-const server = app.listen(port, () => {
+app.post('/transportadora', (req, res) => {
+    const transportadora = req.body;  // Corrigido de 'fornecedor' para 'transportadora'
+    connection.query('INSERT INTO transportadoras SET ?', transportadora, (err, results) => {
+        if (err) {
+            console.error('Error inserting transportadora:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.send(results);
+    });
+});
+
+app.put('/transportadora/:id', (req, res) => {
+    const id = req.params.id;
+    const transportadora = req.body;  // Corrigido de 'fornecedor' para 'transportadora'
+    connection.query('UPDATE transportadoras SET ? WHERE id = ?', [transportadora, id], (err, results) => {
+        if (err) {
+            console.error('Error updating transportadora:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.send(results);
+    });
+});
+
+app.delete('/transportadora/:id', (req, res) => {
+    const id = req.params.id;
+    connection.query('DELETE FROM transportadoras WHERE id = ?', [id], (err, results) => {
+        if (err) {
+            console.error('Error deleting transportadora:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.send(results);
+    });
+});
+
+const server = app.listen(port, () => {  // Mantido apenas uma chamada para app.listen
     console.log(`Server running on port ${port}`);
 });
 

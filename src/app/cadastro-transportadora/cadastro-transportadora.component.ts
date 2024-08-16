@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Transportadora } from '../models/transportadora';
 
 @Component({
   selector: 'app-cadastro-transportadora',
@@ -8,6 +9,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class CadastroTransportadoraComponent implements OnInit {
   transportadoraForm: FormGroup;
+  transportadoraService: any;
 
   constructor(private fb: FormBuilder) {
     this.transportadoraForm = this.fb.group({
@@ -32,8 +34,11 @@ export class CadastroTransportadoraComponent implements OnInit {
 
   onSubmit(): void {
     if (this.transportadoraForm.valid) {
-      console.log(this.transportadoraForm.value);
-      // Aqui você pode adicionar a lógica para salvar os dados no banco de dados.
+      const transportadora: Transportadora = this.transportadoraForm.value;
+      this.transportadoraService.createTransportadora(transportadora).subscribe((response: any) => {
+        console.log('Transportadora criada com sucesso!', response);
+        this.transportadoraForm.reset(); // Limpa o formulário após o sucesso
+      });
     }
   }
 }

@@ -1,70 +1,62 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../user.service';
-import { User } from '../models/user';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UsuarioService } from '../usuario.service';
+import { Usuario } from '../models/usuario';
+
 @Component({
-  selector: 'app-user',
-  templateUrl: './usuario.component.html',
-  styleUrls: ['./usuario.component.css']
+  selector: 'app-usuario',
+  templateUrl: './usuario.component.html'
 })
-export class UserComponent implements OnInit {
-  users: User[] = [];
-  newUser: User = { username: '', password: '' };
- 
+export class UsuarioComponent implements OnInit {
+  newUser: Usuario = {
+    nome: '',
+    senha: ''
+  };
+  usuarios: Usuario[] = [];
+  displayedColumns: string[] = ['nome', 'senha', 'acoes'];
 
-  constructor(private userService: UserService, private snackBar: MatSnackBar) { }
+  constructor(private usuarioService: UsuarioService) {}
 
-
-  ngOnInit() {
-    this.loadUsers();
-  }
-
-  loadUsers() {
-    this.userService.getUsers().subscribe(data => {
-      this.users = data;
-    });
+  ngOnInit(): void {
+    this.loadUsuarios();
   }
 
   onSubmit() {
-    if (this.newUser.username && this.newUser.password) {
-      this.userService.createUser(this.newUser).subscribe({
-        next: (response) => {
-          console.log('Usuário criado com sucesso', response);
-          this.loadUsers();
-          this.resetForm(); 
-          this.snackBar.open('Cadastro realizado com sucesso!', 'Fechar', {
-            duration: 3000,
-            verticalPosition: 'top'
-          });
-        },
-        error: (error) => {
-          console.error('Erro ao criar usuário', error);
-          this.snackBar.open('Erro ao criar usuário!', 'Fechar', {
-            duration: 3000,
-            verticalPosition: 'top'
-          });
-        }
-      });
-    } else {
-      this.snackBar.open('Dados do formulário inválidos', 'Fechar', {
-        duration: 3000,
-        verticalPosition: 'top'
-      });
-    }
-  }
-  
-  // Definição da função resetForm para limpar o formulário
-  resetForm() {
-    this.newUser = { username: '', password: '' };  // Reset the newUser object to its initial state
+    this.usuarioService.createUsuario(this.newUser).subscribe(
+      response => {
+        console.log('Usuário salvo com sucesso!', response);
+        this.loadUsuarios();
+        this.newUser = { nome: '', senha: '' }; // Limpar o formulário após o salvamento
+      },
+      error => {
+        console.error('Erro ao salvar o usuário!', error);
+      }
+    );
   }
 
-  editUser(user: User) {
-    this.newUser = { ...user };
+  loadUsuarios() {
+    this.usuarioService.getUsuarios().subscribe(
+      data => {
+        this.usuarios = data;
+      },
+      error => {
+        console.error('Erro ao carregar os usuários!', error);
+      }
+    );
   }
 
-  deleteUser(id: number) {
-    this.userService.deleteUser(id).subscribe(() => {
-      this.loadUsers();
-    });
+  editarUsuario(usuario: Usuario) {
+    this.newUser = { ...usuario }; // Preenche o formulário com os dados do usuário
+  }
+
+  deletarUsuario(id: number) {
+    this.usuarioService.deleteUsuario(id).subscribe(
+      () => {
+        console.log('Usuário deletado com sucesso!');
+        this.loadUsuarios(); // Recarrega a lista de usuários após a exclusão
+      },
+      error => {
+        console.error('Erro ao deletar o usuário!', error);
+      }
+    );
   }
 }

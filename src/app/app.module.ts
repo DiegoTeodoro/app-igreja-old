@@ -20,7 +20,6 @@ import { SetorComponent } from './setor/setor.component';
 import { HomeComponent } from './home/home.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { UserComponent } from './usuario/usuario.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 import { CategoriaComponent } from './categoria/categoria.component';
@@ -30,7 +29,6 @@ import { CidadeService } from './cidade.service';
 import { FornecedorService } from './fornecedor.service';
 import { EstadoComponent } from './estados/estados.component';
 import { CidadeComponent } from './cidades/cidades.component';
-import { LoginComponent } from './login/login.component';
 import { IgrejaComponent } from './igreja/igreja.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -39,18 +37,17 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ConfirmDialog, ConsultaProdutoComponent } from './consulta-produto/consulta-produto.component';
 import { DeleteDialogComponent } from './categoria/delete-dialog.component';
 import { CadastroProdutoComponent } from './cadastro-produto/cadastro-produto.component';
-import { CadastroTransportadoraComponent } from './cadastro-transportadora/cadastro-transportadora.component'
+import { CadastroTransportadoraComponent } from './cadastro-transportadora/cadastro-transportadora.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     SetorComponent,
     HomeComponent,
-    UserComponent,
     CategoriaComponent,
     EstadoComponent,
     CidadeComponent,
-    LoginComponent,
     IgrejaComponent,
     ConfirmDialogComponent,
     FornecedorComponent,
@@ -59,6 +56,8 @@ import { CadastroTransportadoraComponent } from './cadastro-transportadora/cadas
     CadastroProdutoComponent,
     ConfirmDialog,
     CadastroTransportadoraComponent,
+  
+    
   ],
   imports: [
     BrowserModule,
@@ -84,6 +83,7 @@ import { CadastroTransportadoraComponent } from './cadastro-transportadora/cadas
     ReactiveFormsModule,
     MatDialogModule,
     MatAutocompleteModule,
+
   ],
 
   entryComponents: [
