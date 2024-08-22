@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+  }
+  
+  mat-card {
+    width: 400px;
+  }
+  
+  .form-field {
+    margin-bottom: 16px;
+  }
+  .sucesso-mensagem {
+    color: green;
+    margin-top: 10px;
+    font-weight: bold;
+    text-align: center;
+  }
+  

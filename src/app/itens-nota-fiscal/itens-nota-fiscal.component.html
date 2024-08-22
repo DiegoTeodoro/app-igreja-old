@@ -1,0 +1,79 @@
+<form [formGroup]="itensNotaFiscalForm">
+    <mat-form-field>
+      <mat-label>Nota Fiscal ID</mat-label>
+      <input matInput formControlName="nota_fiscal_id" type="number">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Produto ID</mat-label>
+      <input matInput formControlName="produto_id" type="number">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Quantidade</mat-label>
+      <input matInput formControlName="quantidade" type="number">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Valor Unitário</mat-label>
+      <input matInput formControlName="valor_unitario" type="number">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Código NCM</mat-label>
+      <input matInput formControlName="codigo_ncm">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>CFOP</mat-label>
+      <input matInput formControlName="cfop">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Base Cálculo ICMS</mat-label>
+      <input matInput formControlName="base_calculo_icms" type="number">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Valor ICMS</mat-label>
+      <input matInput formControlName="valor_icms" type="number">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Alíquota ICMS (%)</mat-label>
+      <input matInput formControlName="aliquota_icms" type="number">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Valor IPI</mat-label>
+      <input matInput formControlName="valor_ipi" type="number">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Alíquota IPI (%)</mat-label>
+      <input matInput formControlName="aliquota_ipi" type="number">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Valor PIS</mat-label>
+      <input matInput formControlName="valor_pis" type="number">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Alíquota PIS (%)</mat-label>
+      <input matInput formControlName="aliquota_pis" type="number">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Valor COFINS</mat-label>
+      <input matInput formControlName="valor_cofins" type="number">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Alíquota COFINS (%)</mat-label>
+      <input matInput formControlName="aliquota_cofins" type="number">
+    </mat-form-field>
+  
+    <button mat-raised-button (click)="onSave()">Salvar</button>
+  </form>
+  

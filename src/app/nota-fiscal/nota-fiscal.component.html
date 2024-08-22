@@ -1,0 +1,69 @@
+<form [formGroup]="notaFiscalForm">
+    <mat-form-field>
+      <mat-label>Número da Nota</mat-label>
+      <input matInput formControlName="numero_nota">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Série</mat-label>
+      <input matInput formControlName="serie">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Chave de Acesso</mat-label>
+      <input matInput formControlName="chave_acesso">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Data de Emissão</mat-label>
+      <input matInput formControlName="data_emissao" type="date">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Data de Saída</mat-label>
+      <input matInput formControlName="data_saida" type="date">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Hora de Saída</mat-label>
+      <input matInput formControlName="hora_saida" type="time">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Natureza da Operação</mat-label>
+      <input matInput formControlName="natureza_operacao">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Modalidade de Frete</mat-label>
+      <input matInput formControlName="modalidade_frete">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Valor Total</mat-label>
+      <input matInput formControlName="valor_total" type="number">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Valor do Frete</mat-label>
+      <input matInput formControlName="valor_frete" type="number">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Valor do Seguro</mat-label>
+      <input matInput formControlName="valor_seguro" type="number">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Valor do Desconto</mat-label>
+      <input matInput formControlName="valor_desconto" type="number">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Observações</mat-label>
+      <textarea matInput formControlName="observacoes"></textarea>
+    </mat-form-field>
+  
+    <button mat-raised-button (click)="onSave()">Salvar</button>
+  </form>
+  

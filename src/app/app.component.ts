@@ -20,10 +20,10 @@ export class AppComponent {
         { title: 'Cadastro de Produto', route: '/cadastro-produto' },
         { title: 'Produto-consulta', route: '/consulta-produto' },
         { title: 'Categoria', route: '/categoria' },
-        { title: 'Usuário', route: '/usuario' },
         { title: 'Fornecedor', route: '/fornecedor' },
         { title: 'Cidade', route: '/cidade' },
-        { title: 'Estado', route: '/estado' }
+        { title: 'Estado', route: '/estado' },
+        { title: 'Usuário', route: '/cadastro-usuario' }
       ]
     },
     {

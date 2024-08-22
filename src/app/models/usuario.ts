@@ -1,6 +1,6 @@
 export interface Usuario {
-    id?: number;
-    nome: string;
-    senha: string;
-  }
-  
+  id: number;
+  login: string;
+  senha?: string;
+  token?: string;  // Certifique-se de que essa linha está presente
+}

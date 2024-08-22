@@ -327,58 +327,8 @@ app.delete('/fornecedores/:id', (req, res) => {
     });
 });
 
-// CRUD APIs for 'usuario'
-app.get('/usuarios', (req, res) => {
-    connection.query('SELECT * FROM usuario', (err, results) => {
-        if (err) {
-            console.error('Error fetching usuario:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-        res.send(results);
-    });
-});
-
-app.post('/usuarios', (req, res) => {
-    const usuario = req.body;
-    connection.query('INSERT INTO usuario SET ?', user, (err, results) => {
-        if (err) {
-            console.error('Error inserting usuario:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-        res.send(results);
-    });
-});
-
-app.put('/usuarios/:id', (req, res) => {
-    const id = req.params.id;
-    const usuarios = req.body;
-    connection.query('UPDATE usuario SET ? WHERE id = ?', [user, id], (err, results) => {
-        if (err) {
-            console.error('Error updating usuario:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-        res.send(results);
-    });
-});
-
-app.delete('/usuarios/:id', (req, res) => {
-    const id = req.params.id;
-    connection.query('DELETE FROM usuario WHERE id = ?', [id], (err, results) => {
-        if (err) {
-            console.error('Error deleting usuario:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-        res.send(results);
-    });
-});
 
 // CRUD APIs for 'categoria'
-
-// Get all categories
 app.get('/categorias', (req, res) => {
     connection.query('SELECT * FROM categoria', (err, results) => {
         if (err) {
@@ -495,6 +445,100 @@ app.delete('/transportadora/:id', (req, res) => {
     });
 });
 
+// Create (Adicionar um usuário)
+app.post('/usuario', (req, res) => {
+    const { login, senha } = req.body;
+    const query = 'INSERT INTO usuario (login, senha) VALUES (?, ?)';
+    connection.query(query, [login, senha], (err, results) => {
+        if (err) {
+            console.error('Error adding user:', err);
+            res.status(500).send('Error adding user');
+            return;
+        }
+        res.status(201).send({ id: results.insertId, login, senha });
+    });
+});
+
+// Read (Obter todos os usuários)
+app.get('/usuario', (req, res) => {
+    const query = 'SELECT * FROM usuario';
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching users:', err);
+            res.status(500).send('Error fetching users');
+            return;
+        }
+        res.status(200).send(results);
+    });
+});
+
+// Read (Obter um usuário por ID)
+app.get('/usuario/:id', (req, res) => {
+    const { id } = req.params;
+    const query = 'SELECT * FROM usuario WHERE id = ?';
+    connection.query(query, [id], (err, results) => {
+        if (err) {
+            console.error('Error fetching user:', err);
+            res.status(500).send('Error fetching user');
+            return;
+        }
+        if (results.length === 0) {
+            res.status(404).send('User not found');
+            return;
+        }
+        res.status(200).send(results[0]);
+    });
+});
+
+// Update (Atualizar um usuário)
+app.put('/usuario/:id', (req, res) => {
+    const { id } = req.params;
+    const { login, senha } = req.body;
+    const query = 'UPDATE usuario SET login = ?, senha = ? WHERE id = ?';
+    connection.query(query, [login, senha, id], (err) => {
+        if (err) {
+            console.error('Error updating user:', err);
+            res.status(500).send('Error updating user');
+            return;
+        }
+        res.status(200).send('User updated successfully');
+    });
+});
+
+// Delete (Deletar um usuário)
+app.delete('/usuario/:id', (req, res) => {
+    const { id } = req.params;
+    const query = 'DELETE FROM usuario WHERE id = ?';
+    connection.query(query, [id], (err) => {
+        if (err) {
+            console.error('Error deleting user:', err);
+            res.status(500).send('Error deleting user');
+            return;
+        }
+        res.status(200).send('User deleted successfully');
+    });
+});
+
+app.post('/usuario/login', (req, res) => {
+    const { login, senha } = req.body;
+    const query = 'SELECT * FROM usuario WHERE login = ? AND senha = ?';
+    connection.query(query, [login, senha], (err, results) => {
+      if (err) {
+        console.error('Error validating login:', err);
+        res.status(500).send('Internal Server Error');
+        return;
+      }
+      if (results.length > 0) {
+        res.send(results[0]);
+      } else {
+        res.status(401).send('Invalid login or password');
+      }
+    });
+  });
+  
+
+
+
 const server = app.listen(port, () => {  // Mantido apenas uma chamada para app.listen
     console.log(`Server running on port ${port}`);
 });
@@ -505,4 +549,204 @@ server.on('error', (err) => {
     } else {
         throw err;
     }
+});
+
+// Get all notas fiscais
+app.get('/notas-fiscais', (req, res) => {
+    const query = 'SELECT * FROM nota_fiscal';
+    connection.query(query, (err, results) => {
+        if (err) {
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.json(results);
+        }
+    });
+});
+
+// Get a single nota fiscal by ID
+app.get('/notas-fiscais/:id', (req, res) => {
+    const id = req.params.id;
+    const query = 'SELECT * FROM nota_fiscal WHERE id = ?';
+    connection.query(query, [id], (err, results) => {
+        if (err) {
+            res.status(500).send('Internal Server Error');
+        } else if (results.length > 0) {
+            res.json(results[0]);
+        } else {
+            res.status(404).send('Nota Fiscal não encontrada');
+        }
+    });
+});
+
+// Create a new nota fiscal
+app.post('/notas-fiscais', (req, res) => {
+    const notaFiscal = req.body;
+    const query = 'INSERT INTO nota_fiscal SET ?';
+    connection.query(query, notaFiscal, (err, results) => {
+        if (err) {
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.status(201).send({ id: results.insertId, ...notaFiscal });
+        }
+    });
+});
+
+// Update an existing nota fiscal by ID
+app.put('/notas-fiscais/:id', (req, res) => {
+    const id = req.params.id;
+    const notaFiscal = req.body;
+    const query = 'UPDATE nota_fiscal SET ? WHERE id = ?';
+    connection.query(query, [notaFiscal, id], (err, results) => {
+        if (err) {
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.send('Nota Fiscal atualizada com sucesso');
+        }
+    });
+});
+
+// Delete a nota fiscal by ID
+app.delete('/notas-fiscais/:id', (req, res) => {
+    const id = req.params.id;
+    const query = 'DELETE FROM nota_fiscal WHERE id = ?';
+    connection.query(query, [id], (err, results) => {
+        if (err) {
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.send('Nota Fiscal deletada com sucesso');
+        }
+    });
+});
+// Get all notas fiscais
+app.get('/notas-fiscais', (req, res) => {
+    const query = 'SELECT * FROM nota_fiscal';
+    connection.query(query, (err, results) => {
+        if (err) {
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.json(results);
+        }
+    });
+});
+
+// Get a single nota fiscal by ID
+app.get('/notas-fiscais/:id', (req, res) => {
+    const id = req.params.id;
+    const query = 'SELECT * FROM nota_fiscal WHERE id = ?';
+    connection.query(query, [id], (err, results) => {
+        if (err) {
+            res.status(500).send('Internal Server Error');
+        } else if (results.length > 0) {
+            res.json(results[0]);
+        } else {
+            res.status(404).send('Nota Fiscal não encontrada');
+        }
+    });
+});
+
+// Create a new nota fiscal
+app.post('/notas-fiscais', (req, res) => {
+    const notaFiscal = req.body;
+    const query = 'INSERT INTO nota_fiscal SET ?';
+    connection.query(query, notaFiscal, (err, results) => {
+        if (err) {
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.status(201).send({ id: results.insertId, ...notaFiscal });
+        }
+    });
+});
+
+// Update an existing nota fiscal by ID
+app.put('/notas-fiscais/:id', (req, res) => {
+    const id = req.params.id;
+    const notaFiscal = req.body;
+    const query = 'UPDATE nota_fiscal SET ? WHERE id = ?';
+    connection.query(query, [notaFiscal, id], (err, results) => {
+        if (err) {
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.send('Nota Fiscal atualizada com sucesso');
+        }
+    });
+});
+
+// Delete a nota fiscal by ID
+app.delete('/notas-fiscais/:id', (req, res) => {
+    const id = req.params.id;
+    const query = 'DELETE FROM nota_fiscal WHERE id = ?';
+    connection.query(query, [id], (err, results) => {
+        if (err) {
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.send('Nota Fiscal deletada com sucesso');
+        }
+    });
+});
+// Get all items for a specific nota fiscal
+app.get('/itens-nota-fiscal/nota-fiscal/:notaFiscalId', (req, res) => {
+    const notaFiscalId = req.params.notaFiscalId;
+    const query = 'SELECT * FROM itens_nota_fiscal WHERE nota_fiscal_id = ?';
+    connection.query(query, [notaFiscalId], (err, results) => {
+        if (err) {
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.json(results);
+        }
+    });
+});
+
+// Get a single item by ID
+app.get('/itens-nota-fiscal/:id', (req, res) => {
+    const id = req.params.id;
+    const query = 'SELECT * FROM itens_nota_fiscal WHERE id = ?';
+    connection.query(query, [id], (err, results) => {
+        if (err) {
+            res.status(500).send('Internal Server Error');
+        } else if (results.length > 0) {
+            res.json(results[0]);
+        } else {
+            res.status(404).send('Item Nota Fiscal não encontrado');
+        }
+    });
+});
+
+// Create a new item nota fiscal
+app.post('/itens-nota-fiscal', (req, res) => {
+    const itemNotaFiscal = req.body;
+    const query = 'INSERT INTO itens_nota_fiscal SET ?';
+    connection.query(query, itemNotaFiscal, (err, results) => {
+        if (err) {
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.status(201).send({ id: results.insertId, ...itemNotaFiscal });
+        }
+    });
+});
+
+// Update an existing item nota fiscal by ID
+app.put('/itens-nota-fiscal/:id', (req, res) => {
+    const id = req.params.id;
+    const itemNotaFiscal = req.body;
+    const query = 'UPDATE itens_nota_fiscal SET ? WHERE id = ?';
+    connection.query(query, [itemNotaFiscal, id], (err, results) => {
+        if (err) {
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.send('Item Nota Fiscal atualizado com sucesso');
+        }
+    });
+});
+
+// Delete an item nota fiscal by ID
+app.delete('/itens-nota-fiscal/:id', (req, res) => {
+    const id = req.params.id;
+    const query = 'DELETE FROM itens_nota_fiscal WHERE id = ?';
+    connection.query(query, [id], (err, results) => {
+        if (err) {
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.send('Item Nota Fiscal deletado com sucesso');
+        }
+    });
 });

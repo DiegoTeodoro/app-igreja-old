@@ -1,0 +1,33 @@
+<form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()">
+  <mat-card>
+    <mat-card-title>Cadastro de Usuário</mat-card-title>
+    <mat-card-content>
+      <div class="form-group">
+        <mat-form-field appearance="fill">
+          <mat-label>Login</mat-label>
+          <input matInput formControlName="login" required />
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field appearance="fill">
+          <mat-label>Senha</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" formControlName="senha" required />
+          <!-- Prevenir o comportamento padrão de submissão ao clicar no ícone -->
+          <button mat-icon-button matSuffix (click)="togglePasswordVisibility($event)" [attr.aria-label]="'Hide password'">
+            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit">Salvar</button>
+      </mat-card-actions>
+      
+      <!-- Mensagem de Sucesso -->
+      <div *ngIf="sucesso" class="sucesso-mensagem">
+        Cadastro realizado com sucesso!
+      </div>
+    </mat-card-content>
+  </mat-card>
+</form>
