@@ -17,13 +17,18 @@ export class AppComponent {
       links: [
         { title: 'Igreja', route: '/igreja' },
         { title: 'Setor', route: '/setor' },
-        { title: 'Cadastro de Produto', route: '/cadastro-produto' },
-        { title: 'Produto-consulta', route: '/consulta-produto' },
         { title: 'Categoria', route: '/categoria' },
         { title: 'Fornecedor', route: '/fornecedor' },
         { title: 'Cidade', route: '/cidade' },
         { title: 'Estado', route: '/estado' },
         { title: 'Usuário', route: '/cadastro-usuario' }
+      ]
+    },
+    {
+      title: 'Produtos',
+      links: [
+        { title: 'Cadastro de Produto', route: '/cadastro-produto' },
+        { title: 'Produto-consulta', route: '/consulta-produto' }
       ]
     },
     {

@@ -1,0 +1,35 @@
+.header-cell {
+    padding: 2px 2px;
+  }
+  
+  .mat-raised-button, .mat-icon-button {
+    margin: 4px;
+  }
+  
+  ::ng-deep .mat-header-cell {
+    background-color: #438EB9;
+    color: white;
+  }
+  
+  ::ng-deep table.mat-elevation-z8 {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  ::ng-deep .mat-cell, .mat-header-cell {
+    border: 1px solid #ddd;
+  }
+  
+  ::ng-deep tr {
+    border-bottom: 1px solid #ddd;
+  }
+  
+/* Estilo para as células da tabela */
+.mat-cell, .mat-header-cell {
+  border: 1px solid #ddd; /* Cor das bordas */
+}
+
+/* Estilo para as linhas da tabela */
+tr {
+  border-bottom: 1px solid #ddd; /* Cor das bordas entre linhas */
+}
