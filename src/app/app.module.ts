@@ -37,10 +37,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ConfirmDialog, ConsultaProdutoComponent } from './consulta-produto/consulta-produto.component';
 import { DeleteDialogComponent } from './categoria/delete-dialog.component';
 import { CadastroProdutoComponent } from './cadastro-produto/cadastro-produto.component';
-import { CadastroTransportadoraComponent } from './cadastro-transportadora/cadastro-transportadora.component';
 import { CadastroUsuarioComponent } from './cadastro-usuario/cadastro-usuario.component';
-import { ItensNotaFiscalComponent } from './itens-nota-fiscal/itens-nota-fiscal.component';
-import { NotaFiscalComponent } from './nota-fiscal/nota-fiscal.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -57,10 +56,8 @@ import { NotaFiscalComponent } from './nota-fiscal/nota-fiscal.component';
     DeleteDialogComponent,
     CadastroProdutoComponent,
     ConfirmDialog,
-    CadastroTransportadoraComponent,
-    CadastroUsuarioComponent,
-    ItensNotaFiscalComponent,
-    NotaFiscalComponent
+    CadastroUsuarioComponent
+
 
     
   ],
@@ -88,7 +85,8 @@ import { NotaFiscalComponent } from './nota-fiscal/nota-fiscal.component';
     ReactiveFormsModule,
     MatDialogModule,
     MatAutocompleteModule,
-
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
 
   entryComponents: [

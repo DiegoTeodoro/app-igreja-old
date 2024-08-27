@@ -9,7 +9,6 @@ import { CidadeComponent } from './cidades/cidades.component';
 import { FornecedorComponent } from './fornecedor/fornecedor.component';
 import { ConsultaProdutoComponent } from './consulta-produto/consulta-produto.component';
 import { CadastroProdutoComponent } from './cadastro-produto/cadastro-produto.component';
-import { CadastroTransportadoraComponent } from './cadastro-transportadora/cadastro-transportadora.component';
 import { CadastroUsuarioComponent } from './cadastro-usuario/cadastro-usuario.component';
 
 
@@ -26,7 +25,6 @@ const routes: Routes = [
   { path: 'cidade', component: CidadeComponent},
   { path: 'estado', component: EstadoComponent },
   { path: 'categoria', component: CategoriaComponent },
-  { path: 'cadastro-transportadora', component: CadastroTransportadoraComponent},
   { path: 'cadastro-usuario', component: CadastroUsuarioComponent },
 
   

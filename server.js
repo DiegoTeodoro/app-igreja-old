@@ -409,16 +409,23 @@ app.get('/transportadora', (req, res) => {
 });
 
 app.post('/transportadora', (req, res) => {
-    const transportadora = req.body;  // Corrigido de 'fornecedor' para 'transportadora'
+    const transportadora = req.body;
+    
+    if (!transportadora.razao_social || !transportadora.cnpj) {
+      res.status(400).send('Razão social e CNPJ são obrigatórios'); // Verifica campos obrigatórios
+      return;
+    }
+  
     connection.query('INSERT INTO transportadoras SET ?', transportadora, (err, results) => {
-        if (err) {
-            console.error('Error inserting transportadora:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-        res.send(results);
+      if (err) {
+        console.error('Erro ao inserir transportadora:', err);
+        res.status(500).send('Erro no servidor'); // Tratamento de erro no servidor
+        return;
+      }
+      res.send(results);
     });
-});
+  });
+  
 
 app.put('/transportadora/:id', (req, res) => {
     const id = req.params.id;
@@ -551,202 +558,3 @@ server.on('error', (err) => {
     }
 });
 
-// Get all notas fiscais
-app.get('/notas-fiscais', (req, res) => {
-    const query = 'SELECT * FROM nota_fiscal';
-    connection.query(query, (err, results) => {
-        if (err) {
-            res.status(500).send('Internal Server Error');
-        } else {
-            res.json(results);
-        }
-    });
-});
-
-// Get a single nota fiscal by ID
-app.get('/notas-fiscais/:id', (req, res) => {
-    const id = req.params.id;
-    const query = 'SELECT * FROM nota_fiscal WHERE id = ?';
-    connection.query(query, [id], (err, results) => {
-        if (err) {
-            res.status(500).send('Internal Server Error');
-        } else if (results.length > 0) {
-            res.json(results[0]);
-        } else {
-            res.status(404).send('Nota Fiscal não encontrada');
-        }
-    });
-});
-
-// Create a new nota fiscal
-app.post('/notas-fiscais', (req, res) => {
-    const notaFiscal = req.body;
-    const query = 'INSERT INTO nota_fiscal SET ?';
-    connection.query(query, notaFiscal, (err, results) => {
-        if (err) {
-            res.status(500).send('Internal Server Error');
-        } else {
-            res.status(201).send({ id: results.insertId, ...notaFiscal });
-        }
-    });
-});
-
-// Update an existing nota fiscal by ID
-app.put('/notas-fiscais/:id', (req, res) => {
-    const id = req.params.id;
-    const notaFiscal = req.body;
-    const query = 'UPDATE nota_fiscal SET ? WHERE id = ?';
-    connection.query(query, [notaFiscal, id], (err, results) => {
-        if (err) {
-            res.status(500).send('Internal Server Error');
-        } else {
-            res.send('Nota Fiscal atualizada com sucesso');
-        }
-    });
-});
-
-// Delete a nota fiscal by ID
-app.delete('/notas-fiscais/:id', (req, res) => {
-    const id = req.params.id;
-    const query = 'DELETE FROM nota_fiscal WHERE id = ?';
-    connection.query(query, [id], (err, results) => {
-        if (err) {
-            res.status(500).send('Internal Server Error');
-        } else {
-            res.send('Nota Fiscal deletada com sucesso');
-        }
-    });
-});
-// Get all notas fiscais
-app.get('/notas-fiscais', (req, res) => {
-    const query = 'SELECT * FROM nota_fiscal';
-    connection.query(query, (err, results) => {
-        if (err) {
-            res.status(500).send('Internal Server Error');
-        } else {
-            res.json(results);
-        }
-    });
-});
-
-// Get a single nota fiscal by ID
-app.get('/notas-fiscais/:id', (req, res) => {
-    const id = req.params.id;
-    const query = 'SELECT * FROM nota_fiscal WHERE id = ?';
-    connection.query(query, [id], (err, results) => {
-        if (err) {
-            res.status(500).send('Internal Server Error');
-        } else if (results.length > 0) {
-            res.json(results[0]);
-        } else {
-            res.status(404).send('Nota Fiscal não encontrada');
-        }
-    });
-});
-
-// Create a new nota fiscal
-app.post('/notas-fiscais', (req, res) => {
-    const notaFiscal = req.body;
-    const query = 'INSERT INTO nota_fiscal SET ?';
-    connection.query(query, notaFiscal, (err, results) => {
-        if (err) {
-            res.status(500).send('Internal Server Error');
-        } else {
-            res.status(201).send({ id: results.insertId, ...notaFiscal });
-        }
-    });
-});
-
-// Update an existing nota fiscal by ID
-app.put('/notas-fiscais/:id', (req, res) => {
-    const id = req.params.id;
-    const notaFiscal = req.body;
-    const query = 'UPDATE nota_fiscal SET ? WHERE id = ?';
-    connection.query(query, [notaFiscal, id], (err, results) => {
-        if (err) {
-            res.status(500).send('Internal Server Error');
-        } else {
-            res.send('Nota Fiscal atualizada com sucesso');
-        }
-    });
-});
-
-// Delete a nota fiscal by ID
-app.delete('/notas-fiscais/:id', (req, res) => {
-    const id = req.params.id;
-    const query = 'DELETE FROM nota_fiscal WHERE id = ?';
-    connection.query(query, [id], (err, results) => {
-        if (err) {
-            res.status(500).send('Internal Server Error');
-        } else {
-            res.send('Nota Fiscal deletada com sucesso');
-        }
-    });
-});
-// Get all items for a specific nota fiscal
-app.get('/itens-nota-fiscal/nota-fiscal/:notaFiscalId', (req, res) => {
-    const notaFiscalId = req.params.notaFiscalId;
-    const query = 'SELECT * FROM itens_nota_fiscal WHERE nota_fiscal_id = ?';
-    connection.query(query, [notaFiscalId], (err, results) => {
-        if (err) {
-            res.status(500).send('Internal Server Error');
-        } else {
-            res.json(results);
-        }
-    });
-});
-
-// Get a single item by ID
-app.get('/itens-nota-fiscal/:id', (req, res) => {
-    const id = req.params.id;
-    const query = 'SELECT * FROM itens_nota_fiscal WHERE id = ?';
-    connection.query(query, [id], (err, results) => {
-        if (err) {
-            res.status(500).send('Internal Server Error');
-        } else if (results.length > 0) {
-            res.json(results[0]);
-        } else {
-            res.status(404).send('Item Nota Fiscal não encontrado');
-        }
-    });
-});
-
-// Create a new item nota fiscal
-app.post('/itens-nota-fiscal', (req, res) => {
-    const itemNotaFiscal = req.body;
-    const query = 'INSERT INTO itens_nota_fiscal SET ?';
-    connection.query(query, itemNotaFiscal, (err, results) => {
-        if (err) {
-            res.status(500).send('Internal Server Error');
-        } else {
-            res.status(201).send({ id: results.insertId, ...itemNotaFiscal });
-        }
-    });
-});
-
-// Update an existing item nota fiscal by ID
-app.put('/itens-nota-fiscal/:id', (req, res) => {
-    const id = req.params.id;
-    const itemNotaFiscal = req.body;
-    const query = 'UPDATE itens_nota_fiscal SET ? WHERE id = ?';
-    connection.query(query, [itemNotaFiscal, id], (err, results) => {
-        if (err) {
-            res.status(500).send('Internal Server Error');
-        } else {
-            res.send('Item Nota Fiscal atualizado com sucesso');
-        }
-    });
-});
-
-// Delete an item nota fiscal by ID
-app.delete('/itens-nota-fiscal/:id', (req, res) => {
-    const id = req.params.id;
-    const query = 'DELETE FROM itens_nota_fiscal WHERE id = ?';
-    connection.query(query, [id], (err, results) => {
-        if (err) {
-            res.status(500).send('Internal Server Error');
-        } else {
-            res.send('Item Nota Fiscal deletado com sucesso');
-        }
-    });
-});

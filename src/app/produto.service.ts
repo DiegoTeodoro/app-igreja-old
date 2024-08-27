@@ -10,6 +10,9 @@ import { Fornecedor } from './models/fornecedores';
   providedIn: 'root'
 })
 export class ProdutoService {
+  getProdutosSaldoEstoque() {
+    throw new Error('Method not implemented.');
+  }
   private apiUrl = 'http://localhost:3000/produtos';
 
   constructor(private http: HttpClient) {}

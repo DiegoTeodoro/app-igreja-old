@@ -29,8 +29,7 @@ export class AppComponent {
     {
       title: 'Financeiro',
       links: [
-        { title: 'Entrada de Nota', route: '/financeiro/entrada' },
-        { title: 'Transportadora', route: '/cadastro-transportadora' }
+        { title: 'Entrada de Nota', route: '/financeiro/entrada' }
       ]
     }
   ];
