@@ -10,28 +10,28 @@ import { FornecedorComponent } from './fornecedor/fornecedor.component';
 import { ConsultaProdutoComponent } from './consulta-produto/consulta-produto.component';
 import { CadastroProdutoComponent } from './cadastro-produto/cadastro-produto.component';
 import { CadastroUsuarioComponent } from './cadastro-usuario/cadastro-usuario.component';
-
-
+import { CadastroPedidoComponent } from './cadastro-pedido/cadastro-pedido.component';
 
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent},
-  { path: 'setor', component: SetorComponent},
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
+  { path: 'setor', component: SetorComponent },
   { path: 'igreja', component: IgrejaComponent },
   { path: 'cadastro-produto', component: CadastroProdutoComponent },
-  { path: 'cadastro-produto/:id', component: CadastroProdutoComponent}, // Rota para edição com ID
+  { path: 'cadastro-produto/:id', component: CadastroProdutoComponent },
   { path: 'consulta-produto', component: ConsultaProdutoComponent },
   { path: 'fornecedor', component: FornecedorComponent },
-  { path: 'cidade', component: CidadeComponent},
+  { path: 'cidade', component: CidadeComponent },
   { path: 'estado', component: EstadoComponent },
   { path: 'categoria', component: CategoriaComponent },
   { path: 'cadastro-usuario', component: CadastroUsuarioComponent },
-
-  
+  { path: 'cadastro-pedido', component: CadastroPedidoComponent },
+  { path: '**', redirectTo: '/home' } // Página não encontrada
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

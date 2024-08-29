@@ -1,0 +1,37 @@
+.pedido-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.pedido-form mat-form-field {
+  margin-right: 15px;
+}
+
+.pedido-form .item-container {
+  display: flex;
+  align-items: center;
+}
+
+.pedido-form .item-container mat-form-field {
+  flex: 1;
+}
+
+.pedido-form .item-container .quantidade {
+  flex: 0 0 20%;
+}
+
+.pedido-form .item-container button {
+  margin-left: 10px;
+}
+
+.pedido-form button {
+  width: 150px; /* Defina uma largura fixa ou use flexibilidade */
+  margin-top: 10px; /* Adiciona um pouco de espaçamento superior para o botão */
+}
+
+.status-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 20%;
+}

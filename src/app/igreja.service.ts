@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Igreja, IgrejaDetalhes } from './models/igreja';
 
 @Injectable({
   providedIn: 'root'
@@ -10,21 +11,23 @@ export class IgrejaService {
 
   constructor(private http: HttpClient) {}
 
-  getIgrejas(): Observable<any> {
-    return this.http.get(this.apiUrl);
-  }
-  createIgreja(igreja: any): Observable<any> {
-    return this.http.post(this.apiUrl, igreja);
-  }
-  addIgreja(igreja: any): Observable<any> {
-    return this.http.post(this.apiUrl, igreja);
+  getIgrejas(): Observable<Igreja[]> {
+    return this.http.get<Igreja[]>(this.apiUrl);
   }
 
-  updateIgreja(id: number, igreja: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, igreja);
+  getIgrejaById(id: number): Observable<IgrejaDetalhes> {
+    return this.http.get<IgrejaDetalhes>(`${this.apiUrl}/${id}`);
+  }
+
+  createIgreja(igreja: Igreja): Observable<any> {
+    return this.http.post(this.apiUrl, igreja, { responseType: 'text' });
+  }
+
+  updateIgreja(id: number, igreja: Igreja): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, igreja, { responseType: 'text' });
   }
 
   deleteIgreja(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+    return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' });
   }
 }

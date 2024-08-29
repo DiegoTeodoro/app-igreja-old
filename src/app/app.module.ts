@@ -41,6 +41,10 @@ import { CadastroUsuarioComponent } from './cadastro-usuario/cadastro-usuario.co
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { CadastroPedidoComponent } from './cadastro-pedido/cadastro-pedido.component';
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +60,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     DeleteDialogComponent,
     CadastroProdutoComponent,
     ConfirmDialog,
-    CadastroUsuarioComponent
+    CadastroUsuarioComponent,
+    CadastroPedidoComponent
 
 
     

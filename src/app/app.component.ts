@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 @Component({
@@ -22,6 +23,7 @@ export class AppComponent {
         { title: 'Cidade', route: '/cidade' },
         { title: 'Estado', route: '/estado' },
         { title: 'Usuário', route: '/cadastro-usuario' }
+        
       ]
     },
     {
@@ -34,11 +36,11 @@ export class AppComponent {
     {
       title: 'Financeiro',
       links: [
+        { title: 'Pedido', route: '/cadastro-pedido'},
         { title: 'Entrada de Nota', route: '/financeiro/entrada' }
       ]
     }
   ];
-
   constructor(private router: Router) {
     const today = new Date();
     this.currentDate = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}`;
