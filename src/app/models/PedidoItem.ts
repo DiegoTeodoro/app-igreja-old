@@ -5,4 +5,5 @@ export interface PedidoItem {
     quantidade: number;
     preco_unitario: number;
     desconto: number;
+    valor_total: number;
   }

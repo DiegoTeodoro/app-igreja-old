@@ -5,6 +5,7 @@ import { Produto } from '../models/produto';
 import { Igreja } from '../models/igreja';
 import { Pedido, PedidoItem } from '../models/pedido';
 import { PedidoService } from '../pedido.service';
+import { SaldoEstoqueService } from '../Saldo_Estoque.service';  // Novo serviço para buscar o preço unitário
 
 @Component({
   selector: 'app-cadastro-pedido',
@@ -26,7 +27,12 @@ export class CadastroPedidoComponent implements OnInit {
   quantidade: number = 0;
   displayedColumns: string[] = ['produto', 'quantidade', 'preco_unitario', 'valor_total'];
 
-  constructor(private igrejaService: IgrejaService, private produtoService: ProdutoService, private pedidoService: PedidoService) {}
+  constructor(
+    private igrejaService: IgrejaService, 
+    private produtoService: ProdutoService, 
+    private pedidoService: PedidoService,
+    private saldoEstoqueService: SaldoEstoqueService  // Novo serviço para pegar preço unitário
+  ) {}
 
   ngOnInit(): void {
     this.carregarIgrejas();
@@ -50,22 +56,33 @@ export class CadastroPedidoComponent implements OnInit {
   // Método para adicionar um produto à lista de itens do pedido
   adicionarProduto(): void {
     if (this.produtoSelecionado && this.quantidade > 0) {
-      const item: PedidoItem = {
-        pedido_id: this.pedido.id!,
-        produto_id: this.produtoSelecionado.id,
-        quantidade: this.quantidade,
-        preco_unitario: this.produtoSelecionado.preco,
-        desconto: 0
-      };
-      this.pedido.pedido_itens.push(item);
-      this.calcularValorTotal();
+      const produtoId = this.produtoSelecionado.id;  // Aqui não precisamos mais do operador opcional porque já garantimos que produtoSelecionado não é null.
+  
+      if (produtoId !== null && produtoId !== undefined) {  // Verifica explicitamente se o produtoId é válido
+        // Buscar preço unitário da tabela saldo_estoque
+        this.saldoEstoqueService.getPrecoUnitario(produtoId).subscribe(precoUnitario => {
+          const item: PedidoItem = {
+            pedido_id: this.pedido.id || 0,  // Use 0 como valor padrão até que o id seja definido
+            produto_id: produtoId,
+            quantidade: this.quantidade,
+            preco_unitario: precoUnitario,
+            desconto: 0,
+            valor_total: this.quantidade * precoUnitario  // Calcula o valor total do item
+          };
+          this.pedido.pedido_itens.push(item);  // Adiciona o item ao array de itens do pedido
+          this.calcularValorTotal();  // Atualiza o valor total do pedido
+        });
+      } else {
+        console.error("Produto selecionado não possui ID válido.");
+      }
     }
   }
+  
 
   // Método para calcular o valor total do pedido
   calcularValorTotal(): void {
     this.pedido.valor_total = this.pedido.pedido_itens.reduce((total, item) => {
-      return total + (item.quantidade * item.preco_unitario);
+      return total + item.valor_total;
     }, 0);
   }
 

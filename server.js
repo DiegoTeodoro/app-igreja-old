@@ -543,9 +543,26 @@ app.post('/usuario/login', (req, res) => {
     });
   });
   
-
-
-
+ // Rota para buscar o preço unitário pelo produto_id
+app.get('/saldo-estoque/preco/:produto_id', (req, res) => {
+    const produtoId = req.params.produto_id;
+  
+    // Consulta no banco de dados para buscar o preço unitário baseado no produto_id
+    const query = 'SELECT preco_unitario FROM saldo_estoque WHERE produto_id = ?';
+    
+    connection.query(query, [produtoId], (err, result) => {
+      if (err) {
+        console.error('Erro ao buscar preço unitário:', err);
+        res.status(500).send('Erro ao buscar preço unitário');
+      } else {
+        if (result.length > 0) {
+          res.json({ preco_unitario: result[0].preco_unitario });
+        } else {
+          res.status(404).send('Produto não encontrado no saldo de estoque');
+        }
+      }
+    });
+  });
 const server = app.listen(port, () => {  // Mantido apenas uma chamada para app.listen
     console.log(`Server running on port ${port}`);
 });
