@@ -42,6 +42,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CadastroPedidoComponent } from './cadastro-pedido/cadastro-pedido.component';
+import { CadastroNotaFiscalComponent } from './cadastro-nota-fiscal/cadastro-nota-fiscal.component';
+
 
 
 
@@ -61,7 +63,8 @@ import { CadastroPedidoComponent } from './cadastro-pedido/cadastro-pedido.compo
     CadastroProdutoComponent,
     ConfirmDialog,
     CadastroUsuarioComponent,
-    CadastroPedidoComponent
+    CadastroPedidoComponent,
+    CadastroNotaFiscalComponent
 
 
     

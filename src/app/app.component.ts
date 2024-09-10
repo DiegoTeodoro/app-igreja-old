@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  pageTitle = 'Meu Aplicativo';
+  pageTitle = 'CCLIMP';
   isSidenavOpen = true;
   currentDate: string;
 
@@ -37,7 +37,7 @@ export class AppComponent {
       title: 'Financeiro',
       links: [
         { title: 'Pedido', route: '/cadastro-pedido'},
-        { title: 'Entrada de Nota', route: '/financeiro/entrada' }
+        { title: 'Entrada de Nota', route: '/cadastro-nota-fiscal' }
       ]
     }
   ];
