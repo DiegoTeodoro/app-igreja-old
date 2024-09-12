@@ -1,0 +1,36 @@
+.nota-fiscal-row,
+.nota-fiscal-row-2 {
+  display: flex;
+  gap: 16px; /* Espaçamento entre os campos */
+  align-items: center; /* Alinha os itens verticalmente no centro */
+}
+
+.small-field {
+  flex: 1; /* Define 20% do espaço para Data de Emissão */
+}
+
+.medium-field {
+  flex: 2; /* Define 50% do espaço para Chave de Acesso */
+}
+
+.large-field {
+  flex: 2; /* Define 40% do espaço para Fornecedor e CNPJ */
+}
+
+.item-row {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* Espaçamento entre os campos */
+}
+
+.produto-field {
+  flex: 4; /* Define 40% do espaço para Nome do Produto */
+}
+
+.small-field {
+  flex: 1; /* Define espaço proporcional para os outros campos (20% cada) */
+}
+
+button[mat-icon-button] {
+  margin-left: 8px; /* Espaço entre o botão de deletar e os campos */
+}

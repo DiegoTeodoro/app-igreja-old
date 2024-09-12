@@ -46,7 +46,6 @@ import { CadastroNotaFiscalComponent } from './cadastro-nota-fiscal/cadastro-not
 
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
