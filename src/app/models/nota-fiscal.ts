@@ -6,9 +6,12 @@ export interface NotaFiscal {
     data_emissao: Date;
     valor_total: number;
     valor_total_produtos?: number;
+    outros?: number; // Campo para valor de acréscimos
+    descontos?: number; // Campo para valor de descontos
     fornecedor_id?: number;
     cnpj?: string;
     observacoes?: string;
     created_at?: Date;
     updated_at?: Date;
-}
+  }
+  

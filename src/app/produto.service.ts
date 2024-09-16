@@ -47,5 +47,7 @@ export class ProdutoService {
     return this.http.delete(`http://localhost:3000/produtos/${id}`, { responseType: 'text' });
   }
   
+
+
 }
 

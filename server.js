@@ -396,61 +396,8 @@ app.delete('/categorias/:id', (req, res) => {
         res.send(results);
     });
 });
-// CRUD APIs for 'transportadora'
-app.get('/transportadora', (req, res) => {
-    connection.query('SELECT * FROM transportadoras', (err, results) => {
-        if (err) {
-            console.error('Error fetching transportadoras:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-        res.send(results);
-    });
-});
 
-app.post('/transportadora', (req, res) => {
-    const transportadora = req.body;
-    
-    if (!transportadora.razao_social || !transportadora.cnpj) {
-      res.status(400).send('Razão social e CNPJ são obrigatórios'); // Verifica campos obrigatórios
-      return;
-    }
-  
-    connection.query('INSERT INTO transportadoras SET ?', transportadora, (err, results) => {
-      if (err) {
-        console.error('Erro ao inserir transportadora:', err);
-        res.status(500).send('Erro no servidor'); // Tratamento de erro no servidor
-        return;
-      }
-      res.send(results);
-    });
-  });
-  
 
-app.put('/transportadora/:id', (req, res) => {
-    const id = req.params.id;
-    const transportadora = req.body;  // Corrigido de 'fornecedor' para 'transportadora'
-    connection.query('UPDATE transportadoras SET ? WHERE id = ?', [transportadora, id], (err, results) => {
-        if (err) {
-            console.error('Error updating transportadora:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-        res.send(results);
-    });
-});
-
-app.delete('/transportadora/:id', (req, res) => {
-    const id = req.params.id;
-    connection.query('DELETE FROM transportadoras WHERE id = ?', [id], (err, results) => {
-        if (err) {
-            console.error('Error deleting transportadora:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-        res.send(results);
-    });
-});
 
 // Create (Adicionar um usuário)
 app.post('/usuario', (req, res) => {
@@ -563,6 +510,8 @@ app.get('/saldo-estoque/preco/:produto_id', (req, res) => {
       }
     });
   });
+
+
 const server = app.listen(port, () => {  // Mantido apenas uma chamada para app.listen
     console.log(`Server running on port ${port}`);
 });

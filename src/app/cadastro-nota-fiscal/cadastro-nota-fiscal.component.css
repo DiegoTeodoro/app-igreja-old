@@ -1,36 +1,54 @@
-.nota-fiscal-row,
-.nota-fiscal-row-2 {
+.nota-fiscal-row {
+    display: flex;
+    align-items: center;
+    gap: 5%; /* Espaçamento entre os campos */
+    margin-bottom: 16px; /* Espaçamento inferior entre as linhas do formulário */
+  }
+  
+  .nota-fiscal-row-2 {
+    display: flex;
+    align-items: center;
+    gap: 5%; /* Espaçamento entre os campos */
+    margin-bottom: 16px; /* Espaçamento inferior entre as linhas do formulário */
+  }
+  
+  .large-field {
+    flex: 0 0 30%; /* Define a largura dos campos Fornecedor e CNPJ como 30% */
+    min-width: 150px; /* Largura mínima para evitar que o campo fique muito pequeno */
+  }
+  
+  .small-field {
+    flex: 0 0 20%; /* Define a largura do campo Data de Emissão como 20% */
+    min-width: 100px; /* Largura mínima para evitar que o campo fique muito pequeno */
+  }
+  .item-row {
+    display: flex;
+    align-items: center;
+    gap: 1%; /* Controla o espaçamento entre os campos */
+    margin-bottom: 16px; /* Espaçamento inferior para a seção de adicionar itens */
+  }
+  
+  .nome_produto {
+    flex: 2; /* Define o tamanho relativo do campo Nome */
+  }
+  
+  .quantidade,
+  .valor_unitario,
+  .valor_total {
+    flex: 1; /* Define o tamanho relativo dos campos Quantidade, Valor Unitário e Valor Total */
+  }
+  
+  button {
+    margin-left: 8px; /* Espaçamento à esquerda do botão */
+  }
+  /* Define um contêiner flexível para os campos */
+.nota-fiscal-row-right {
   display: flex;
-  gap: 16px; /* Espaçamento entre os campos */
-  align-items: center; /* Alinha os itens verticalmente no centro */
+  justify-content: flex-end; /* Alinha os campos à direita */
+  gap: 10px; /* Espaçamento entre os campos */
 }
 
-.small-field {
-  flex: 1; /* Define 20% do espaço para Data de Emissão */
-}
-
-.medium-field {
-  flex: 2; /* Define 50% do espaço para Chave de Acesso */
-}
-
-.large-field {
-  flex: 2; /* Define 40% do espaço para Fornecedor e CNPJ */
-}
-
-.item-row {
-  display: flex;
-  align-items: center;
-  gap: 16px; /* Espaçamento entre os campos */
-}
-
-.produto-field {
-  flex: 4; /* Define 40% do espaço para Nome do Produto */
-}
-
-.small-field {
-  flex: 1; /* Define espaço proporcional para os outros campos (20% cada) */
-}
-
-button[mat-icon-button] {
-  margin-left: 8px; /* Espaço entre o botão de deletar e os campos */
+/* Define a largura dos campos "Outros" e "Descontos" */
+.outros, .descontos {
+  flex: 0 0 10%; /* 15% de largura para cada campo */
 }
