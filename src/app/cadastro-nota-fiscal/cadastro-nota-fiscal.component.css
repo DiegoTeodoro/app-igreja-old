@@ -1,54 +1,85 @@
 .nota-fiscal-row {
-    display: flex;
-    align-items: center;
-    gap: 5%; /* Espaçamento entre os campos */
-    margin-bottom: 16px; /* Espaçamento inferior entre as linhas do formulário */
-  }
-  
-  .nota-fiscal-row-2 {
-    display: flex;
-    align-items: center;
-    gap: 5%; /* Espaçamento entre os campos */
-    margin-bottom: 16px; /* Espaçamento inferior entre as linhas do formulário */
-  }
-  
-  .large-field {
-    flex: 0 0 30%; /* Define a largura dos campos Fornecedor e CNPJ como 30% */
-    min-width: 150px; /* Largura mínima para evitar que o campo fique muito pequeno */
-  }
-  
-  .small-field {
-    flex: 0 0 20%; /* Define a largura do campo Data de Emissão como 20% */
-    min-width: 100px; /* Largura mínima para evitar que o campo fique muito pequeno */
-  }
-  .item-row {
-    display: flex;
-    align-items: center;
-    gap: 1%; /* Controla o espaçamento entre os campos */
-    margin-bottom: 16px; /* Espaçamento inferior para a seção de adicionar itens */
-  }
-  
-  .nome_produto {
-    flex: 2; /* Define o tamanho relativo do campo Nome */
-  }
-  
-  .quantidade,
-  .valor_unitario,
-  .valor_total {
-    flex: 1; /* Define o tamanho relativo dos campos Quantidade, Valor Unitário e Valor Total */
-  }
-  
-  button {
-    margin-left: 8px; /* Espaçamento à esquerda do botão */
-  }
-  /* Define um contêiner flexível para os campos */
-.nota-fiscal-row-right {
   display: flex;
-  justify-content: flex-end; /* Alinha os campos à direita */
-  gap: 10px; /* Espaçamento entre os campos */
+  align-items: center;
+  gap: 5%; /* Espaçamento entre os campos */
+  margin-bottom: 16px; /* Espaçamento inferior entre as linhas do formulário */
+}
+
+.nota-fiscal-row-2 {
+  display: flex;
+  align-items: center;
+  gap: 5%; /* Espaçamento entre os campos */
+  margin-bottom: 16px; /* Espaçamento inferior entre as linhas do formulário */
+}
+
+.large-field {
+  flex: 0 0 30%; /* Define a largura dos campos Fornecedor e CNPJ como 30% */
+  min-width: 150px; /* Largura mínima para evitar que o campo fique muito pequeno */
+}
+
+.small-field {
+  flex: 0 0 20%; /* Define a largura do campo Data de Emissão como 20% */
+  min-width: 100px; /* Largura mínima para evitar que o campo fique muito pequeno */
+}
+.item-row {
+  display: flex;
+  align-items: center;
+  gap: 1%; /* Controla o espaçamento entre os campos */
+  margin-bottom: 16px; /* Espaçamento inferior para a seção de adicionar itens */
+}
+
+.nome_produto {
+  flex: 2; /* Define o tamanho relativo do campo Nome */
+}
+
+.quantidade,
+.valor_unitario,
+.valor_total {
+  flex: 1; /* Define o tamanho relativo dos campos Quantidade, Valor Unitário e Valor Total */
+}
+
+button {
+  margin-left: 8px; /* Espaçamento à esquerda do botão */
+}
+/* Define um contêiner flexível para os campos */
+.nota-fiscal-row-right {
+display: flex;
+justify-content: flex-end; /* Alinha os campos à direita */
+gap: 10px; /* Espaçamento entre os campos */
 }
 
 /* Define a largura dos campos "Outros" e "Descontos" */
 .outros, .descontos {
-  flex: 0 0 10%; /* 15% de largura para cada campo */
+flex: 0 0 10%; /* 15% de largura para cada campo */
+}
+/* CSS para alinhar os campos na mesma linha à direita */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.nota-fiscal-row,
+.nota-fiscal-row-2,
+.item-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.totals-section {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.valor_desconto,
+.valor_outros,
+.valor_total_nota {
+  flex: 0 0 15%;
+}
+
+button[type="submit"] {
+  margin-left: 16px;
 }

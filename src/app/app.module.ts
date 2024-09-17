@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule,  LOCALE_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -44,6 +44,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { CadastroPedidoComponent } from './cadastro-pedido/cadastro-pedido.component';
 import { CadastroNotaFiscalComponent } from './cadastro-nota-fiscal/cadastro-nota-fiscal.component';
 import { NgxMaskModule } from 'ngx-mask';
+
 
 @NgModule({
   declarations: [
@@ -100,11 +101,10 @@ import { NgxMaskModule } from 'ngx-mask';
   entryComponents: [
     DeleteDialogComponent
   ],
-  providers: [ EstadoService,
+  providers: [ { provide: LOCALE_ID, useValue: 'pt-BR' }, // Define a localidade para 'pt-BR'EstadoService,
     CidadeService,
     FornecedorService],
-  bootstrap: [AppComponent]
-
+  bootstrap: [AppComponent],
 
 })
 export class AppModule { }

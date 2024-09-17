@@ -10,6 +10,10 @@ import { Fornecedor } from './models/fornecedores';
   providedIn: 'root'
 })
 export class ProdutoService {
+  getProdutosByNome(nome: string): Observable<{ id: number; nome: string }[]> {
+    return this.http.get<{ id: number; nome: string }[]>(`/api/produtos?nome=${nome}`);
+  }
+  
   getProdutosSaldoEstoque() {
     throw new Error('Method not implemented.');
   }
