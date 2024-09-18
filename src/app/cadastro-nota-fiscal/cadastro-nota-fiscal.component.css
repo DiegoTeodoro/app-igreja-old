@@ -5,7 +5,7 @@
   margin-bottom: 16px; /* Espaçamento inferior entre as linhas do formulário */
 }
 
-.nota-fiscal-row-2 {
+.nota-fiscal-row {
   display: flex;
   align-items: center;
   gap: 5%; /* Espaçamento entre os campos */
@@ -82,4 +82,18 @@ form {
 
 button[type="submit"] {
   margin-left: 16px;
+}
+.flex-row {
+  display: flex;
+  align-items: center; /* Alinha os itens verticalmente ao centro */
+  gap: 16px; /* Espaço entre os itens */
+}
+
+.medium-field {
+  flex: 1; /* O campo "Fornecedor" e "CNPJ" ocupam o mesmo espaço */
+  min-width: 200px; /* Define uma largura mínima para evitar que os campos fiquem muito pequenos */
+}
+
+.small-field {
+  flex: 0 0 150px; /* O campo "Data de Emissão" ocupa um espaço fixo menor */
 }

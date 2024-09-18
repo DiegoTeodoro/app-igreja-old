@@ -5,7 +5,7 @@ export interface NotaFiscal {
     chave_acesso?: string;
     data_emissao: Date;
     valor_total: number;
-    valor_total_produtos?: number;
+    valor_total_nota?: number;
     outros?: number; // Campo para valor de acréscimos
     descontos?: number; // Campo para valor de descontos
     fornecedor_id?: number;

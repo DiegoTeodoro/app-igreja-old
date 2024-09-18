@@ -4,3 +4,15 @@
     text-align: center;
     font-size: 15px;
   }
+
+  /* CSS para a tabela */
+table {
+  table-layout: fixed;
+  width: 100%;
+}
+/* Adicione este CSS ao seu arquivo de estilos */
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #424141;
+  text-align: center;
+}

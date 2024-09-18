@@ -18,19 +18,14 @@
     </mat-form-field>
   </div>
 
-  <div class="nota-fiscal-row-2">
-    <mat-form-field appearance="fill" class="large-field">
+  <div class="nota-fiscal-row-2 flex-row">
+    <mat-form-field appearance="fill" class="medium-field">
       <mat-label>Fornecedor</mat-label>
-      <mat-select formControlName="fornecedor_id">
+      <mat-select formControlName="fornecedor_id" (selectionChange)="onFornecedorChange($event.value)">
         <mat-option *ngFor="let fornecedor of fornecedores" [value]="fornecedor.id">
           {{ fornecedor.nome_fantasia }}
         </mat-option>
       </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="large-field">
-      <mat-label>CNPJ</mat-label>
-      <input matInput formControlName="cnpj" required>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="small-field">
@@ -45,6 +40,7 @@
 
   <!-- Section for Adding Items -->
   <h3>Adicionar Itens</h3>
+<form [formGroup]="notaFiscalForm" (ngSubmit)="addItem()">
   <div class="item-row">
     <mat-form-field appearance="outline" class="nome_produto">
       <mat-label>Nome</mat-label>
@@ -52,8 +48,8 @@
         matInput
         [matAutocomplete]="auto"
         [formControl]="produtoControl"
-        placeholder="Nome do produto"
-      />
+        placeholder="Nome do produto"/>
+
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayProduto">
         <mat-option *ngFor="let produto of filteredProdutos | async" [value]="produto">
           {{ produto.nome }}
@@ -63,12 +59,12 @@
 
     <mat-form-field appearance="fill" class="quantidade">
       <mat-label>Quantidade</mat-label>
-      <input matInput type="number" formControlName="quantidade" required (input)="updateValorTotal()">
+      <input matInput type="number" formControlName="quantidade" (input)="updateValorTotal()" />
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="valor_unitario">
       <mat-label>Valor Unitário</mat-label>
-      <input matInput type="number" formControlName="valor_unitario" required (input)="updateValorTotal()">
+      <input matInput type="number" formControlName="valor_unitario"  (input)="updateValorTotal()" />
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="valor_total">
@@ -76,8 +72,10 @@
       <input matInput type="text" formControlName="valor_total" readonly mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker="," />
     </mat-form-field>
 
-    <button mat-raised-button color="primary" (click)="addItem()">Adicionar Item</button>
+    <button mat-raised-button color="primary" type="submit">Adicionar Item</button>
   </div>
+</form>
+
 
   <!-- Tabela de Itens -->
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
@@ -131,19 +129,19 @@
   <div class="totals-section">
     <mat-form-field appearance="fill" class="valor_desconto">
       <mat-label>Desconto</mat-label>
-      <input matInput type="number" formControlName="valor_desconto" readonly mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker="," />
+      <input matInput type="number" formControlName="valor_desconto" mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker="," />
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="valor_outros">
       <mat-label>Outros</mat-label>
-      <input matInput type="number" formControlName="valor_outros" readonly mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker="," />
+      <input matInput type="number" formControlName="valor_outros" mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker="," />
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="valor_total_nota">
       <mat-label>Valor Total da Nota</mat-label>
       <input matInput type="text" formControlName="valor_total_nota" readonly mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker="," />
     </mat-form-field>
-
-    <button mat-raised-button color="primary" type="submit">Salvar</button>
+      
+    <button mat-raised-button color="primary" type="button" (click)="salvarNotaFiscal()">Salvar</button>
   </div>
 </form>
