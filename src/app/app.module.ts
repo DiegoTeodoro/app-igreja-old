@@ -44,6 +44,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { CadastroPedidoComponent } from './cadastro-pedido/cadastro-pedido.component';
 import { CadastroNotaFiscalComponent } from './cadastro-nota-fiscal/cadastro-nota-fiscal.component';
 import { NgxMaskModule } from 'ngx-mask';
+import { RelatorioSaldoEstoqueComponent } from './relatorio-saldo-estoque/relatorio-saldo-estoque.component';
 
 
 @NgModule({
@@ -64,6 +65,7 @@ import { NgxMaskModule } from 'ngx-mask';
     CadastroUsuarioComponent,
     CadastroPedidoComponent,
     CadastroNotaFiscalComponent,
+    RelatorioSaldoEstoqueComponent,
     
 
     

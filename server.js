@@ -542,7 +542,7 @@ app.get("/saldo-estoque/preco/:produto_id", (req, res) => {
   const produtoId = req.params.produto_id;
 
   // Consulta no banco de dados para buscar o preço unitário baseado no produto_id
-  const query = "SELECT preco_unitario FROM saldo_estoque WHERE produto_id = ?";
+  const query = "SELECT valor_unitario FROM saldo_estoque WHERE produto_id = ?";
 
   connection.query(query, [produtoId], (err, result) => {
     if (err) {
@@ -620,8 +620,24 @@ const itensParams = itensNotaFiscal.map((item) => [
         return;
       }
 
-      res.status(201).send("Nota fiscal e itens inseridos com sucesso");
+      res.status(201).json({
+        message: 'Nota fiscal salva com sucesso',
+        notaFiscalId: notaFiscalId,
     });
+  });
+});
+});
+
+// Rota para buscar todos os registros de saldo_estoque
+app.get("/saldo-estoque", (req, res) => {
+  const query = "SELECT * FROM saldo_estoque";
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Erro ao buscar saldo de estoque:", err);
+      res.status(500).send("Erro ao buscar saldo de estoque");
+    } else {
+      res.json(results);
+    }
   });
 });
 

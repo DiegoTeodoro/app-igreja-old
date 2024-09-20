@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators, FormControl } from "@angular/forms";
+import { MatSnackBar } from "@angular/material/snack-bar";  // Importar MatSnackBar
 import { FornecedorService } from "../fornecedor.service";
 import { ProdutoService } from "../produto.service";
 import { debounceTime, switchMap, map } from "rxjs/operators";
@@ -31,11 +32,16 @@ export class CadastroNotaFiscalComponent implements OnInit {
     private fb: FormBuilder,
     private fornecedorService: FornecedorService,
     private produtoService: ProdutoService,
-    private notaFiscalService: NotaFiscalService
+    private notaFiscalService: NotaFiscalService,
+    private snackBar: MatSnackBar  // Inject MatSnackBar
   ) {}
 
   salvarNotaFiscal() {
     if (this.notaFiscalForm.invalid) {
+      this.snackBar.open('Alguns campos obrigatórios estão sem informação.', 'Fechar', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
       return;
     }
   
@@ -51,6 +57,11 @@ export class CadastroNotaFiscalComponent implements OnInit {
       (response) => {
         console.log('Nota fiscal salva com sucesso:', response);
         
+        this.snackBar.open('Nota fiscal salva com sucesso!', 'Fechar', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+    
         // Limpa o formulário após salvar
         this.notaFiscalForm.reset({
           numero_nota: '',
@@ -65,19 +76,22 @@ export class CadastroNotaFiscalComponent implements OnInit {
           valor_desconto: 0,
           valor_outros: 0
         });
-  
+    
         // Limpa os itens da tabela
         this.notaFiscalForm.setControl('itens', this.fb.array([]));
         this.dataSource = [];
       },
       (error) => {
         console.error('Erro ao salvar nota fiscal:', error);
+        this.snackBar.open('Erro ao salvar a nota fiscal. Tente novamente.', 'Fechar', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
       }
     );
+    
   }
   
-  
-
   ngOnInit(): void {
     this.notaFiscalForm = this.fb.group({
       numero_nota: ["", Validators.required],
@@ -96,20 +110,18 @@ export class CadastroNotaFiscalComponent implements OnInit {
       outros: [0],
       itens: this.fb.array([]),
     });
-  
-    // Controle para o auto-completar de produto
+
     this.produtoControl = this.fb.control('');
-  
+
     this.fornecedorService.getFornecedores().subscribe((data: any) => {
       this.fornecedores = data;
     });
-  
+
     this.filteredProdutos = this.produtoControl.valueChanges.pipe(
       debounceTime(300),
       switchMap((value) => this._filter(value))
     );
   }
-  
 
   private _filter(value: string): Observable<Produto[]> {
     const filterValue = typeof value === "string" ? value.toLowerCase() : "";
@@ -178,8 +190,7 @@ export class CadastroNotaFiscalComponent implements OnInit {
     );
 
     this.notaFiscalForm.patchValue({ valor_total_nota: totalProdutos.toFixed(2) });
-}
-
+  }
 
   removeItem(index: number) {
     if (index >= 0 && index < this.dataSource.length) {

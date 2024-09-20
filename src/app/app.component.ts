@@ -37,7 +37,8 @@ export class AppComponent {
       title: 'Financeiro',
       links: [
         { title: 'Pedido', route: '/cadastro-pedido'},
-        { title: 'Entrada de Nota', route: '/cadastro-nota-fiscal' }
+        { title: 'Entrada de Nota', route: '/cadastro-nota-fiscal' },
+        { title: 'Saldo estoque', route: '/relatorio-saldo-estoque' }
       ]
     }
   ];

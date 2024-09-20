@@ -1,0 +1,40 @@
+<div class="container">
+    <h2>Relatório de Saldo de Estoque</h2>
+    <button mat-raised-button color="primary" (click)="gerarPDF()">Gerar PDF</button>
+  
+    <!-- Iframe para visualizar o PDF -->
+    <iframe *ngIf="pdfSrc" [src]="pdfSrc" width="100%" height="600px"></iframe>
+  
+    <table mat-table [dataSource]="saldoEstoque" class="mat-elevation-z8" *ngIf="saldoEstoque.length > 0">
+      <ng-container matColumnDef="produto_id">
+        <th mat-header-cell *matHeaderCellDef> Codigo </th>
+        <td mat-cell *matCellDef="let element"> {{element.produto_id}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="quantidade">
+        <th mat-header-cell *matHeaderCellDef> Quantidade </th>
+        <td mat-cell *matCellDef="let element"> {{element.quantidade}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="valor_unitario">
+        <th mat-header-cell *matHeaderCellDef> Valor Unitário </th>
+        <td mat-cell *matCellDef="let element"> {{element.valor_unitario | currency:'BRL':'symbol':'1.2-2'}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="valor_total">
+        <th mat-header-cell *matHeaderCellDef> Valor Total </th>
+        <td mat-cell *matCellDef="let element"> {{element.valor_total | currency:'BRL':'symbol':'1.2-2'}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="updated_at">
+        <th mat-header-cell *matHeaderCellDef> Atualizado Em </th>
+        <td mat-cell *matCellDef="let element"> {{element.updated_at | date}} </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <p *ngIf="saldoEstoque.length === 0">Nenhum dado disponível.</p>
+  </div>
+  
