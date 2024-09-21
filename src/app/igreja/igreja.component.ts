@@ -12,8 +12,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./igreja.component.css']
 })
 export class IgrejaComponent implements OnInit {
+  displayedColumns: string[] = ['codigo_igreja', 'nome', 'logradouro', 'numero', 'setor', 'ativo', 'acoes'];
   igrejas = new MatTableDataSource<IgrejaDetalhes>();
-  displayedColumns: string[] = ['nome', 'logradouro', 'numero', 'setor', 'ativo', 'acoes'];
   igreja: Igreja = this.createEmptyIgreja();
   setores: any[] = [];
   cidades: any[] = [];
@@ -122,6 +122,7 @@ export class IgrejaComponent implements OnInit {
     this.igreja = { 
       codigo: igreja.codigo,
       nome: igreja.nome,
+      codigo_igreja: igreja.codigo_igreja, // Adicione essa linha
       logradouro: igreja.logradouro,
       numero: igreja.numero,
       complemento: igreja.complemento,
@@ -133,6 +134,7 @@ export class IgrejaComponent implements OnInit {
       ativo: igreja.ativo
     };
   }
+  
 
   onDelete(igreja: Igreja) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {

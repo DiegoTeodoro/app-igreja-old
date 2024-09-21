@@ -36,6 +36,26 @@ export class CadastroNotaFiscalComponent implements OnInit {
     private snackBar: MatSnackBar  // Inject MatSnackBar
   ) {}
 
+  cancelar(): void {
+    this.notaFiscalForm.reset({
+      numero_nota: '',
+      serie: '',
+      chave_acesso: '',
+      fornecedor_id: '',
+      data_emissao: '',
+      quantidade: '',
+      valor_unitario: '',
+      valor_total: '',
+      valor_total_nota: '',
+      valor_desconto: 0,
+      valor_outros: 0
+    });
+  
+    // Limpa também a lista de itens da tabela
+    this.dataSource = [];
+  }
+  
+
   salvarNotaFiscal() {
     if (this.notaFiscalForm.invalid) {
       this.snackBar.open('Alguns campos obrigatórios estão sem informação.', 'Fechar', {

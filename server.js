@@ -540,17 +540,15 @@ app.post("/usuario/login", (req, res) => {
 // Rota para buscar o preço unitário pelo produto_id
 app.get("/saldo-estoque/preco/:produto_id", (req, res) => {
   const produtoId = req.params.produto_id;
-
-  // Consulta no banco de dados para buscar o preço unitário baseado no produto_id
   const query = "SELECT valor_unitario FROM saldo_estoque WHERE produto_id = ?";
-
+  
   connection.query(query, [produtoId], (err, result) => {
     if (err) {
       console.error("Erro ao buscar preço unitário:", err);
       res.status(500).send("Erro ao buscar preço unitário");
     } else {
       if (result.length > 0) {
-        res.json({ preco_unitario: result[0].preco_unitario });
+        res.json({ preco_unitario: result[0].valor_unitario });
       } else {
         res.status(404).send("Produto não encontrado no saldo de estoque");
       }
@@ -630,7 +628,11 @@ const itensParams = itensNotaFiscal.map((item) => [
 
 // Rota para buscar todos os registros de saldo_estoque
 app.get("/saldo-estoque", (req, res) => {
-  const query = "SELECT * FROM saldo_estoque";
+  const query = `
+    SELECT se.*, p.nome AS produto_nome
+    FROM saldo_estoque se
+    JOIN produtos p ON se.produto_id = p.id
+  `;
   connection.query(query, (err, results) => {
     if (err) {
       console.error("Erro ao buscar saldo de estoque:", err);
@@ -640,6 +642,144 @@ app.get("/saldo-estoque", (req, res) => {
     }
   });
 });
+
+// Rota para buscar o preço unitário pelo produto_id
+app.get("/saldo-estoque/preco/:produto_id", (req, res) => {
+  const produtoId = req.params.produto_id;
+  const query = "SELECT valor_unitario FROM saldo_estoque WHERE produto_id = ?";
+  
+  connection.query(query, [produtoId], (err, result) => {
+    if (err) {
+      console.error("Erro ao buscar preço unitário:", err);
+      res.status(500).send("Erro ao buscar preço unitário");
+    } else {
+      if (result.length > 0) {
+        res.json({ preco_unitario: result[0].valor_unitario });
+      } else {
+        res.status(404).send("Produto não encontrado no saldo de estoque");
+      }
+    }
+  });
+});
+
+// Rota para obter todos os pedidos
+app.get("/pedidos", (req, res) => {
+  const query = "SELECT * FROM pedidos";
+  connection.query(query, (err, results) => {
+    if (err) {
+      res.status(500).send("Erro ao buscar pedidos");
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+// Rota para obter um pedido por ID
+app.get("/pedidos/:id", (req, res) => {
+  const id = req.params.id;
+  const query = "SELECT * FROM pedidos WHERE id = ?";
+  connection.query(query, [id], (err, results) => {
+    if (err) {
+      res.status(500).send("Erro ao buscar pedido");
+    } else {
+      res.json(results[0]);
+    }
+  });
+});
+
+// Rota para criar um novo pedido
+app.post("/pedidos", (req, res) => {
+  const pedido = req.body;
+  const query = "INSERT INTO pedidos SET ?";
+  connection.query(query, pedido, (err, results) => {
+    if (err) {
+      res.status(500).send("Erro ao criar pedido");
+    } else {
+      res.status(201).send({ id: results.insertId, ...pedido });
+    }
+  });
+});
+
+// Rota para atualizar um pedido
+app.put("/pedidos/:id", (req, res) => {
+  const id = req.params.id;
+  const pedido = req.body;
+  const query = "UPDATE pedidos SET ? WHERE id = ?";
+  connection.query(query, [pedido, id], (err, results) => {
+    if (err) {
+      res.status(500).send("Erro ao atualizar pedido");
+    } else {
+      res.send("Pedido atualizado com sucesso");
+    }
+  });
+});
+
+// Rota para excluir um pedido
+app.delete("/pedidos/:id", (req, res) => {
+  const id = req.params.id;
+  const query = "DELETE FROM pedidos WHERE id = ?";
+  connection.query(query, [id], (err, results) => {
+    if (err) {
+      res.status(500).send("Erro ao deletar pedido");
+    } else {
+      res.send("Pedido deletado com sucesso");
+    }
+  });
+});
+
+// Rota para obter todos os itens de um pedido
+app.get("/pedido-itens/:pedido_id", (req, res) => {
+  const pedidoId = req.params.pedido_id;
+  const query = "SELECT * FROM itens_pedido WHERE pedido_id = ?";
+  connection.query(query, [pedidoId], (err, results) => {
+    if (err) {
+      res.status(500).send("Erro ao buscar itens do pedido");
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+// Rota para criar um novo item de pedido
+app.post("/pedido-itens", (req, res) => {
+  const pedidoItem = req.body;
+  const query = "INSERT INTO itens_pedido SET ?";
+  connection.query(query, pedidoItem, (err, results) => {
+    if (err) {
+      res.status(500).send("Erro ao criar item do pedido");
+    } else {
+      res.status(201).send({ id: results.insertId, ...pedidoItem });
+    }
+  });
+});
+
+// Rota para atualizar um item de pedido
+app.put("/pedido-itens/:id", (req, res) => {
+  const id = req.params.id;
+  const pedidoItem = req.body;
+  const query = "UPDATE itens_pedido SET ? WHERE id = ?";
+  connection.query(query, [pedidoItem, id], (err, results) => {
+    if (err) {
+      res.status(500).send("Erro ao atualizar item do pedido");
+    } else {
+      res.send("Item do pedido atualizado com sucesso");
+    }
+  });
+});
+
+// Rota para excluir um item de pedido
+app.delete("/pedido-itens/:id", (req, res) => {
+  const id = req.params.id;
+  const query = "DELETE FROM itens_pedido WHERE id = ?";
+  connection.query(query, [id], (err, results) => {
+    if (err) {
+      res.status(500).send("Erro ao deletar item do pedido");
+    } else {
+      res.send("Item do pedido deletado com sucesso");
+    }
+  });
+});
+
 
 const server = app.listen(port, () => {
   // Mantido apenas uma chamada para app.listen

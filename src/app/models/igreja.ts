@@ -1,6 +1,7 @@
 export interface Igreja {
   codigo?: number;
   nome: string;
+  codigo_igreja?: string; // Adicione essa linha
   logradouro: string;
   numero: string;
   complemento?: string;

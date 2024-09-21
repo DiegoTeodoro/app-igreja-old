@@ -6,6 +6,7 @@ export interface Pedido {
     data_pedido: Date;
     status: 'Pendente' | 'Processando' | 'Entregue' | 'Cancelado';
     preco: number;
+    recebedor:string;
     valor_total: number;
     observacao?: string;
     pedido_itens: PedidoItem[];

@@ -25,31 +25,31 @@ export class PedidoService {
 
   // Cria um novo pedido
   createPedido(pedido: Pedido): Observable<any> {
-    return this.http.post(this.apiUrl, pedido, { responseType: 'text' });
+    return this.http.post(this.apiUrl, pedido);
   }
 
   // Atualiza um pedido existente
   updatePedido(id: number, pedido: Pedido): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, pedido, { responseType: 'text' });
+    return this.http.put(`${this.apiUrl}/${id}`, pedido);
   }
 
   // Exclui um pedido
   deletePedido(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' });
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
   // Adiciona itens ao pedido
   createPedidoItem(pedidoItem: PedidoItem): Observable<any> {
-    return this.http.post(this.apiUrlItens, pedidoItem, { responseType: 'text' });
+    return this.http.post(this.apiUrlItens, pedidoItem);
   }
 
   // Atualiza um item de pedido
   updatePedidoItem(id: number, pedidoItem: PedidoItem): Observable<any> {
-    return this.http.put(`${this.apiUrlItens}/${id}`, pedidoItem, { responseType: 'text' });
+    return this.http.put(`${this.apiUrlItens}/${id}`, pedidoItem);
   }
 
   // Remove um item de pedido
   deletePedidoItem(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrlItens}/${id}`, { responseType: 'text' });
+    return this.http.delete(`${this.apiUrlItens}/${id}`);
   }
 }

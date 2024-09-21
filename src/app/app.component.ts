@@ -40,7 +40,15 @@ export class AppComponent {
         { title: 'Entrada de Nota', route: '/cadastro-nota-fiscal' },
         { title: 'Saldo estoque', route: '/relatorio-saldo-estoque' }
       ]
-    }
+    },
+
+    {
+      title: 'Relatorios',
+      links: [
+        { title: 'Saldo estoque', route: '/relatorio-saldo-estoque' }
+      ]
+    },
+    
   ];
   constructor(private router: Router) {
     const today = new Date();

@@ -35,3 +35,18 @@
   align-items: center;
   width: 20%;
 }
+.pedido-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.pedido-form .mat-form-field {
+  margin-right: 20px;
+}
+
+.pedido-form div[fxLayout="row"] {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
