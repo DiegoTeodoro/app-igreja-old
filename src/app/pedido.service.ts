@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Pedido, PedidoItem } from './models/pedido';
+import { PedidoParaEnvio } from './models/PedidoParaEnvio';
 
 @Injectable({
   providedIn: 'root'
@@ -24,10 +25,10 @@ export class PedidoService {
   }
 
   // Cria um novo pedido
-  createPedido(pedido: Pedido): Observable<any> {
+  createPedido(pedido: Pedido | PedidoParaEnvio): Observable<any> {
     return this.http.post(this.apiUrl, pedido);
   }
-
+  
   // Atualiza um pedido existente
   updatePedido(id: number, pedido: Pedido): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}`, pedido);

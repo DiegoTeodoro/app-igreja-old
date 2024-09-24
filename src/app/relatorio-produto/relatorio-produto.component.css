@@ -1,0 +1,18 @@
+table {
+    width: 100%;
+  }
+  
+  th.mat-header-cell {
+    font-weight: bold;
+    background-color: #f1f1f1;
+  }
+  
+  td.mat-cell, th.mat-header-cell {
+    text-align: left;
+    padding: 8px;
+  }
+  
+  .mat-elevation-z8 {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  

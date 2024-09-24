@@ -13,6 +13,7 @@ import { CadastroUsuarioComponent } from './cadastro-usuario/cadastro-usuario.co
 import { CadastroPedidoComponent } from './cadastro-pedido/cadastro-pedido.component';
 import { CadastroNotaFiscalComponent } from './cadastro-nota-fiscal/cadastro-nota-fiscal.component';
 import { RelatorioSaldoEstoqueComponent } from './relatorio-saldo-estoque/relatorio-saldo-estoque.component';
+import { RelatorioProdutoComponent } from './relatorio-produto/relatorio-produto.component';
 
 
 const routes: Routes = [
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'cadastro-pedido', component: CadastroPedidoComponent },
   { path: 'cadastro-nota-fiscal', component: CadastroNotaFiscalComponent },
   { path: 'relatorio-saldo-estoque', component: RelatorioSaldoEstoqueComponent},
+  { path: 'relatorio-produto', component: RelatorioProdutoComponent },
   { path: '**', redirectTo: '/home' } // Página não encontrada
 ];
 

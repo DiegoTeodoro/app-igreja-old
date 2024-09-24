@@ -239,15 +239,23 @@ app.delete("/cidades/:id", (req, res) => {
 
 // Get all products
 app.get("/produtos", (req, res) => {
-  const query = "SELECT * FROM produtos";
+  const query = `
+    SELECT p.id, p.nome, p.volume, p.codigo_barras, p.marca, c.nome AS categoria_nome, f.nome_fantasia AS fornecedor_nome
+    FROM produtos p
+    JOIN categoria c ON p.categoria_id = c.id
+    JOIN fornecedor f ON p.fornecedor_id = f.id
+  `;
+
   connection.query(query, (err, results) => {
     if (err) {
-      res.status(500).send(err);
+      console.error("Erro ao buscar produtos:", err);
+      res.status(500).send("Erro ao buscar produtos");
     } else {
       res.json(results);
     }
   });
 });
+
 
 // Get a single product by ID
 app.get("/produtos/:id", (req, res) => {
@@ -662,6 +670,8 @@ app.get("/saldo-estoque/preco/:produto_id", (req, res) => {
   });
 });
 
+// -------------- CRUD APIs for Pedidos --------------
+
 // Rota para obter todos os pedidos
 app.get("/pedidos", (req, res) => {
   const query = "SELECT * FROM pedidos";
@@ -689,93 +699,114 @@ app.get("/pedidos/:id", (req, res) => {
 
 // Rota para criar um novo pedido
 app.post("/pedidos", (req, res) => {
-  const pedido = req.body;
-  const query = "INSERT INTO pedidos SET ?";
-  connection.query(query, pedido, (err, results) => {
+  const { igreja_id, data_pedido, status, valor_total, recebedor, pedido_itens } = req.body;
+
+  const pedidoQuery = `
+    INSERT INTO pedidos (igreja_id, data_pedido, status, valor_total, recebedor) 
+    VALUES (?, ?, ?, ?, ?)
+  `;
+  const pedidoParams = [igreja_id, data_pedido, status, valor_total, recebedor];
+
+  connection.query(pedidoQuery, pedidoParams, (err, result) => {
     if (err) {
-      res.status(500).send("Erro ao criar pedido");
-    } else {
-      res.status(201).send({ id: results.insertId, ...pedido });
+      console.error("Erro ao inserir pedido no banco de dados:", err);
+      res.status(500).send("Erro ao inserir pedido no banco de dados.");
+      return;
     }
+
+    const pedidoId = result.insertId; // Obtenha o pedido_id gerado
+
+    // Agora insere os itens do pedido
+    const itensQuery = `
+      INSERT INTO itens_pedido (pedido_id, produto_id, quantidade, preco_unitario, valor_total) 
+      VALUES ?
+    `;
+    const itensParams = pedido_itens.map(item => [
+      pedidoId, // Use o pedidoId gerado
+      item.produto_id,
+      item.quantidade,
+      item.preco_unitario,
+      item.valor_total
+    ]);
+
+    connection.query(itensQuery, [itensParams], (err, result) => {
+      if (err) {
+        console.error("Erro ao inserir itens do pedido no banco de dados:", err);
+        res.status(500).send("Erro ao inserir itens do pedido no banco de dados.");
+        return;
+      }
+
+      res.status(201).send({ message: 'Pedido e itens salvos com sucesso' });
+    });
   });
 });
 
-// Rota para atualizar um pedido
-app.put("/pedidos/:id", (req, res) => {
-  const id = req.params.id;
-  const pedido = req.body;
-  const query = "UPDATE pedidos SET ? WHERE id = ?";
-  connection.query(query, [pedido, id], (err, results) => {
+// Rota para criar um novo item de pedido
+app.post("/pedido-itens", (req, res) => {
+  const { pedido_id, produto_id, quantidade, preco_unitario, valor_total } = req.body;
+
+  if (!pedido_id || !produto_id || !quantidade || !preco_unitario || !valor_total) {
+    console.error("Campos obrigatórios faltando:", { pedido_id, produto_id, quantidade, preco_unitario, valor_total });
+    res.status(400).send("Todos os campos obrigatórios devem ser preenchidos.");
+    return;
+  }
+
+  const query = `
+    INSERT INTO itens_pedido (pedido_id, produto_id, quantidade, preco_unitario, valor_total) 
+    VALUES (?, ?, ?, ?, ?)
+  `;
+  const params = [pedido_id, produto_id, quantidade, preco_unitario, valor_total];
+
+  connection.query(query, params, (err, result) => {
     if (err) {
-      res.status(500).send("Erro ao atualizar pedido");
-    } else {
-      res.send("Pedido atualizado com sucesso");
+      console.error("Erro ao inserir item do pedido no banco de dados:", err);
+      res.status(500).send("Erro ao inserir item do pedido no banco de dados.");
+      return;
     }
+
+    res.status(201).send({ message: 'Item do pedido salvo com sucesso', id: result.insertId });
   });
 });
 
-// Rota para excluir um pedido
-app.delete("/pedidos/:id", (req, res) => {
-  const id = req.params.id;
-  const query = "DELETE FROM pedidos WHERE id = ?";
-  connection.query(query, [id], (err, results) => {
-    if (err) {
-      res.status(500).send("Erro ao deletar pedido");
-    } else {
-      res.send("Pedido deletado com sucesso");
-    }
-  });
-});
-
-// Rota para obter todos os itens de um pedido
 app.get("/pedido-itens/:pedido_id", (req, res) => {
   const pedidoId = req.params.pedido_id;
   const query = "SELECT * FROM itens_pedido WHERE pedido_id = ?";
   connection.query(query, [pedidoId], (err, results) => {
     if (err) {
-      res.status(500).send("Erro ao buscar itens do pedido");
+      res.status(500).send("Erro ao buscar itens de pedido.");
+    } else if (results.length === 0) {
+      res.status(404).send("Nenhum item encontrado para este pedido.");
     } else {
       res.json(results);
     }
   });
 });
 
-// Rota para criar um novo item de pedido
-app.post("/pedido-itens", (req, res) => {
-  const pedidoItem = req.body;
-  const query = "INSERT INTO itens_pedido SET ?";
-  connection.query(query, pedidoItem, (err, results) => {
-    if (err) {
-      res.status(500).send("Erro ao criar item do pedido");
-    } else {
-      res.status(201).send({ id: results.insertId, ...pedidoItem });
-    }
-  });
-});
-
-// Rota para atualizar um item de pedido
 app.put("/pedido-itens/:id", (req, res) => {
   const id = req.params.id;
-  const pedidoItem = req.body;
-  const query = "UPDATE itens_pedido SET ? WHERE id = ?";
-  connection.query(query, [pedidoItem, id], (err, results) => {
+  const { produto_id, quantidade, preco_unitario, valor_total } = req.body;
+
+  const query = "UPDATE itens_pedido SET produto_id = ?, quantidade = ?, preco_unitario = ?, valor_total = ? WHERE id = ?";
+  const params = [produto_id, quantidade, preco_unitario, valor_total, id];
+
+  connection.query(query, params, (err, results) => {
     if (err) {
-      res.status(500).send("Erro ao atualizar item do pedido");
+      res.status(500).send("Erro ao atualizar item do pedido.");
     } else {
-      res.send("Item do pedido atualizado com sucesso");
+      res.send("Item do pedido atualizado com sucesso.");
     }
   });
 });
 
-// Rota para excluir um item de pedido
 app.delete("/pedido-itens/:id", (req, res) => {
   const id = req.params.id;
   const query = "DELETE FROM itens_pedido WHERE id = ?";
+
   connection.query(query, [id], (err, results) => {
     if (err) {
-      res.status(500).send("Erro ao deletar item do pedido");
+      res.status(500).send("Erro ao deletar item do pedido.");
     } else {
-      res.send("Item do pedido deletado com sucesso");
+      res.send("Item do pedido deletado com sucesso.");
     }
   });
 });

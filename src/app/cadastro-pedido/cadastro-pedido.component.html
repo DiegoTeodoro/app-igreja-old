@@ -1,6 +1,6 @@
 <div class="pedido-form">
   <h1>Pedido</h1>
-
+<div>
    <!-- Seção de Cabeçalho - Igreja, Status, e Data do Pedido -->
 <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
   <mat-form-field style="width: 40%;">
@@ -20,6 +20,21 @@
     </mat-select>
   </mat-form-field>
 
+   <!-- Campo Data do Pedido -->
+   <mat-form-field style="width: 20%;">
+    <input matInput [matDatepicker]="picker" placeholder="Data do Pedido" [(ngModel)]="pedido.data_pedido">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+</div>
+    <!-- Campo Recebedor -->
+<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+  <mat-form-field style="width: 50%;">
+    <input matInput placeholder="Recebedor" [(ngModel)]="pedido.recebedor">
+  </mat-form-field>
+</div>
+<br>
   <!-- Seção de Cabeçalho (conforme já configurado) -->
   <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
     <!-- Aqui você já tem os campos de seleção de igreja, status e data, então vamos focar nos itens do pedido -->

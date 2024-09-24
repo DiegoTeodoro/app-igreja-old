@@ -7,7 +7,6 @@ import { Observable, tap } from 'rxjs';
 })
 export class SaldoEstoqueService {
   private apiUrl = 'http://localhost:3000/saldo-estoque';  // URL da API de saldo de estoque
-  baseUrl: any;
 
   constructor(private http: HttpClient) {}
 
@@ -15,11 +14,16 @@ export class SaldoEstoqueService {
   getPrecoUnitario(produtoId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/preco/${produtoId}`);
   }
-  
+
   // Método para buscar todo o saldo de estoque
   getSaldoEstoque(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl).pipe(
       tap((data) => console.log('Dados recebidos do servidor:', data))
     );
+  }
+
+  // Método para atualizar o saldo de estoque
+  updateSaldoEstoque(novoSaldo: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${novoSaldo.id}`, novoSaldo);
   }
 }

@@ -45,6 +45,7 @@ import { CadastroPedidoComponent } from './cadastro-pedido/cadastro-pedido.compo
 import { CadastroNotaFiscalComponent } from './cadastro-nota-fiscal/cadastro-nota-fiscal.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { RelatorioSaldoEstoqueComponent } from './relatorio-saldo-estoque/relatorio-saldo-estoque.component';
+import { RelatorioProdutoComponent } from './relatorio-produto/relatorio-produto.component';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import { RelatorioSaldoEstoqueComponent } from './relatorio-saldo-estoque/relato
     CadastroPedidoComponent,
     CadastroNotaFiscalComponent,
     RelatorioSaldoEstoqueComponent,
+    RelatorioProdutoComponent,
     
 
     

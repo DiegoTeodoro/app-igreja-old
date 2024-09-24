@@ -103,12 +103,93 @@ export class CadastroPedidoComponent implements OnInit {
     }, 0);
   }
 
-  // Método para finalizar o pedido
+  // Método para finalizar o pedido e atualizar o saldo de estoque
   finalizarPedido(): void {
-    this.pedidoService.createPedido(this.pedido).subscribe(() => {
-      console.log('Pedido finalizado');
-      // Limpar o formulário ou realizar outras ações
+    if (!this.pedido.igreja_id || !this.pedido.data_pedido || !this.pedido.recebedor || this.pedido.pedido_itens.length === 0) {
+      console.error('Por favor, preencha todos os campos obrigatórios e adicione pelo menos um item ao pedido.');
+      return;
+    }
+
+    const dataFormatada = this.pedido.data_pedido.toISOString().slice(0, 10);
+
+    const pedidoParaEnvio = {
+      ...this.pedido,
+      data_pedido: dataFormatada
+    };
+
+    // Verificar o pedido antes do envio
+    console.log('Pedido para envio:', pedidoParaEnvio);
+
+    this.pedidoService.createPedido(pedidoParaEnvio).subscribe(
+      (response: any) => {
+        const pedidoId = response.id;
+        const itensParaSalvar = this.pedido.pedido_itens.map(item => ({
+          ...item,
+          pedido_id: pedidoId  // Atribua o pedido_id correto
+        }));
+
+        // Verificar os itens antes do envio
+        console.log('Itens do pedido para salvar:', itensParaSalvar);
+
+        // Enviar cada item do pedido e atualizar o saldo de estoque
+        itensParaSalvar.forEach(item => {
+          this.pedidoService.createPedidoItem(item).subscribe(
+            () => {
+              console.log('Item do pedido salvo com sucesso:', item);
+              this.atualizarSaldoEstoque(item.produto_id!, item.quantidade); // Atualizar o saldo de estoque
+            },
+            (error) => console.error('Erro ao salvar item do pedido:', error)
+          );
+        });
+
+        console.log('Pedido finalizado com sucesso');
+        this.limparFormulario();
+      },
+      (error) => {
+        console.error('Erro ao finalizar pedido:', error);
+      }
+    );
+  }
+
+  // Método para atualizar o saldo de estoque
+  atualizarSaldoEstoque(produtoId: number, quantidade: number): void {
+    this.saldoEstoqueService.getSaldoEstoque().subscribe((saldos) => {
+      const saldo = saldos.find(s => s.produto_id === produtoId);
+      if (saldo) {
+        const novaQuantidade = saldo.quantidade - quantidade;
+  
+        if (novaQuantidade >= 0) {
+          // Atualize o saldo de estoque no banco de dados
+          const novoSaldo = { ...saldo, quantidade: novaQuantidade };
+  
+          this.saldoEstoqueService.updateSaldoEstoque(novoSaldo).subscribe(
+            () => console.log('Saldo de estoque atualizado com sucesso para o produto:', produtoId),
+            (error: any) => console.error('Erro ao atualizar saldo de estoque:', error)
+          );
+        } else {
+          console.error('Quantidade em estoque insuficiente para o produto:', produtoId);
+        }
+      } else {
+        console.error('Produto não encontrado no saldo de estoque:', produtoId);
+      }
     });
+  }
+  
+  // Função para limpar o formulário após finalizar o pedido
+  limparFormulario(): void {
+    this.pedido = {
+      igreja_id: 0,
+      data_pedido: new Date(),
+      status: 'Pendente',
+      preco: 0,
+      valor_total: 0,
+      pedido_itens: [],
+      recebedor: ''
+    };
+    this.dataSource.data = []; // Limpar a tabela de itens
+    this.produtoSelecionado = null;
+    this.quantidade = 0;
+    this.precoUnitario = 0;
   }
 
   // Método auxiliar para buscar o nome do produto
