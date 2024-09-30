@@ -616,6 +616,18 @@ const itensParams = itensNotaFiscal.map((item) => [
   item.quantidade,
   item.valor_unitario,
 ]);
+app.put('/api/saldo_estoque/:produto_id', (req, res) => {
+  const produto_id = req.params.produto_id;
+  const quantidade = req.body.quantidade;
+
+  // Reduza a quantidade no saldo de estoque
+  db.query(`UPDATE saldo_estoque SET quantidade = quantidade - ? WHERE produto_id = ?`, [quantidade, produto_id], (error, results) => {
+    if (error) throw error;
+    res.send(results);
+  });
+});
+
+// Rota para registrar um pedido
 
 
     // Executa a query de inserção para os itens
@@ -670,147 +682,158 @@ app.get("/saldo-estoque/preco/:produto_id", (req, res) => {
   });
 });
 
-// -------------- CRUD APIs for Pedidos --------------
-
-// Rota para obter todos os pedidos
-app.get("/pedidos", (req, res) => {
-  const query = "SELECT * FROM pedidos";
-  connection.query(query, (err, results) => {
-    if (err) {
-      res.status(500).send("Erro ao buscar pedidos");
-    } else {
-      res.json(results);
-    }
-  });
-});
-
-// Rota para obter um pedido por ID
-app.get("/pedidos/:id", (req, res) => {
+// Rota para atualizar apenas a quantidade no saldo de estoque
+app.put("/saldo-estoque/:id", (req, res) => {
   const id = req.params.id;
-  const query = "SELECT * FROM pedidos WHERE id = ?";
-  connection.query(query, [id], (err, results) => {
-    if (err) {
-      res.status(500).send("Erro ao buscar pedido");
-    } else {
-      res.json(results[0]);
-    }
-  });
-});
+  const { quantidade } = req.body;  // Só estamos recebendo a quantidade
 
-// Rota para criar um novo pedido
-app.post("/pedidos", (req, res) => {
-  const { igreja_id, data_pedido, status, valor_total, recebedor, pedido_itens } = req.body;
+  // Validação: Verificar se a quantidade foi fornecida
+  if (quantidade == null) {
+    res.status(400).send("Quantidade é obrigatória.");
+    return;
+  }
 
-  const pedidoQuery = `
-    INSERT INTO pedidos (igreja_id, data_pedido, status, valor_total, recebedor) 
-    VALUES (?, ?, ?, ?, ?)
+  // Query para atualizar apenas a quantidade e a data de atualização
+  const query = `
+    UPDATE saldo_estoque 
+    SET quantidade = ?, updated_at = NOW()  -- Apenas atualizando a quantidade
+    WHERE id = ?
   `;
-  const pedidoParams = [igreja_id, data_pedido, status, valor_total, recebedor];
+  const params = [quantidade, id];  // Atualizamos apenas a quantidade
 
-  connection.query(pedidoQuery, pedidoParams, (err, result) => {
+  connection.query(query, params, (err, result) => {
     if (err) {
-      console.error("Erro ao inserir pedido no banco de dados:", err);
-      res.status(500).send("Erro ao inserir pedido no banco de dados.");
+      console.error("Erro ao atualizar saldo de estoque:", err);
+      res.status(500).send("Erro ao atualizar saldo de estoque.");
       return;
     }
 
-    const pedidoId = result.insertId; // Obtenha o pedido_id gerado
+    res.send("Quantidade de saldo de estoque atualizada com sucesso.");
+  });
+});
 
-    // Agora insere os itens do pedido
+app.post("/pedidos", (req, res) => {
+  const pedido = req.body;
+  const itensPedido = pedido.pedido_itens;
+
+  // Inserir o pedido
+  const pedidoQuery = `
+    INSERT INTO pedidos (igreja_id, data_pedido, status, valor_total, recebedor)
+    VALUES (?, ?, ?, ?, ?)
+  `;
+  const pedidoParams = [pedido.igreja_id, pedido.data_pedido, pedido.status, pedido.valor_total, pedido.recebedor];
+
+  connection.query(pedidoQuery, pedidoParams, (err, result) => {
+    if (err) {
+      console.error("Erro ao inserir o pedido:", err);
+      res.status(500).send("Erro ao inserir o pedido");
+      return;
+    }
+
+    const pedidoId = result.insertId; // ID do pedido recém-inserido
+
+    // Inserir os itens do pedido
     const itensQuery = `
-      INSERT INTO itens_pedido (pedido_id, produto_id, quantidade, preco_unitario, valor_total) 
-      VALUES ?
-    `;
-    const itensParams = pedido_itens.map(item => [
-      pedidoId, // Use o pedidoId gerado
-      item.produto_id,
-      item.quantidade,
-      item.preco_unitario,
-      item.valor_total
-    ]);
+    INSERT INTO itens_pedido (pedido_id, produto_id, quantidade, valor_unitario)
+    VALUES ?
+  `;
+  const itensParams = itensPedido.map(item => [
+    pedidoId,
+    item.produto_id,
+    item.quantidade,
+    item.valor_unitario
+  ]);
 
-    connection.query(itensQuery, [itensParams], (err, result) => {
+    connection.query(itensQuery, [itensParams], (err) => {
       if (err) {
-        console.error("Erro ao inserir itens do pedido no banco de dados:", err);
-        res.status(500).send("Erro ao inserir itens do pedido no banco de dados.");
+        console.error("Erro ao inserir itens do pedido:", err);
+        res.status(500).send("Erro ao inserir itens do pedido");
         return;
       }
 
-      res.status(201).send({ message: 'Pedido e itens salvos com sucesso' });
+      res.status(201).send("Pedido e itens salvos com sucesso");
     });
   });
 });
 
-// Rota para criar um novo item de pedido
-app.post("/pedido-itens", (req, res) => {
-  const { pedido_id, produto_id, quantidade, preco_unitario, valor_total } = req.body;
-
-  if (!pedido_id || !produto_id || !quantidade || !preco_unitario || !valor_total) {
-    console.error("Campos obrigatórios faltando:", { pedido_id, produto_id, quantidade, preco_unitario, valor_total });
-    res.status(400).send("Todos os campos obrigatórios devem ser preenchidos.");
-    return;
-  }
+// Rota para buscar o saldo de estoque de um produto específico
+app.get("/saldo-estoque/:produto_id", (req, res) => {
+  const produtoId = req.params.produto_id;
 
   const query = `
-    INSERT INTO itens_pedido (pedido_id, produto_id, quantidade, preco_unitario, valor_total) 
+    SELECT se.*, p.nome AS produto_nome
+    FROM saldo_estoque se
+    JOIN produtos p ON se.produto_id = p.id
+    WHERE se.produto_id = ?
+  `;
+
+  connection.query(query, [produtoId], (err, result) => {
+    if (err) {
+      console.error("Erro ao buscar saldo de estoque:", err);
+      res.status(500).send("Erro ao buscar saldo de estoque");
+    } else if (result.length > 0) {
+      res.json(result[0]); // Retorna o primeiro item, que é o saldo de estoque do produto
+    } else {
+      res.status(404).send("Produto não encontrado no saldo de estoque");
+    }
+  });
+});
+
+// Função para converter a data no formato 'YYYY-MM-DD HH:MM:SS'
+function formatDateToMySQL(date){
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = (`0${d.getMonth() + 1}`).slice(-2); // mês começa em 0
+  const day = (`0${d.getDate()}`).slice(-2);
+  const hours = (`0${d.getHours()}`).slice(-2);
+  const minutes = (`0${d.getMinutes()}`).slice(-2);
+  const seconds = (`0${d.getSeconds()}`).slice(-2);
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+// No código de inserção do pedido
+app.post("/pedidos", (req, res) => {
+  const pedido = req.body;
+
+  // Converte a data do pedido para o formato MySQL
+  const dataPedidoMySQL = formatDateToMySQL(pedido.data_pedido);
+
+  const query = `
+    INSERT INTO pedidos (igreja_id, data_pedido, status, valor_total, recebedor)
     VALUES (?, ?, ?, ?, ?)
   `;
-  const params = [pedido_id, produto_id, quantidade, preco_unitario, valor_total];
+  
+  const params = [pedido.igreja_id, dataPedidoMySQL, pedido.status, pedido.valor_total, pedido.recebedor];
 
   connection.query(query, params, (err, result) => {
     if (err) {
-      console.error("Erro ao inserir item do pedido no banco de dados:", err);
-      res.status(500).send("Erro ao inserir item do pedido no banco de dados.");
+      console.error("Erro ao inserir o pedido:", err);
+      res.status(500).send("Erro ao inserir o pedido");
+    } else {
+      res.status(201).send("Pedido salvo com sucesso");
+    }
+  });
+});
+// Rota para atualizar o saldo de estoque ao realizar um pedido
+app.put("/saldo-estoque/:produto_id", (req, res) => {
+  const produtoId = req.params.produto_id;
+  const quantidadeVendida = req.body.quantidade;  // A quantidade que será deduzida do estoque
+
+  const query = `
+    UPDATE saldo_estoque 
+    SET quantidade = quantidade - ?
+    WHERE produto_id = ?
+  `;
+
+  connection.query(query, [quantidadeVendida, produtoId], (err, result) => {
+    if (err) {
+      console.error("Erro ao atualizar saldo de estoque:", err);
+      res.status(500).send("Erro ao atualizar saldo de estoque");
       return;
     }
 
-    res.status(201).send({ message: 'Item do pedido salvo com sucesso', id: result.insertId });
+    res.send("Saldo de estoque atualizado com sucesso");
   });
 });
-
-app.get("/pedido-itens/:pedido_id", (req, res) => {
-  const pedidoId = req.params.pedido_id;
-  const query = "SELECT * FROM itens_pedido WHERE pedido_id = ?";
-  connection.query(query, [pedidoId], (err, results) => {
-    if (err) {
-      res.status(500).send("Erro ao buscar itens de pedido.");
-    } else if (results.length === 0) {
-      res.status(404).send("Nenhum item encontrado para este pedido.");
-    } else {
-      res.json(results);
-    }
-  });
-});
-
-app.put("/pedido-itens/:id", (req, res) => {
-  const id = req.params.id;
-  const { produto_id, quantidade, preco_unitario, valor_total } = req.body;
-
-  const query = "UPDATE itens_pedido SET produto_id = ?, quantidade = ?, preco_unitario = ?, valor_total = ? WHERE id = ?";
-  const params = [produto_id, quantidade, preco_unitario, valor_total, id];
-
-  connection.query(query, params, (err, results) => {
-    if (err) {
-      res.status(500).send("Erro ao atualizar item do pedido.");
-    } else {
-      res.send("Item do pedido atualizado com sucesso.");
-    }
-  });
-});
-
-app.delete("/pedido-itens/:id", (req, res) => {
-  const id = req.params.id;
-  const query = "DELETE FROM itens_pedido WHERE id = ?";
-
-  connection.query(query, [id], (err, results) => {
-    if (err) {
-      res.status(500).send("Erro ao deletar item do pedido.");
-    } else {
-      res.send("Item do pedido deletado com sucesso.");
-    }
-  });
-});
-
 
 const server = app.listen(port, () => {
   // Mantido apenas uma chamada para app.listen

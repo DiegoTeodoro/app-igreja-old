@@ -1,52 +1,44 @@
-.pedido-form {
-  display: flex;
-  flex-direction: column;
-}
-
-.pedido-form mat-form-field {
-  margin-right: 15px;
-}
-
-.pedido-form .item-container {
-  display: flex;
-  align-items: center;
-}
-
-.pedido-form .item-container mat-form-field {
-  flex: 1;
-}
-
-.pedido-form .item-container .quantidade {
-  flex: 0 0 20%;
-}
-
-.pedido-form .item-container button {
-  margin-left: 10px;
-}
-
-.pedido-form button {
-  width: 150px; /* Defina uma largura fixa ou use flexibilidade */
-  margin-top: 10px; /* Adiciona um pouco de espaçamento superior para o botão */
-}
-
-.status-container {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  width: 20%;
-}
-.pedido-form {
-  display: flex;
-  flex-direction: column;
-}
-
-.pedido-form .mat-form-field {
-  margin-right: 20px;
-}
-
-.pedido-form div[fxLayout="row"] {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  align-items: center;
-}
+/* Estilos gerais para o formulário de pedido */
+.pedido-form .form-row {
+    display: flex;
+    flex-wrap: nowrap; /* Garante que os itens fiquem na mesma linha */
+    justify-content: space-between; /* Garante o espaçamento entre os itens */
+    gap: 10px; /* Espaçamento entre os itens */
+    align-items: center; /* Alinhamento vertical centralizado */
+  }
+  
+  
+  .pedido-form .igreja {
+    flex: 0 0 50%; /* 50% de largura */
+  }
+  
+  .pedido-form .status,
+  .pedido-form .data-pedido {
+    flex: 0 0 25%; /* 25% de largura */
+  }
+  
+  .pedido-form .recebedor {
+    flex: 0 0 50%; /* 50% de largura */
+  }
+  
+  /* Estilos para a seção de itens do pedido */
+  .pedido-itens {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .pedido-itens .produto {
+    flex: 0 0 50%; /* 60% de largura */
+  }
+  
+  .pedido-itens .quantidade,
+  .pedido-itens .valor-unitario {
+    flex: 0 0 15%; /* 20% de largura cada */
+  }
+  
+  .pedido-itens .adicionar-item {
+    flex: 0 0 15%; /* 15% de largura */
+  }
+  

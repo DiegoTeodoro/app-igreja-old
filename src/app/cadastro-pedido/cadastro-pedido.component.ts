@@ -1,12 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ProdutoService } from '../produto.service';
-import { IgrejaService } from '../igreja.service';
-import { Produto } from '../models/produto';
-import { Igreja } from '../models/igreja';
-import { Pedido, PedidoItem } from '../models/pedido';
-import { PedidoService } from '../pedido.service';
-import { SaldoEstoqueService } from '../Saldo_Estoque.service'; // Serviço para pegar preço unitário
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { PedidoService } from '../Pedido.Service'; // Importar o serviço de pedidos
+import { Pedido, PedidoItem } from '../models/Pedido'; // Modelo do pedido e itens
+import { SaldoEstoqueService } from '../Saldo_Estoque.service'; // Importar o serviço de Saldo Estoque
+import { NgForm } from '@angular/forms'; // Importar NgForm para resetar o formulário
 
 @Component({
   selector: 'app-cadastro-pedido',
@@ -14,187 +10,143 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./cadastro-pedido.component.css']
 })
 export class CadastroPedidoComponent implements OnInit {
-  igrejas: Igreja[] = [];
-  produtos: Produto[] = [];
+
+  @ViewChild('pedidoForm') pedidoForm!: NgForm; // Referência ao formulário
+
   pedido: Pedido = {
     igreja_id: 0,
     data_pedido: new Date(),
     status: 'Pendente',
-    preco: 0,
     valor_total: 0,
-    pedido_itens: [],
-    recebedor: ''
+    recebedor: '',
+    pedido_itens: []
   };
-  produtoSelecionado: Produto | null = null;
-  quantidade: number = 0;
-  precoUnitario: number = 0;
-  displayedColumns: string[] = ['produto', 'quantidade', 'preco_unitario', 'valor_total'];
-  dataSource = new MatTableDataSource(this.pedido.pedido_itens); // DataSource para a tabela
+
+  igrejas: any[] = [];
+  produtos: any[] = [];
+  dataSource: PedidoItem[] = [];
+  displayedColumns: string[] = ['produto', 'quantidade', 'valor_unitario', 'valor_total'];
 
   constructor(
-    private igrejaService: IgrejaService,
-    private produtoService: ProdutoService,
     private pedidoService: PedidoService,
-    private saldoEstoqueService: SaldoEstoqueService // Serviço para pegar preço unitário
+    private saldoEstoqueService: SaldoEstoqueService
   ) {}
 
   ngOnInit(): void {
     this.carregarIgrejas();
     this.carregarProdutos();
-    this.pedido.data_pedido = new Date();
   }
 
-  carregarIgrejas(): void {
-    this.igrejaService.getIgrejas().subscribe(igrejas => this.igrejas = igrejas);
+  carregarIgrejas() {
+    this.pedidoService.getIgrejas().subscribe((dados: any[]) => {
+      this.igrejas = dados;
+    }, error => {
+      console.error("Erro ao carregar igrejas: ", error);
+    });
   }
 
-  carregarProdutos(): void {
-    this.produtoService.getProdutos().subscribe(produtos => this.produtos = produtos);
+  carregarProdutos() {
+    this.pedidoService.getProdutos().subscribe((dados: any[]) => {
+      this.produtos = dados;
+    }, error => {
+      console.error("Erro ao carregar produtos: ", error);
+    });
   }
 
-  // Método para carregar o preço unitário quando um produto é selecionado
-  carregarValorUnitario(): void {
-    if (this.produtoSelecionado && this.produtoSelecionado.id) {
-      const produtoId = this.produtoSelecionado.id;
-
-      // Buscar o valor unitário com base no produto selecionado
-      this.saldoEstoqueService.getPrecoUnitario(produtoId).subscribe(
-        (response: any) => {
-          this.precoUnitario = response.preco_unitario;
-        },
-        (error) => {
-          console.error("Erro ao buscar preço unitário:", error);
-        }
-      );
+  adicionarItem() {
+    const produtoSelecionado = this.produtos.find(produto => produto.id === this.pedido.produto_id);
+    if (produtoSelecionado) {
+      const valorUnitario = this.pedido.valor_unitario;
+      const quantidade = this.pedido.quantidade;
+      const valorTotal = valorUnitario * quantidade;
+  
+      const novoItem: PedidoItem = {
+        produto_nome: produtoSelecionado.nome,
+        quantidade: quantidade,
+        valor_unitario: valorUnitario,
+        valor_total: valorTotal,
+        produto_id: produtoSelecionado.id // Corrigir o ID do produto selecionado
+      };
+  
+      this.pedido.pedido_itens.push(novoItem);
+      this.atualizarDataSource();
     }
   }
 
-  // Método para adicionar um produto à lista de itens do pedido
-  adicionarProduto(): void {
-    if (this.produtoSelecionado && this.quantidade > 0 && this.precoUnitario > 0) {
-      const produtoId = this.produtoSelecionado.id;
-
-      if (produtoId !== null && produtoId !== undefined) {
-        const item: PedidoItem = {
-          pedido_id: this.pedido.id || 0,
-          produto_id: produtoId,
-          quantidade: this.quantidade,
-          preco_unitario: this.precoUnitario,
-          desconto: 0,
-          valor_total: this.quantidade * this.precoUnitario
-        };
-
-        // Adiciona o item ao array de itens do pedido
-        this.pedido.pedido_itens.push(item);
-        
-        // Atualiza o DataSource com os novos itens
-        this.dataSource.data = [...this.pedido.pedido_itens];
-        this.calcularValorTotal();
-      } else {
-        console.error("Produto selecionado não possui ID válido.");
-      }
-    }
+  atualizarDataSource() {
+    this.dataSource = [...this.pedido.pedido_itens];  // Clonar o array para atualizar a tabela
   }
 
-  // Método para calcular o valor total do pedido
-  calcularValorTotal(): void {
-    this.pedido.valor_total = this.pedido.pedido_itens.reduce((total, item) => {
-      return total + item.valor_total;
-    }, 0);
-  }
-
-  // Método para finalizar o pedido e atualizar o saldo de estoque
-  finalizarPedido(): void {
-    if (!this.pedido.igreja_id || !this.pedido.data_pedido || !this.pedido.recebedor || this.pedido.pedido_itens.length === 0) {
-      console.error('Por favor, preencha todos os campos obrigatórios e adicione pelo menos um item ao pedido.');
-      return;
-    }
-
-    const dataFormatada = this.pedido.data_pedido.toISOString().slice(0, 10);
-
-    const pedidoParaEnvio = {
+  finalizarPedido() {
+    this.pedido.valor_total = this.pedido.pedido_itens.reduce((acc, item) => acc + item.valor_total, 0);
+  
+    const dataPedidoMySQL = this.formatDateToMySQL(this.pedido.data_pedido);
+  
+    const pedidoParaEnviar = {
       ...this.pedido,
-      data_pedido: dataFormatada
+      data_pedido: dataPedidoMySQL
     };
-
-    // Verificar o pedido antes do envio
-    console.log('Pedido para envio:', pedidoParaEnvio);
-
-    this.pedidoService.createPedido(pedidoParaEnvio).subscribe(
-      (response: any) => {
-        const pedidoId = response.id;
-        const itensParaSalvar = this.pedido.pedido_itens.map(item => ({
-          ...item,
-          pedido_id: pedidoId  // Atribua o pedido_id correto
-        }));
-
-        // Verificar os itens antes do envio
-        console.log('Itens do pedido para salvar:', itensParaSalvar);
-
-        // Enviar cada item do pedido e atualizar o saldo de estoque
-        itensParaSalvar.forEach(item => {
-          this.pedidoService.createPedidoItem(item).subscribe(
-            () => {
-              console.log('Item do pedido salvo com sucesso:', item);
-              this.atualizarSaldoEstoque(item.produto_id!, item.quantidade); // Atualizar o saldo de estoque
-            },
-            (error) => console.error('Erro ao salvar item do pedido:', error)
-          );
+  
+    // Enviar o pedido e os itens para o serviço
+    this.pedidoService.registrarPedido(pedidoParaEnviar).subscribe(response => {
+      console.log('Pedido salvo com sucesso!', response);
+  
+      // Atualizar o saldo de estoque para cada item do pedido
+      this.pedido.pedido_itens.forEach(item => {
+        this.saldoEstoqueService.updateSaldoEstoque(item.produto_id, item.quantidade).subscribe(res => {
+          console.log(`Saldo de estoque atualizado para o produto ${item.produto_id}: diminuiu ${item.quantidade} unidades.`);
+        }, error => {
+          console.error(`Erro ao atualizar saldo de estoque para o produto ${item.produto_id}:`, error);
         });
-
-        console.log('Pedido finalizado com sucesso');
-        this.limparFormulario();
-      },
-      (error) => {
-        console.error('Erro ao finalizar pedido:', error);
-      }
-    );
-  }
-
-  // Método para atualizar o saldo de estoque
-  atualizarSaldoEstoque(produtoId: number, quantidade: number): void {
-    this.saldoEstoqueService.getSaldoEstoque().subscribe((saldos) => {
-      const saldo = saldos.find(s => s.produto_id === produtoId);
-      if (saldo) {
-        const novaQuantidade = saldo.quantidade - quantidade;
+      });
   
-        if (novaQuantidade >= 0) {
-          // Atualize o saldo de estoque no banco de dados
-          const novoSaldo = { ...saldo, quantidade: novaQuantidade };
-  
-          this.saldoEstoqueService.updateSaldoEstoque(novoSaldo).subscribe(
-            () => console.log('Saldo de estoque atualizado com sucesso para o produto:', produtoId),
-            (error: any) => console.error('Erro ao atualizar saldo de estoque:', error)
-          );
-        } else {
-          console.error('Quantidade em estoque insuficiente para o produto:', produtoId);
-        }
-      } else {
-        console.error('Produto não encontrado no saldo de estoque:', produtoId);
-      }
+      // Limpar o formulário após salvar o pedido
+      this.limparFormulario();
+    }, error => {
+      console.error('Erro ao salvar o pedido:', error);
     });
   }
   
-  // Função para limpar o formulário após finalizar o pedido
-  limparFormulario(): void {
+
+  formatDateToMySQL(date: Date): string {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = (`0${d.getMonth() + 1}`).slice(-2);
+    const day = (`0${d.getDate()}`).slice(-2);
+    const hours = (`0${d.getHours()}`).slice(-2);
+    const minutes = (`0${d.getMinutes()}`).slice(-2);
+    const seconds = (`0${d.getSeconds()}`).slice(-2);
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
+
+  limparFormulario() {
+    // Reset the pedido object
     this.pedido = {
       igreja_id: 0,
       data_pedido: new Date(),
       status: 'Pendente',
-      preco: 0,
       valor_total: 0,
-      pedido_itens: [],
-      recebedor: ''
+      recebedor: '',
+      pedido_itens: []
     };
-    this.dataSource.data = []; // Limpar a tabela de itens
-    this.produtoSelecionado = null;
-    this.quantidade = 0;
-    this.precoUnitario = 0;
+  
+    // Clear the DataSource for the table
+    this.dataSource = [];
+  
+    // Reset the form itself if it's available
+    if (this.pedidoForm) {
+      this.pedidoForm.resetForm();
+    }
   }
+  
 
-  // Método auxiliar para buscar o nome do produto
-  obterNomeProduto(produtoId: number): string {
-    const produto = this.produtos.find(p => p.id === produtoId);
-    return produto ? produto.nome : 'Produto não encontrado';
+  atualizarValorUnitario(event: any) {
+    const produtoId = event.value;
+
+    this.saldoEstoqueService.getPrecoUnitario(produtoId).subscribe((response: any) => {
+      this.pedido.valor_unitario = response.preco_unitario;
+    }, (error: any) => {
+      console.error("Erro ao buscar o valor unitário: ", error);
+    });
   }
 }

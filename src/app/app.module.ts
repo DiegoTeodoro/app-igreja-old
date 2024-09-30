@@ -24,7 +24,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 import { CategoriaComponent } from './categoria/categoria.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { EstadoService } from './estado.service';
 import { CidadeService } from './cidade.service';
 import { FornecedorService } from './fornecedor.service';
 import { EstadoComponent } from './estados/estados.component';
@@ -41,11 +40,14 @@ import { CadastroUsuarioComponent } from './cadastro-usuario/cadastro-usuario.co
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { CadastroPedidoComponent } from './cadastro-pedido/cadastro-pedido.component';
 import { CadastroNotaFiscalComponent } from './cadastro-nota-fiscal/cadastro-nota-fiscal.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { RelatorioSaldoEstoqueComponent } from './relatorio-saldo-estoque/relatorio-saldo-estoque.component';
 import { RelatorioProdutoComponent } from './relatorio-produto/relatorio-produto.component';
+import { CadastroPedidoComponent } from './cadastro-pedido/cadastro-pedido.component';
+
+
+
 
 
 @NgModule({
@@ -64,13 +66,13 @@ import { RelatorioProdutoComponent } from './relatorio-produto/relatorio-produto
     CadastroProdutoComponent,
     ConfirmDialog,
     CadastroUsuarioComponent,
-    CadastroPedidoComponent,
     CadastroNotaFiscalComponent,
     RelatorioSaldoEstoqueComponent,
     RelatorioProdutoComponent,
-    
+    CadastroPedidoComponent,
 
-    
+
+
   ],
   imports: [
     BrowserModule,
@@ -105,10 +107,9 @@ import { RelatorioProdutoComponent } from './relatorio-produto/relatorio-produto
   entryComponents: [
     DeleteDialogComponent
   ],
-  providers: [ { provide: LOCALE_ID, useValue: 'pt-BR' }, // Define a localidade para 'pt-BR'EstadoService,
+  providers: [ { provide: LOCALE_ID, useValue: 'pt-BR' }, 
     CidadeService,
     FornecedorService],
   bootstrap: [AppComponent],
-
 })
 export class AppModule { }

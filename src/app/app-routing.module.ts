@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { SetorComponent } from './setor/setor.component';
@@ -10,10 +10,12 @@ import { FornecedorComponent } from './fornecedor/fornecedor.component';
 import { ConsultaProdutoComponent } from './consulta-produto/consulta-produto.component';
 import { CadastroProdutoComponent } from './cadastro-produto/cadastro-produto.component';
 import { CadastroUsuarioComponent } from './cadastro-usuario/cadastro-usuario.component';
-import { CadastroPedidoComponent } from './cadastro-pedido/cadastro-pedido.component';
 import { CadastroNotaFiscalComponent } from './cadastro-nota-fiscal/cadastro-nota-fiscal.component';
 import { RelatorioSaldoEstoqueComponent } from './relatorio-saldo-estoque/relatorio-saldo-estoque.component';
 import { RelatorioProdutoComponent } from './relatorio-produto/relatorio-produto.component';
+import { CadastroPedidoComponent } from './cadastro-pedido/cadastro-pedido.component';
+
+
 
 
 const routes: Routes = [
@@ -29,8 +31,8 @@ const routes: Routes = [
   { path: 'estado', component: EstadoComponent },
   { path: 'categoria', component: CategoriaComponent },
   { path: 'cadastro-usuario', component: CadastroUsuarioComponent },
-  { path: 'cadastro-pedido', component: CadastroPedidoComponent },
   { path: 'cadastro-nota-fiscal', component: CadastroNotaFiscalComponent },
+  { path: 'cadastro-pedido', component: CadastroPedidoComponent },
   { path: 'relatorio-saldo-estoque', component: RelatorioSaldoEstoqueComponent},
   { path: 'relatorio-produto', component: RelatorioProdutoComponent },
   { path: '**', redirectTo: '/home' } // Página não encontrada

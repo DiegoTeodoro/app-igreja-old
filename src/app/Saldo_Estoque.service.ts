@@ -1,29 +1,30 @@
+// Saldo_Estoque.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
+import { SaldoEstoque } from './models/SaldoEstoque';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SaldoEstoqueService {
-  private apiUrl = 'http://localhost:3000/saldo-estoque';  // URL da API de saldo de estoque
+  private apiUrl = 'http://localhost:3000/saldo-estoque';
 
   constructor(private http: HttpClient) {}
 
-  // Método para buscar o preço unitário baseado no produto_id
+  getSaldoEstoque(): Observable<SaldoEstoque[]> {
+    return this.http.get<SaldoEstoque[]>(this.apiUrl);
+  }
+
+  // Método para buscar o valor unitário com base no produto_id
   getPrecoUnitario(produtoId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/preco/${produtoId}`);
   }
 
-  // Método para buscar todo o saldo de estoque
-  getSaldoEstoque(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl).pipe(
-      tap((data) => console.log('Dados recebidos do servidor:', data))
-    );
-  }
+ // Método para atualizar o saldo de estoque com base no produto_id e quantidade
+ updateSaldoEstoque(produto_id: number, quantidade: number): Observable<any> {
+  const body = { quantidade };  // Enviar apenas a quantidade
+  return this.http.put(`${this.apiUrl}/${produto_id}`, body);
+}
 
-  // Método para atualizar o saldo de estoque
-  updateSaldoEstoque(novoSaldo: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${novoSaldo.id}`, novoSaldo);
-  }
 }

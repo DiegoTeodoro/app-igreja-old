@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 @Component({
@@ -35,7 +34,7 @@ export class AppComponent {
     {
       title: 'Financeiro',
       links: [
-        { title: 'Pedido', route: '/cadastro-pedido'},
+        { title: 'Pedido', route: '/cadastro-pedido' },
         { title: 'Entrada de Nota', route: '/cadastro-nota-fiscal' }
       ]
     },
