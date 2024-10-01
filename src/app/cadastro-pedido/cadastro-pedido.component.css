@@ -41,4 +41,7 @@
   .pedido-itens .adicionar-item {
     flex: 0 0 15%; /* 15% de largura */
   }
+  .button-spacing {
+    margin-right: 10px;
+  }
   

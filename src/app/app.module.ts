@@ -45,7 +45,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { RelatorioSaldoEstoqueComponent } from './relatorio-saldo-estoque/relatorio-saldo-estoque.component';
 import { RelatorioProdutoComponent } from './relatorio-produto/relatorio-produto.component';
 import { CadastroPedidoComponent } from './cadastro-pedido/cadastro-pedido.component';
-
+import { ConsultaPedidoComponent } from './consulta-pedido/consulta-pedido.component';
 
 
 
@@ -70,6 +70,7 @@ import { CadastroPedidoComponent } from './cadastro-pedido/cadastro-pedido.compo
     RelatorioSaldoEstoqueComponent,
     RelatorioProdutoComponent,
     CadastroPedidoComponent,
+    ConsultaPedidoComponent,
 
 
 
@@ -102,6 +103,7 @@ import { CadastroPedidoComponent } from './cadastro-pedido/cadastro-pedido.compo
     MatNativeDateModule,
     MatTooltipModule,
     NgxMaskModule.forRoot(),
+   
   ],
 
   entryComponents: [

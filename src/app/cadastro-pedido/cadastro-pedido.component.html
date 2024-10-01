@@ -16,15 +16,12 @@
           </mat-select>
         </mat-form-field>
 
-        <!-- Status -->
+       
+        <!-- Status (readonly) -->
         <mat-form-field style="width: 20%;">
-          <mat-select placeholder="Selecione o Status" [(ngModel)]="pedido.status" name="status">
-            <mat-option value="Pendente">Pendente</mat-option>
-            <mat-option value="Processando">Processando</mat-option>
-            <mat-option value="Entregue">Entregue</mat-option>
-            <mat-option value="Cancelado">Cancelado</mat-option>
-          </mat-select>
+          <input matInput placeholder="Status" [(ngModel)]="pedido.status" name="status" readonly>
         </mat-form-field>
+
 
         <!-- Data do Pedido -->
         <mat-form-field appearance="fill" class="data-pedido">
@@ -71,7 +68,7 @@
 
         <!-- Botão Adicionar Item -->
         <div class="adicionar-item">
-          <button mat-raised-button color="primary" (click)="adicionarItem()">Adicionar Item</button>
+          <button mat-raised-button color="primary" (click)="adicionarItem()">Adicionar</button>
         </div>
       </div>
     </mat-card>
@@ -102,12 +99,27 @@
         </td>
       </ng-container>
     
+      <ng-container matColumnDef="acoes">
+        <th mat-header-cell *matHeaderCellDef style="text-align: center; font-size: 15px;">Ações</th>
+        <td mat-cell *matCellDef="let element" style="text-align: center;">
+          <button mat-icon-button color="primary" (click)="onEdit(element)" matTooltip="Editar">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="onDelete(element)" matTooltip="Deletar">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
     <br>
     
     <!-- Botão Finalizar Pedido -->
-    <button mat-raised-button color="primary" (click)="finalizarPedido()">Finalizar Pedido</button>
+    <button mat-raised-button color="primary" (click)="finalizarPedido()" class="button-spacing">Finalizar Pedido</button>
+    <button mat-raised-button color="primary" class="button-spacing">Salvar</button>
+    <button mat-raised-button color="primary" style="background-color: #CD5C5C;">Cancelar</button>
+
   </form>
 </div>

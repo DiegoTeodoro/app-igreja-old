@@ -711,6 +711,44 @@ app.put("/saldo-estoque/:id", (req, res) => {
     res.send("Quantidade de saldo de estoque atualizada com sucesso.");
   });
 });
+// Rota para buscar todos os pedidos
+app.get("/pedidos", (req, res) => {
+  const query = `
+    SELECT p.id, p.igreja_id, i.nome AS igreja_nome, p.data_pedido, p.status, p.valor_total, p.recebedor
+    FROM pedidos p
+    JOIN igreja i ON p.igreja_id = i.codigo;
+  `;
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Erro ao buscar pedidos:", err);
+      res.status(500).send("Erro ao buscar pedidos");
+    } else {
+      res.json(results);  // Retorna os pedidos no formato JSON
+    }
+  });
+});
+
+
+// Rota para buscar um pedido por código
+app.get("/pedidos/:id", (req, res) => {
+  const pedidoId = req.params.id;
+  const query = `
+    SELECT p.*, i.nome AS igreja_nome 
+    FROM pedidos p
+    JOIN igreja i ON p.igreja_id = i.codigo
+    WHERE p.id = ?
+  `;
+  connection.query(query, [pedidoId], (err, results) => {
+    if (err) {
+      console.error("Erro ao buscar pedido:", err);
+      res.status(500).send("Erro ao buscar pedido");
+    } else if (results.length > 0) {
+      res.json(results[0]);
+    } else {
+      res.status(404).send("Pedido não encontrado");
+    }
+  });
+});
 
 app.post("/pedidos", (req, res) => {
   const pedido = req.body;

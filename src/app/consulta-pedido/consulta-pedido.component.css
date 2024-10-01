@@ -1,0 +1,35 @@
+/* Define os campos de pesquisa para ocupar 20% da largura */
+.mat-form-field {
+    width: 20%;
+    margin-right: 1%; /* Espaço entre os campos */
+    display: inline-block; /* Mantém os campos na mesma linha */
+  }
+  
+  /* Centraliza os itens da tabela */
+  table {
+    width: 100%;
+  }
+  
+  td, th {
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  /* Ajuste para as colunas da tabela */
+  .mat-column-id,
+  .mat-column-igreja_nome,
+  .mat-column-data_pedido,
+  .mat-column-status,
+  .mat-column-valor_total,
+  .mat-column-recebedor {
+    width: 16%;
+    text-align: center;
+  }
+  
+  /* Cor de fundo do cabeçalho da tabela */
+  th {
+    background-color: #438EB9;
+    color: white;
+    padding: 10px;
+  }
+  

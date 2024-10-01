@@ -1,0 +1,85 @@
+<div>
+    <h1>Consulta Pedidos</h1>
+    
+    <h2>Pesquisar</h2>
+    <mat-form-field>
+      <mat-label>Igreja</mat-label>
+      <mat-select [(value)]="selectedIgreja" (selectionChange)="applyFilter()">
+        <mat-option *ngFor="let igreja of igrejas" [value]="igreja.nome">{{ igreja.nome }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Status</mat-label>
+      <mat-select [(value)]="selectedStatus" (selectionChange)="applyFilter()">
+        <mat-option value="">Todos</mat-option>
+        <mat-option value="Pendente">Pendente</mat-option>
+        <mat-option value="Entregue">Entregue</mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <div>
+      <h2>Datas</h2>
+      <!-- Data Início -->
+      <mat-form-field>
+        <input matInput [(ngModel)]="startDate" [matDatepicker]="startPicker" placeholder="Início" (dateChange)="applyFilter()">
+        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
+  
+      <!-- Data Fim -->
+      <mat-form-field>
+        <input matInput [(ngModel)]="endDate" [matDatepicker]="endPicker" placeholder="Fim" (dateChange)="applyFilter()">
+        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+        <mat-datepicker #endPicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <!-- Botão Limpar -->
+    <button mat-raised-button color="primary" class="button-spacing" (click)="clearFilters()">Limpar</button>
+    <br><br>
+</div>
+
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="mat-table" multiTemplateDataRows>
+      
+      <!-- Colunas definidas conforme o exemplo anterior -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> Codigo </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="igreja_nome">
+        <th mat-header-cell *matHeaderCellDef> Igreja </th>
+        <td mat-cell *matCellDef="let element"> {{element.igreja_nome}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="data_pedido">
+        <th mat-header-cell *matHeaderCellDef> Data do Pedido </th>
+        <td mat-cell *matCellDef="let element"> {{element.data_pedido | date:'short'}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="valor_total">
+        <th mat-header-cell *matHeaderCellDef> Valor Total </th>
+        <td mat-cell *matCellDef="let element"> {{element.valor_total | currency:'BRL':'symbol':'1.2-2'}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="recebedor">
+        <th mat-header-cell *matHeaderCellDef> Recebedor </th>
+        <td mat-cell *matCellDef="let element"> {{element.recebedor}} </td>
+      </ng-container>
+  
+      <!-- Header and Row Declarations -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <!-- Paginação -->
+    <mat-paginator [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
+  </div>
+  

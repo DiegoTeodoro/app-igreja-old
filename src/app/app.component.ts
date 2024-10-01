@@ -32,9 +32,15 @@ export class AppComponent {
       ]
     },
     {
-      title: 'Financeiro',
+      title: 'Pedidos',
       links: [
         { title: 'Pedido', route: '/cadastro-pedido' },
+        { title: 'Consulta Pedido', route: '/consulta-pedido' }
+      ]
+    },
+    {
+      title: 'Notas Fiscais',
+      links: [
         { title: 'Entrada de Nota', route: '/cadastro-nota-fiscal' }
       ]
     },
