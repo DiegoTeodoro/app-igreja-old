@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from '../usuario.service';
-import { Usuario } from '../models/usuario';
+
 
 @Component({
   selector: 'app-cadastro-usuario',
@@ -10,39 +10,32 @@ import { Usuario } from '../models/usuario';
 })
 export class CadastroUsuarioComponent {
   usuarioForm: FormGroup;
-  hide = true;
-  sucesso: boolean = false;
 
   constructor(private fb: FormBuilder, private usuarioService: UsuarioService) {
     this.usuarioForm = this.fb.group({
-      login: ['', Validators.required],
-      senha: ['', [Validators.required, Validators.minLength(6)]]
+      login: ['', [Validators.required, Validators.minLength(4)]],
+      senha: ['', [Validators.required, Validators.minLength(6)]],
+      nome: ['', Validators.required]
     });
   }
 
-
-
   onSubmit() {
     if (this.usuarioForm.valid) {
-      const novoUsuario: Usuario = this.usuarioForm.value;
-      this.usuarioService.createUsuario(novoUsuario).subscribe(
-        response => {
-          console.log('Usuário salvo com sucesso:', response);
-          this.sucesso = true; // Exibir mensagem de sucesso
-          this.usuarioForm.reset(); // Limpar o formulário
-          setTimeout(() => this.sucesso = false, 3000); // Esconder a mensagem de sucesso após 3 segundos
+      this.usuarioService.createUsuario(this.usuarioForm.value).subscribe({
+        next: (response) => {
+          console.log('Usuário cadastrado com sucesso', response);
+          this.resetForm(); // Chama a função para limpar o formulário
         },
-        error => {
-          console.error('Erro ao salvar o usuário:', error);
-          // Lógica de tratamento de erro
+        error: (error) => {
+          console.error('Erro ao cadastrar usuário', error);
         }
-      );
+      });
     }
   }
 
-  togglePasswordVisibility(event: Event) {
-    event.preventDefault();  // Prevenir o comportamento padrão
-    this.hide = !this.hide;
+  // Função para resetar o formulário
+  resetForm() {
+    this.usuarioForm.reset(); // Limpa todos os campos do formulário
   }
-  
 }
+

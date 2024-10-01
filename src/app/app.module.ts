@@ -36,7 +36,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ConfirmDialog, ConsultaProdutoComponent } from './consulta-produto/consulta-produto.component';
 import { DeleteDialogComponent } from './categoria/delete-dialog.component';
 import { CadastroProdutoComponent } from './cadastro-produto/cadastro-produto.component';
-import { CadastroUsuarioComponent } from './cadastro-usuario/cadastro-usuario.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -46,6 +45,7 @@ import { RelatorioSaldoEstoqueComponent } from './relatorio-saldo-estoque/relato
 import { RelatorioProdutoComponent } from './relatorio-produto/relatorio-produto.component';
 import { CadastroPedidoComponent } from './cadastro-pedido/cadastro-pedido.component';
 import { ConsultaPedidoComponent } from './consulta-pedido/consulta-pedido.component';
+import { CadastroUsuarioComponent } from './cadastro-usuario/cadastro-usuario.component';
 
 
 
@@ -65,12 +65,12 @@ import { ConsultaPedidoComponent } from './consulta-pedido/consulta-pedido.compo
     DeleteDialogComponent,
     CadastroProdutoComponent,
     ConfirmDialog,
-    CadastroUsuarioComponent,
     CadastroNotaFiscalComponent,
     RelatorioSaldoEstoqueComponent,
     RelatorioProdutoComponent,
     CadastroPedidoComponent,
     ConsultaPedidoComponent,
+    CadastroUsuarioComponent,
 
 
 

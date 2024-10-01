@@ -454,96 +454,6 @@ app.delete("/categorias/:id", (req, res) => {
   );
 });
 
-// Create (Adicionar um usuário)
-app.post("/usuario", (req, res) => {
-  const { login, senha } = req.body;
-  const query = "INSERT INTO usuario (login, senha) VALUES (?, ?)";
-  connection.query(query, [login, senha], (err, results) => {
-    if (err) {
-      console.error("Error adding user:", err);
-      res.status(500).send("Error adding user");
-      return;
-    }
-    res.status(201).send({ id: results.insertId, login, senha });
-  });
-});
-
-// Read (Obter todos os usuários)
-app.get("/usuario", (req, res) => {
-  const query = "SELECT * FROM usuario";
-  connection.query(query, (err, results) => {
-    if (err) {
-      console.error("Error fetching users:", err);
-      res.status(500).send("Error fetching users");
-      return;
-    }
-    res.status(200).send(results);
-  });
-});
-
-// Read (Obter um usuário por ID)
-app.get("/usuario/:id", (req, res) => {
-  const { id } = req.params;
-  const query = "SELECT * FROM usuario WHERE id = ?";
-  connection.query(query, [id], (err, results) => {
-    if (err) {
-      console.error("Error fetching user:", err);
-      res.status(500).send("Error fetching user");
-      return;
-    }
-    if (results.length === 0) {
-      res.status(404).send("User not found");
-      return;
-    }
-    res.status(200).send(results[0]);
-  });
-});
-
-// Update (Atualizar um usuário)
-app.put("/usuario/:id", (req, res) => {
-  const { id } = req.params;
-  const { login, senha } = req.body;
-  const query = "UPDATE usuario SET login = ?, senha = ? WHERE id = ?";
-  connection.query(query, [login, senha, id], (err) => {
-    if (err) {
-      console.error("Error updating user:", err);
-      res.status(500).send("Error updating user");
-      return;
-    }
-    res.status(200).send("User updated successfully");
-  });
-});
-
-// Delete (Deletar um usuário)
-app.delete("/usuario/:id", (req, res) => {
-  const { id } = req.params;
-  const query = "DELETE FROM usuario WHERE id = ?";
-  connection.query(query, [id], (err) => {
-    if (err) {
-      console.error("Error deleting user:", err);
-      res.status(500).send("Error deleting user");
-      return;
-    }
-    res.status(200).send("User deleted successfully");
-  });
-});
-
-app.post("/usuario/login", (req, res) => {
-  const { login, senha } = req.body;
-  const query = "SELECT * FROM usuario WHERE login = ? AND senha = ?";
-  connection.query(query, [login, senha], (err, results) => {
-    if (err) {
-      console.error("Error validating login:", err);
-      res.status(500).send("Internal Server Error");
-      return;
-    }
-    if (results.length > 0) {
-      res.send(results[0]);
-    } else {
-      res.status(401).send("Invalid login or password");
-    }
-  });
-});
 
 // Rota para buscar o preço unitário pelo produto_id
 app.get("/saldo-estoque/preco/:produto_id", (req, res) => {
@@ -872,6 +782,76 @@ app.put("/saldo-estoque/:produto_id", (req, res) => {
     res.send("Saldo de estoque atualizado com sucesso");
   });
 });
+
+// CRUD APIs for 'usuario'
+
+// Get all users
+app.get("/usuarios", (req, res) => {
+  connection.query("SELECT * FROM usuario", (err, results) => {
+    if (err) {
+      console.error("Error fetching users:", err);
+      res.status(500).send("Internal Server Error");
+      return;
+    }
+    res.send(results);
+  });
+});
+
+// Get a single user by ID
+app.get("/usuarios/:id", (req, res) => {
+  const id = req.params.id;
+  connection.query("SELECT * FROM usuario WHERE id = ?", [id], (err, results) => {
+    if (err) {
+      res.status(500).send(err);
+    } else if (results.length > 0) {
+      res.json(results[0]);
+    } else {
+      res.status(404).send("User not found");
+    }
+  });
+});
+
+// Create a new user
+app.post("/usuarios", (req, res) => {
+  const usuario = req.body;
+  const query = "INSERT INTO usuario SET ?";
+  connection.query(query, usuario, (err, results) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(201).send({ id: results.insertId, ...usuario });
+    }
+  });
+});
+
+
+// Update an existing user by ID
+app.put("/usuarios/:id", (req, res) => {
+  const id = req.params.id;
+  const usuario = req.body;
+  const query = "UPDATE usuario SET ? WHERE id = ?";
+  connection.query(query, [usuario, id], (err, results) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.send("User updated successfully");
+    }
+  });
+});
+
+// Delete a user by ID
+app.delete("/usuarios/:id", (req, res) => {
+  const id = req.params.id;
+  const query = "DELETE FROM usuario WHERE id = ?";
+  connection.query(query, [id], (err, results) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.send("User deleted successfully");
+    }
+  });
+});
+
 
 const server = app.listen(port, () => {
   // Mantido apenas uma chamada para app.listen

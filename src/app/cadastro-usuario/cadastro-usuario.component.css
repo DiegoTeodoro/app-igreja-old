@@ -1,20 +1,16 @@
 .container {
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
   }
   
-  mat-card {
-    width: 400px;
-  }
-  
-  .form-field {
+  mat-form-field {
+    width: 100%;
     margin-bottom: 16px;
   }
-  .sucesso-mensagem {
-    color: green;
-    margin-top: 10px;
-    font-weight: bold;
-    text-align: center;
+  
+  button {
+    display: block;
+    margin-top: 20px;
   }
   
