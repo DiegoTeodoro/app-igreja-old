@@ -15,13 +15,17 @@ import { RelatorioSaldoEstoqueComponent } from './relatorio-saldo-estoque/relato
 import { RelatorioProdutoComponent } from './relatorio-produto/relatorio-produto.component';
 import { CadastroPedidoComponent } from './cadastro-pedido/cadastro-pedido.component';
 import { ConsultaPedidoComponent } from './consulta-pedido/consulta-pedido.component';
+import { LoginComponent } from './login/login.component';
+import { CadastroEmpresaComponent } from './cadastro-empresa/cadastro-empresa.component';
 
 
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'home', component: HomeComponent }, // A tela de Home
+  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redireciona para a página de login por padrão
+  { path: 'empresa', component: CadastroEmpresaComponent },
   { path: 'setor', component: SetorComponent },
   { path: 'igreja', component: IgrejaComponent },
   { path: 'cadastro-produto', component: CadastroProdutoComponent },

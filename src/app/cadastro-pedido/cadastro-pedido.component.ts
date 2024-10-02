@@ -109,7 +109,7 @@ export class CadastroPedidoComponent implements OnInit {
     this.dataSource = [...this.pedido.pedido_itens];  // Clonar o array para atualizar a tabela
   }
 
-  finalizarPedido() {
+  async finalizarPedido() {
     this.pedido.valor_total = this.pedido.pedido_itens.reduce((acc, item) => acc + item.valor_total, 0);
   
     // Alterar o status para "Entregue"
@@ -122,30 +122,35 @@ export class CadastroPedidoComponent implements OnInit {
       data_pedido: dataPedidoMySQL
     };
   
-    // Enviar o pedido e os itens para o serviço
-    this.pedidoService.registrarPedido(pedidoParaEnviar).subscribe(response => {
+    try {
+      // Salvar o pedido
+      const response = await this.pedidoService.registrarPedido(pedidoParaEnviar).toPromise();
       console.log('Pedido salvo com sucesso!', response);
   
-      // Atualizar o saldo de estoque para cada item do pedido
-      this.pedido.pedido_itens.forEach(item => {
-        this.saldoEstoqueService.updateSaldoEstoque(item.produto_id, item.quantidade).subscribe(res => {
-          console.log(`Saldo de estoque atualizado para o produto ${item.produto_id}: diminuiu ${item.quantidade} unidades.`);
-        }, error => {
-          console.error(`Erro ao atualizar saldo de estoque para o produto ${item.produto_id}:`, error);
-        });
-      });
+      // Atualizar o saldo de estoque para todos os itens
+      await Promise.all(
+        this.pedido.pedido_itens.map(item => {
+          return this.saldoEstoqueService.updateSaldoEstoque(item.produto_id, item.quantidade).toPromise();
+        })
+      );
   
-      // Limpar o formulário após salvar o pedido
+      console.log('Saldo de estoque atualizado para todos os produtos.');
+  
+      // Limpar o formulário
       this.limparFormulario();
   
-      console.log('Recarregando a página...');
-      window.location.reload();  // Recarregar a página
+      // Exibir mensagem de sucesso
+      this.snackBar.open('Pedido finalizado com sucesso!', 'Fechar', {
+        duration: 3000,  // Duração da mensagem em milissegundos
+      });
   
-    }, error => {
-      console.error('Erro ao salvar o pedido:', error);
-    });
+      // Forçar detecção de mudanças após exibir o snackBar
+      this.cdr.detectChanges();
+  
+    } catch (error) {
+      console.error('Erro ao salvar o pedido ou atualizar o saldo de estoque:', error);
+    }
   }
-  
   
   onEdit(element: PedidoItem) {
     // Preencher os campos do formulário com os dados do item a ser editado
@@ -187,7 +192,6 @@ export class CadastroPedidoComponent implements OnInit {
 
   // Limpar o formulário após salvar o pedido
   limparFormulario() {
-    // Verificar se o formulário existe antes de resetá-lo
     if (this.pedidoForm) {
       // Reseta os campos do formulário para seus valores padrão
       this.pedidoForm.reset({
@@ -200,15 +204,16 @@ export class CadastroPedidoComponent implements OnInit {
         valor_unitario: '',
         pedido_itens: []
       });
-  
+ 
       // Limpar os itens da tabela
       this.dataSource = [];
+ 
+      // Forçar detecção de mudanças
+      this.cdr.detectChanges();
     }
-  }
+ }
+ 
   
-  
-  
-
   atualizarValorUnitario(event: any) {
     const produtoId = event.value;
 
@@ -219,3 +224,4 @@ export class CadastroPedidoComponent implements OnInit {
     });
   }
 }
+

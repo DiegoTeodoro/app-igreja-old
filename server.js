@@ -161,10 +161,15 @@ app.delete("/igrejas/:id", (req, res) => {
 // CRUD APIs for 'estados'
 app.get("/estados", (req, res) => {
   connection.query("SELECT * FROM estados", (err, results) => {
-    if (err) throw err;
+    if (err) {
+      console.error("Erro ao buscar estados:", err);
+      res.status(500).send("Erro ao buscar estados");
+      return;
+    }
     res.send(results);
   });
 });
+
 
 app.post("/estados", (req, res) => {
   const estado = req.body;
@@ -851,6 +856,91 @@ app.delete("/usuarios/:id", (req, res) => {
     }
   });
 });
+app.post("/usuarios/login", (req, res) => {
+  const { login, senha } = req.body;
+  const query = "SELECT * FROM usuario WHERE login = ? AND senha = ?";
+  
+  connection.query(query, [login, senha], (err, results) => {
+    if (err) {
+      res.status(500).send("Erro no servidor");
+    } else if (results.length > 0) {
+      res.send({ valid: true });  // Retorna valid=true se o login e senha forem corretos
+    } else {
+      res.send({ valid: false }); // Retorna valid=false se o login e senha forem incorretos
+    }
+  });
+});
+
+// CRUD APIs for 'empresa'
+
+// Get all empresas
+app.get("/empresas", (req, res) => {
+  connection.query("SELECT * FROM empresa", (err, results) => {
+    if (err) {
+      console.error("Error fetching empresas:", err);
+      res.status(500).send("Internal Server Error");
+      return;
+    }
+    res.send(results);
+  });
+});
+
+// Get a single empresa by ID
+app.get("/empresas/:id", (req, res) => {
+  const id = req.params.id;
+  connection.query("SELECT * FROM empresa WHERE id = ?", [id], (err, results) => {
+    if (err) {
+      res.status(500).send(err);
+    } else if (results.length > 0) {
+      res.json(results[0]);
+    } else {
+      res.status(404).send("Empresa não encontrada");
+    }
+  });
+});
+
+// Create a new empresa
+app.post("/empresas", (req, res) => {
+  const empresa = req.body;
+
+  // Adicione um console.log para verificar os dados
+  console.log(empresa);
+
+  connection.query("INSERT INTO empresa SET ?", empresa, (err, results) => {
+    if (err) {
+      console.error("Erro ao inserir empresa:", err);
+      res.status(500).send("Erro ao inserir empresa");
+    } else {
+      res.status(201).send({ id: results.insertId, ...empresa });
+    }
+  });
+});
+
+// Update an existing empresa by ID
+app.put("/empresas/:id", (req, res) => {
+  const id = req.params.id;
+  const empresa = req.body;
+  connection.query("UPDATE empresa SET ? WHERE id = ?", [empresa, id], (err, results) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.send("Empresa atualizada com sucesso");
+    }
+  });
+});
+
+// Delete an empresa by ID
+app.delete("/empresas/:id", (req, res) => {
+  const id = req.params.id;
+  connection.query("DELETE FROM empresa WHERE id = ?", [id], (err, results) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.send("Empresa deletada com sucesso");
+    }
+  });
+});
+
 
 
 const server = app.listen(port, () => {

@@ -1,0 +1,30 @@
+mat-card {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-item {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.flex-item:last-child {
+  margin-right: 0;
+}
+
+.button-row {
+  margin-top: 20px;
+}
+
+button {
+  display: block;
+  margin-left: auto;
+}
+.radio-button {
+  margin-right: 20px; /* Ajuste este valor para aumentar ou diminuir o espaço */
+}

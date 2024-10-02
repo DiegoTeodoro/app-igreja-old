@@ -1,14 +1,15 @@
 <mat-toolbar color="primary" class="app-toolbar" style="background-color: #438EB9;">
-  <button mat-icon-button (click)="sidenav.toggle()" aria-label="Example icon-button with menu icon">
+  <button mat-icon-button *ngIf="isLoggedIn" (click)="sidenav.toggle()" aria-label="Example icon-button with menu icon">
     <mat-icon>menu</mat-icon>
   </button>
   <span>{{ pageTitle }}</span>
   <span class="spacer"></span>
   <span>{{ currentDate }}</span>
-  <button mat-button (click)="logout()" style="background-color: red;">Sair</button>
+  <button mat-button *ngIf="isLoggedIn" (click)="logout()" style="background-color: red;">Sair</button>
 </mat-toolbar>
 
-<mat-sidenav-container class="example-container">
+<!-- Mostrar o sidenav se o usuário estiver logado -->
+<mat-sidenav-container *ngIf="isLoggedIn" class="example-container">
   <mat-sidenav #sidenav mode="side" [(opened)]="isSidenavOpen" class="custom-sidenav" style="background-color: #808080; width: 200px;">
     <mat-nav-list>
       <mat-list-item>
@@ -37,9 +38,15 @@
       </mat-accordion>
     </mat-nav-list>
   </mat-sidenav>
+
   <mat-sidenav-content>
     <div class="main-content">
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+<!-- Mostrar o formulário de login se o usuário não estiver logado -->
+<div *ngIf="!isLoggedIn">
+  <router-outlet></router-outlet>
+</div>

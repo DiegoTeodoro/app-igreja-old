@@ -10,6 +10,11 @@ export class CidadeService {
 
   constructor(private http: HttpClient) {}
 
+  // Implementando o método corretamente
+  getCidadesByEstado(estadoId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}?estado_id=${estadoId}`);
+  }
+
   getCidades(): Observable<any> {
     return this.http.get(this.apiUrl);
   }

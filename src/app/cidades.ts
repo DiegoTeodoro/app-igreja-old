@@ -26,4 +26,7 @@ export class CidadeService {
   deleteCidade(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+  getCidadesByEstado(estadoId: number): Observable<any> {
+    return this.http.get(`/api/cidades?estado_id=${estadoId}`);
+  }
 }

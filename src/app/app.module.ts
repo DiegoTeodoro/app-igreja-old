@@ -46,8 +46,9 @@ import { RelatorioProdutoComponent } from './relatorio-produto/relatorio-produto
 import { CadastroPedidoComponent } from './cadastro-pedido/cadastro-pedido.component';
 import { ConsultaPedidoComponent } from './consulta-pedido/consulta-pedido.component';
 import { CadastroUsuarioComponent } from './cadastro-usuario/cadastro-usuario.component';
-
-
+import { LoginComponent } from './login/login.component';
+import { CadastroEmpresaComponent } from './cadastro-empresa/cadastro-empresa.component';
+import { MatRadioModule } from '@angular/material/radio';
 
 
 @NgModule({
@@ -71,7 +72,9 @@ import { CadastroUsuarioComponent } from './cadastro-usuario/cadastro-usuario.co
     CadastroPedidoComponent,
     ConsultaPedidoComponent,
     CadastroUsuarioComponent,
-
+    LoginComponent,
+    CadastroEmpresaComponent,
+    
 
 
   ],
@@ -103,7 +106,7 @@ import { CadastroUsuarioComponent } from './cadastro-usuario/cadastro-usuario.co
     MatNativeDateModule,
     MatTooltipModule,
     NgxMaskModule.forRoot(),
-   
+    MatRadioModule,  // Certifique-se de incluir MatRadioModule
   ],
 
   entryComponents: [
