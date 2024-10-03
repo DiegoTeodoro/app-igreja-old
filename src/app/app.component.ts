@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 
@@ -57,27 +57,38 @@ export class AppComponent {
   isLoggedIn: any;
 sidenav: any;
   
-  constructor(private router: Router, private authService: AuthService) {
-    const today = new Date();
-    this.currentDate = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}`;
+constructor(private router: Router, private authService: AuthService) {
+  const today = new Date();
+  this.currentDate = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}`;
 
-    // Verifique se o usuário está logado
-    this.isLoggedIn = this.authService.isAuthenticated(); // Função no serviço de autenticação para verificar login
-  }
+  // Verifica se o usuário está logado ao inicializar a aplicação (inclusive após F5)
+  this.isLoggedIn = this.authService.isAuthenticated();
+}
 
-  updateTitle(title: string) {
-    this.pageTitle = title;
-  }
+// Atualiza o título da página
+updateTitle(title: string) {
+  this.pageTitle = title;
+}
 
-  logout() {
-    this.authService.logout(); // Serviço de logout
-    this.isLoggedIn = false;
-    this.router.navigate(['/login']);
-  }
+// Função de logout
+logout() {
+  this.authService.logout();
+  this.isLoggedIn = false;
+  this.router.navigate(['/login']); // Redireciona para login
+}
 
-  // Função para alterar o estado de login após autenticação
-  onLoginSuccess() {
-    this.isLoggedIn = true;
-    this.router.navigate(['/home']);
+// Função chamada após sucesso no login
+onLoginSuccess() {
+  this.isLoggedIn = true;
+  this.router.navigate(['/home']); // Redireciona para a home após login
+}
+
+// Listener para fechar aba ou navegador (desloga apenas ao fechar)
+@HostListener('window:beforeunload', ['$event'])
+clearLocalStorage(event: Event) {
+  if (event.type === 'beforeunload') {
+    // Aqui, removemos apenas no caso de fechar a aba ou navegador
+    this.authService.logout(); // Remove o estado de autenticação ao fechar a aba
   }
+}
 }

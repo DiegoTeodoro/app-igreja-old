@@ -17,14 +17,39 @@ mat-card {
   margin-right: 0;
 }
 
+/* Para garantir que o botão 'Pesquisar' e 'Salvar' fiquem posicionados corretamente */
 .button-row {
-  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 button {
   display: block;
-  margin-left: auto;
+  margin-top: 20px;
 }
-.radio-button {
-  margin-right: 20px; /* Ajuste este valor para aumentar ou diminuir o espaço */
+
+button.save-button {
+  margin-left: 10px;
+}
+
+/* Centraliza o texto nas colunas da tabela */
+.table-cell {
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mat-header-cell {
+  background-color: #438EB9;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  padding: 8px;
+  font-size: 16px;
+}
+
+.mat-cell {
+  text-align: center;
+  padding: 8px;
 }

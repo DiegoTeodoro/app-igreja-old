@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class EmpresaService {
+  
   private apiUrl = 'http://localhost:3000'; // A URL base do seu servidor
 
   constructor(private http: HttpClient) {}
@@ -32,4 +33,11 @@ export class EmpresaService {
   updateEmpresa(id: number, empresa: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/empresas/${id}`, empresa);
   }
+
+ 
+  // Método para pesquisar empresas
+  pesquisarEmpresa(formData: any): Observable<any[]> {
+    return this.http.post<any[]>('http://localhost:3000/empresas/pesquisar', formData);
+  }
+  
 }

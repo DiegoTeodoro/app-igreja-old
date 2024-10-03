@@ -941,7 +941,23 @@ app.delete("/empresas/:id", (req, res) => {
   });
 });
 
-
+app.post("/empresas/pesquisar", (req, res) => {
+  const { razao_social, cnpj } = req.body;
+  
+  // Exemplo de query SQL - modifique conforme seu banco de dados
+  const query = `
+    SELECT * FROM empresa 
+    WHERE razao_social LIKE ? 
+    OR cnpj = ?
+  `;
+  
+  connection.query(query, [`%${razao_social}%`, cnpj], (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: 'Erro ao buscar empresas' });
+    }
+    res.json(results);
+  });
+});
 
 const server = app.listen(port, () => {
   // Mantido apenas uma chamada para app.listen

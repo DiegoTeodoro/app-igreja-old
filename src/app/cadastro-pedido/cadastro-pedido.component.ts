@@ -152,6 +152,7 @@ export class CadastroPedidoComponent implements OnInit {
     }
   }
   
+  
   onEdit(element: PedidoItem) {
     // Preencher os campos do formulário com os dados do item a ser editado
     this.pedido.produto_id = element.produto_id;
@@ -193,25 +194,24 @@ export class CadastroPedidoComponent implements OnInit {
   // Limpar o formulário após salvar o pedido
   limparFormulario() {
     if (this.pedidoForm) {
-      // Reseta os campos do formulário para seus valores padrão
-      this.pedidoForm.reset({
+      // Resetar todos os campos do formulário, incluindo itens de pedido
+      this.pedidoForm.resetForm({
         igreja_id: '',
         data_pedido: '',
-        status: 'Pendente',
+        status: 'Pendente',  // Definir como 'Pendente' após limpeza
         recebedor: '',
-        produto_id: '',
-        quantidade: '',
-        valor_unitario: '',
         pedido_itens: []
       });
- 
-      // Limpar os itens da tabela
+  
+      // Limpar a tabela de itens
+      this.pedido.pedido_itens = [];
       this.dataSource = [];
- 
-      // Forçar detecção de mudanças
+  
+      // Forçar a detecção de mudanças no formulário e na tabela
       this.cdr.detectChanges();
     }
- }
+  }
+
  
   
   atualizarValorUnitario(event: any) {

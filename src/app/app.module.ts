@@ -51,6 +51,7 @@ import { CadastroEmpresaComponent } from './cadastro-empresa/cadastro-empresa.co
 import { MatRadioModule } from '@angular/material/radio';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,7 +75,7 @@ import { MatRadioModule } from '@angular/material/radio';
     CadastroUsuarioComponent,
     LoginComponent,
     CadastroEmpresaComponent,
-    
+   
 
 
   ],
@@ -107,6 +108,8 @@ import { MatRadioModule } from '@angular/material/radio';
     MatTooltipModule,
     NgxMaskModule.forRoot(),
     MatRadioModule,  // Certifique-se de incluir MatRadioModule
+ 
+  
   ],
 
   entryComponents: [
