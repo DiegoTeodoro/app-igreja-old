@@ -4,6 +4,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';  // Importar DomSanitizer
 
+
 @Component({
   selector: 'app-relatorio-saldo-estoque',
   templateUrl: './relatorio-saldo-estoque.component.html',
@@ -60,10 +61,10 @@ displayedColumns: any;
   
     // Gerar tabela com os dados
     (doc as any).autoTable({
-      head: [['Produto', 'Codigo', 'Quantidade', 'Valor Unitário', 'Valor Total', 'Atualizado Em']],
+      head: [['Codigo','Produto', 'Quantidade', 'Valor Unitário', 'Valor Total', 'Atualizado Em']],
       body: this.saldoEstoque.map(item => [
-        item.produto_nome,
         item.produto_id,
+        item.produto_nome,
         item.quantidade,
         item.valor_unitario.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
         item.valor_total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),

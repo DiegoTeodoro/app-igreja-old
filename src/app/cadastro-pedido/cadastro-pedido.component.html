@@ -1,7 +1,6 @@
 <div class="pedido-form">
   <h1>Pedido</h1>
 
-  <!-- Wrap the form elements inside a form tag and reference it -->
   <form #pedidoForm="ngForm">
 
     <!-- Seção de Cabeçalho - Igreja, Status e Data do Pedido -->
@@ -16,12 +15,10 @@
           </mat-select>
         </mat-form-field>
 
-       
         <!-- Status (readonly) -->
         <mat-form-field style="width: 20%;">
           <input matInput placeholder="Status" [(ngModel)]="pedido.status" name="status" readonly>
         </mat-form-field>
-
 
         <!-- Data do Pedido -->
         <mat-form-field appearance="fill" class="data-pedido">
@@ -79,26 +76,26 @@
         <th mat-header-cell *matHeaderCellDef> Produto </th>
         <td mat-cell *matCellDef="let element"> {{ element.produto_nome }} </td>
       </ng-container>
-    
+
       <ng-container matColumnDef="quantidade">
         <th mat-header-cell *matHeaderCellDef> Quantidade </th>
         <td mat-cell *matCellDef="let element"> {{ element.quantidade }} </td>
       </ng-container>
-    
+
       <ng-container matColumnDef="valor_unitario">
         <th mat-header-cell *matHeaderCellDef> Valor Unitário </th>
         <td mat-cell *matCellDef="let element"> 
           {{ element.valor_unitario | currency:'BRL':'symbol':'1.2-2' }} 
         </td>
       </ng-container>
-    
+
       <ng-container matColumnDef="valor_total">
         <th mat-header-cell *matHeaderCellDef> Valor Total </th>
         <td mat-cell *matCellDef="let element"> 
           {{ element.valor_total | currency:'BRL':'symbol':'1.2-2' }} 
         </td>
       </ng-container>
-    
+
       <ng-container matColumnDef="acoes">
         <th mat-header-cell *matHeaderCellDef style="text-align: center; font-size: 15px;">Ações</th>
         <td mat-cell *matCellDef="let element" style="text-align: center;">
@@ -115,12 +112,10 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
     <br>
-    
+
     <!-- Botão Finalizar Pedido -->
     <button mat-raised-button color="primary" (click)="finalizarPedido()" class="button-spacing">Finalizar Pedido</button>
-    <button mat-raised-button color="primary" class="button-spacing">Salvar</button>
-    <button mat-raised-button color="primary" style="background-color: #CD5C5C;">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="limparCampos()" style="background-color: #CD5C5C;">Limpar</button>
 
   </form>
-
 </div>

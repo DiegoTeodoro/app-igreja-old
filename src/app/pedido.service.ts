@@ -1,12 +1,15 @@
 // src/app/pedido.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { Empresa } from './models/empresa';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PedidoService {
+  
  
   private apiUrlIgrejas = 'http://localhost:3000/igrejas';  // URL da API de igrejas
   private apiUrlProdutos = 'http://localhost:3000/produtos';  // URL da API de produtos
@@ -23,7 +26,7 @@ export class PedidoService {
   }
   
 // Método para buscar todos os pedidos
-getPedidos(): Observable<any[]> {
+  getPedidos(): Observable<any[]> {
   return this.http.get<any[]>('http://localhost:3000/pedidos');
 }
 
@@ -37,6 +40,12 @@ getPedidos(): Observable<any[]> {
     return this.http.get<any>(`${this.apiUrlPedidos}/${codigoPedido}`);
   }
 
- 
-  
+  getEmpresa(): Observable<Empresa[]> {
+    return this.http.get<Empresa[]>('http://localhost:3000/empresas').pipe(
+      catchError((error) => {
+        console.error('Erro ao buscar empresas:', error);
+        return of([]); // Retorna um array vazio em caso de erro
+      })
+    );
+  }
 }
