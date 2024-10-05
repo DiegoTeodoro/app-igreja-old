@@ -17,14 +17,15 @@ import { CadastroPedidoComponent } from './cadastro-pedido/cadastro-pedido.compo
 import { ConsultaPedidoComponent } from './consulta-pedido/consulta-pedido.component';
 import { LoginComponent } from './login/login.component';
 import { CadastroEmpresaComponent } from './cadastro-empresa/cadastro-empresa.component';
+import { RoleGuard } from './auth.guard';
 
 
 
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomeComponent }, // A tela de Home
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redireciona para a página de login por padrão
+  { path: 'login', component: LoginComponent }, // Página de login
+  { path: 'home', component: HomeComponent }, // Página principal após login
+  { path: 'cadastro-usuario', component: CadastroUsuarioComponent, canActivate: [RoleGuard] }, // Protegida pelo RoleGuard
   { path: 'empresa', component: CadastroEmpresaComponent },
   { path: 'setor', component: SetorComponent },
   { path: 'igreja', component: IgrejaComponent },
@@ -35,13 +36,13 @@ const routes: Routes = [
   { path: 'cidade', component: CidadeComponent },
   { path: 'estado', component: EstadoComponent },
   { path: 'categoria', component: CategoriaComponent },
-  { path: 'cadastro-usuario', component: CadastroUsuarioComponent },
   { path: 'cadastro-nota-fiscal', component: CadastroNotaFiscalComponent },
   { path: 'cadastro-pedido', component: CadastroPedidoComponent },
   { path: 'relatorio-saldo-estoque', component: RelatorioSaldoEstoqueComponent},
   { path: 'relatorio-produto', component: RelatorioProdutoComponent },
   { path: 'consulta-pedido', component: ConsultaPedidoComponent},
-  { path: '**', redirectTo: '/home' } // Página não encontrada
+  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redireciona para a página de login por padrão
+  { path: '**', redirectTo: '/home' } // Página não encontrada, redireciona para home
 ];
 
 @NgModule({

@@ -1,39 +1,50 @@
 <div class="container">
-    <h1> Cadastro de usuario</h1>
-    <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="fill">
-        <mat-label>Login</mat-label>
-        <input matInput formControlName="login" placeholder="Digite o login">
-        <mat-error *ngIf="usuarioForm.get('login')?.hasError('required')">
-          Login é obrigatório
-        </mat-error>
-        <mat-error *ngIf="usuarioForm.get('login')?.hasError('minlength')">
-          O login deve ter no mínimo 4 caracteres
-        </mat-error>
-      </mat-form-field>
-  
-      <mat-form-field appearance="fill">
-        <mat-label>Senha</mat-label>
-        <input matInput type="password" formControlName="senha" placeholder="Digite a senha">
-        <mat-error *ngIf="usuarioForm.get('senha')?.hasError('required')">
-          A senha é obrigatória
-        </mat-error>
-        <mat-error *ngIf="usuarioForm.get('senha')?.hasError('minlength')">
-          A senha deve ter no mínimo 6 caracteres
-        </mat-error>
-      </mat-form-field>
-  
-      <mat-form-field appearance="fill">
-        <mat-label>Nome</mat-label>
-        <input matInput formControlName="nome" placeholder="Digite o nome">
-        <mat-error *ngIf="usuarioForm.get('nome')?.hasError('required')">
-          O nome é obrigatório
-        </mat-error>
-      </mat-form-field>
-  
-      <button mat-raised-button color="primary" type="submit" [disabled]="usuarioForm.invalid">
-        Salvar
-      </button>
-    </form>
-  </div>
-  
+  <h1>Cadastro de Usuário</h1>
+  <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()">
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Login</mat-label>
+      <input matInput formControlName="login" placeholder="Digite o login">
+      <mat-error *ngIf="usuarioForm.get('login')?.hasError('required')">
+        Login é obrigatório
+      </mat-error>
+      <mat-error *ngIf="usuarioForm.get('login')?.hasError('minlength')">
+        O login deve ter no mínimo 4 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Senha</mat-label>
+      <input matInput type="password" formControlName="senha" placeholder="Digite a senha">
+      <mat-error *ngIf="usuarioForm.get('senha')?.hasError('required')">
+        A senha é obrigatória
+      </mat-error>
+      <mat-error *ngIf="usuarioForm.get('senha')?.hasError('minlength')">
+        A senha deve ter no mínimo 6 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="nome" placeholder="Digite o nome">
+      <mat-error *ngIf="usuarioForm.get('nome')?.hasError('required')">
+        O nome é obrigatório
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Perfil de Acesso</mat-label>
+      <mat-select formControlName="role">
+        <mat-option value="admin">Administrador</mat-option>
+        <mat-option value="auxiliar">Auxiliar</mat-option>
+      </mat-select>
+      <mat-error *ngIf="usuarioForm.get('role')?.hasError('required')">
+        O perfil de acesso é obrigatório
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="usuarioForm.invalid">
+      Salvar
+    </button>
+  </form>
+</div>

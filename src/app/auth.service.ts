@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { LoginResponse } from '../app/models/login-response.model'; // Importe a interface de resposta
+import { LoginResponse } from '../app/models/LoginResponse'; // Importe a interface de resposta
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/usuarios';
+  private apiUrl = 'http://localhost:3000/usuarios'; // Ajuste conforme o endereço da sua API
 
   constructor(private http: HttpClient) {}
 
@@ -15,20 +15,23 @@ export class AuthService {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { login, senha }).pipe(
       tap((response: LoginResponse) => {
         if (response.valid) {
-          // Salva o estado de autenticação no localStorage
           localStorage.setItem('isAuthenticated', 'true');
+          localStorage.setItem('userRole', response.role); // Salva o role no localStorage
         }
       })
     );
   }
 
   isAuthenticated(): boolean {
-    // Verifica se o estado de autenticação está no localStorage
     return localStorage.getItem('isAuthenticated') === 'true';
   }
 
+  getUserRole(): string | null {
+    return localStorage.getItem('userRole');
+  }
+
   logout() {
-    // Limpa o localStorage no logout
     localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('userRole');
   }
 }

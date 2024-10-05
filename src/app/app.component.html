@@ -30,7 +30,12 @@
           <mat-list>
             <mat-list-item *ngFor="let link of section.links">
               <div mat-list-item-content>
-                <a mat-line [routerLink]="link.route" (click)="updateTitle(link.title)">{{ link.title }}</a>
+                <!-- Apenas administradores podem ver o link de cadastro de usuário -->
+                <a *ngIf="!link.requiredRole || canAccess(link.requiredRole)" 
+                   mat-line [routerLink]="link.route" 
+                   (click)="updateTitle(link.title)">
+                   {{ link.title }}
+                </a>
               </div>
             </mat-list-item>
           </mat-list>

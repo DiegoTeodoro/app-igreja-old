@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
 export class AppComponent {
   pageTitle = 'CCLIMP';
   isSidenavOpen = true;
-  currentDate: string;
+  currentDate: string | undefined;
 
   menuSections = [
     {
@@ -23,7 +23,7 @@ export class AppComponent {
         { title: 'Fornecedor', route: '/fornecedor' },
         { title: 'Cidade', route: '/cidade' },
         { title: 'Estado', route: '/estado' },
-        { title: 'Usuário', route: '/cadastro-usuario' }
+        { title: 'Usuário', route: '/cadastro-usuario', requiredRole: 'admin' } // Somente para administradores
       ]
     },
     {
@@ -54,41 +54,44 @@ export class AppComponent {
       ]
     }
   ];
-  isLoggedIn: any;
-sidenav: any;
-  
-constructor(private router: Router, private authService: AuthService) {
-  const today = new Date();
-  this.currentDate = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}`;
 
-  // Verifica se o usuário está logado ao inicializar a aplicação (inclusive após F5)
-  this.isLoggedIn = this.authService.isAuthenticated();
-}
+  isLoggedIn: boolean;
+  userRole: string | null = null; // Certifique-se de declarar a variável aqui
+  sidenav: any;
 
-// Atualiza o título da página
-updateTitle(title: string) {
-  this.pageTitle = title;
-}
-
-// Função de logout
-logout() {
-  this.authService.logout();
-  this.isLoggedIn = false;
-  this.router.navigate(['/login']); // Redireciona para login
-}
-
-// Função chamada após sucesso no login
-onLoginSuccess() {
-  this.isLoggedIn = true;
-  this.router.navigate(['/home']); // Redireciona para a home após login
-}
-
-// Listener para fechar aba ou navegador (desloga apenas ao fechar)
-@HostListener('window:beforeunload', ['$event'])
-clearLocalStorage(event: Event) {
-  if (event.type === 'beforeunload') {
-    // Aqui, removemos apenas no caso de fechar a aba ou navegador
-    this.authService.logout(); // Remove o estado de autenticação ao fechar a aba
+  constructor(private authService: AuthService, private router: Router) {
+    this.isLoggedIn = this.authService.isAuthenticated();
+    this.userRole = this.authService.getUserRole(); // Agora `userRole` pode ser acessado corretamente
   }
-}
+
+  canAccess(routeRole: string): boolean {
+    return this.userRole === routeRole; // Lógica para checar o perfil do usuário
+  }
+
+  // Atualiza o título da página
+  updateTitle(title: string) {
+    this.pageTitle = title;
+  }
+
+  // Função de logout
+  logout() {
+    this.authService.logout();
+    this.isLoggedIn = false;
+    this.router.navigate(['/login']); // Redireciona para login
+  }
+
+  // Função chamada após sucesso no login
+  onLoginSuccess() {
+    this.isLoggedIn = true;
+    this.router.navigate(['/home']); // Redireciona para a home após login
+  }
+
+  // Listener para fechar aba ou navegador (desloga apenas ao fechar)
+  @HostListener('window:beforeunload', ['$event'])
+  clearLocalStorage(event: Event) {
+    if (event.type === 'beforeunload') {
+      // Aqui, removemos apenas no caso de fechar a aba ou navegador
+      this.authService.logout(); // Remove o estado de autenticação ao fechar a aba
+    }
+  }
 }

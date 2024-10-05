@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from '../usuario.service';
 
-
 @Component({
   selector: 'app-cadastro-usuario',
   templateUrl: './cadastro-usuario.component.html',
@@ -15,7 +14,8 @@ export class CadastroUsuarioComponent {
     this.usuarioForm = this.fb.group({
       login: ['', [Validators.required, Validators.minLength(4)]],
       senha: ['', [Validators.required, Validators.minLength(6)]],
-      nome: ['', Validators.required]
+      nome: ['', Validators.required],
+      role: ['auxiliar', Validators.required] // Valor padrão é 'auxiliar'
     });
   }
 
@@ -38,4 +38,3 @@ export class CadastroUsuarioComponent {
     this.usuarioForm.reset(); // Limpa todos os campos do formulário
   }
 }
-
